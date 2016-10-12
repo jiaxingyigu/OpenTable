@@ -2,4 +2,26 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="margin_1">8dp</dimen>
+    <dimen name="margin_2">16dp</dimen>
+    <dimen name="margin_3">24dp</dimen>
+    <dimen name="margin_4">32dp</dimen>
+    <dimen name="margin_5">40dp</dimen>
+    <dimen name="margin_6">48dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+
+    <!--头部高度-->
+    <dimen name="text_height_50dp">50dp</dimen>
+    <dimen name="text_height_45dp">45dp</dimen>
+    <dimen name="text_height_40dp">40dp</dimen>
+
+    <dimen name="text_big_xxx">24sp</dimen>
+    <dimen name="text_big_xx">20sp</dimen>
+    <dimen name="text_big_x">17sp</dimen><!--主要用于顶部导航-->
+    <dimen name="text_big">15sp</dimen><!--主要用于顶部导航跳转文案/大按钮文案-->
+    <dimen name="text_normal">14sp</dimen><!--提示性文案-->
+    <dimen name="text_small">13sp</dimen><!--提示性文案-->
+    <dimen name="text_small_x">12sp</dimen><!--主要勇于提示性或描述性次要文案-->
+
 </resources>

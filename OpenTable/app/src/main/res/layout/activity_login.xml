@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.yigu.opentable.activity.LoginActivity"
+        android:orientation="vertical"
+        >
+
+        <include
+            layout="@layout/lay_header"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="103dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginLeft="84dp"
+            android:layout_marginRight="84dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_height_40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="38dp"
+            android:layout_marginRight="38dp"
+            android:background="@drawable/rect_stroke_round_4_gray__width_1"
+            android:layout_marginTop="53dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/person"
+                />
+
+            <EditText
+                android:id="@+id/name"
+                style="@style/editViewStyle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_height_40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="38dp"
+            android:layout_marginRight="38dp"
+            android:background="@drawable/rect_stroke_round_4_gray__width_1"
+            android:layout_marginTop="13dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/psd"
+                />
+
+            <EditText
+                android:id="@+id/psd"
+                style="@style/editViewStyle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="46dp"
+            >
+
+            <TextView
+                android:id="@+id/login"
+                android:layout_width="91dp"
+                android:layout_height="37dp"
+                android:textColor="@color/shop_white"
+                android:textSize="@dimen/text_normal"
+                android:background="@drawable/selector_pressed_color_red"
+                android:text="登    录"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/register"
+                android:layout_width="91dp"
+                android:layout_height="37dp"
+                android:textColor="@color/shop_white"
+                android:textSize="@dimen/text_normal"
+                android:background="@drawable/selector_pressed_color_green"
+                android:layout_marginLeft="69dp"
+                android:text="注    册"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

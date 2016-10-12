@@ -1,16 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.yigu.opentable.MainActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
-</RelativeLayout>
+        <include
+            layout="@layout/lay_header"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/ll_order"
+            android:layout_width="match_parent"
+            android:layout_height="77dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="@dimen/margin_2"
+            android:gravity="center_vertical"
+            android:background="@drawable/rect_soild_light_red_round_14"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/shop_white"
+                android:textSize="19dp"
+                android:drawableLeft="@mipmap/order_manage"
+                android:text="订餐管理"
+                android:drawablePadding="@dimen/margin_3"
+                android:gravity="center"
+                android:layout_marginLeft="15dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="@dimen/margin_2"
+            >
+
+            <LinearLayout
+                android:id="@+id/ll_sign"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="78dp"
+                android:gravity="center"
+                android:background="@drawable/rect_soild_blue_round_14"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/shop_white"
+                    android:textSize="13dp"
+                    android:drawableTop="@mipmap/sign_up"
+                    android:text="活动报名"
+                    android:drawablePadding="12dp"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="78dp"
+                android:gravity="center"
+                android:background="@drawable/rect_soild_high_green_round_14"
+                android:layout_marginLeft="8dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/shop_white"
+                    android:textSize="13dp"
+                    android:drawableTop="@mipmap/info"
+                    android:text="平台信息"
+                    android:drawablePadding="12dp"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="78dp"
+                android:gravity="center"
+                android:background="@drawable/rect_soild_yellow_round_14"
+                android:layout_marginLeft="8dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/shop_white"
+                    android:textSize="13dp"
+                    android:drawableTop="@mipmap/join"
+                    android:text="商家入驻"
+                    android:drawablePadding="12dp"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="78dp"
+                android:gravity="center"
+                android:background="@drawable/rect_soild_light_green_round_14"
+                android:layout_marginLeft="8dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/shop_white"
+                    android:textSize="13dp"
+                    android:drawableTop="@mipmap/unit"
+                    android:text="单位入驻"
+                    android:drawablePadding="12dp"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</ScrollView>

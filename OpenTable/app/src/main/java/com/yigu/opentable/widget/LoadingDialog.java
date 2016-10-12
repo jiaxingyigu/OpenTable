@@ -5,7 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.yigu.shop.R;
+import com.yigu.opentable.R;
+
 
 /**
  * Created by brain on 2016/6/16.

@@ -1,11 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="BaseAppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/shop_black</item>
+        <!--导航栏底色-->
+        <!--  <item name="colorPrimary">@color/colorPrimary</item>-->
+        <item name="colorAccent">@color/shop_red</item>
+        <!--可以统一背景色-->
+        <item name="android:windowBackground">@color/background_all</item>
+        <item name="android:textColor">@color/shop_black</item>
+        <item name="android:textSize">@dimen/text_normal</item>
     </style>
 
     <!-- Base application theme. -->
@@ -23,6 +28,29 @@
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="textViewStyle">
+        <item name="android:textColor">@color/shop_white</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+    </style>
+
+    <style name="textViewStyle_small">
+        <item name="android:textColor">@color/shop_white</item>
+        <item name="android:textSize">@dimen/text_small_x</item>
+    </style>
+
+    <style name="textViewStyle_big_x">
+        <item name="android:textColor">@color/shop_white</item>
+        <item name="android:textSize">@dimen/text_big_x</item>
+    </style>
+
+    <style name="editViewStyle">
+        <item name="android:textColor">@color/shop_black</item>
+        <item name="android:background">@null</item>
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColorHint">@color/light_gray</item>
+        <item name="android:singleLine">true</item>
     </style>
 
 </resources>

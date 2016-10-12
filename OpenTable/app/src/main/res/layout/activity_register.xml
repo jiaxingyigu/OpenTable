@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <include
+            layout="@layout/lay_header"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="103dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="84dp"
+            android:layout_marginRight="84dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_height_40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="38dp"
+            android:layout_marginRight="38dp"
+            android:background="@drawable/rect_stroke_round_4_gray__width_1"
+            android:layout_marginTop="30dp"
+            >
+
+            <EditText
+                android:id="@+id/phone"
+                style="@style/editViewStyle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/margin_2"
+                android:hint="请输入您的手机号"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_height_40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="38dp"
+            android:layout_marginRight="38dp"
+            android:layout_marginTop="12dp"
+            >
+
+            <EditText
+                android:id="@+id/code"
+                style="@style/editViewStyle"
+                android:layout_width="0dp"
+                android:layout_weight="2.2"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/margin_2"
+                android:hint="请输入验证码"
+                android:maxLength="6"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                />
+
+            <TextView
+                android:id="@+id/requestCode"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textColor="@color/shop_white"
+                android:textSize="@dimen/text_normal"
+                android:background="@drawable/selector_pressed_color_red"
+                android:text="获取验证码"
+                android:gravity="center"
+                android:layout_marginLeft="8dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_height_40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="38dp"
+            android:layout_marginRight="38dp"
+            android:background="@drawable/rect_stroke_round_4_gray__width_1"
+            android:layout_marginTop="12dp"
+            >
+
+            <EditText
+                android:id="@+id/psd"
+                style="@style/editViewStyle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/margin_2"
+                android:hint="请输入您的密码"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/text_height_40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="38dp"
+            android:layout_marginRight="38dp"
+            android:background="@drawable/rect_stroke_round_4_gray__width_1"
+            android:layout_marginTop="12dp"
+            >
+
+            <EditText
+                android:id="@+id/psdtwo"
+                style="@style/editViewStyle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:paddingLeft="@dimen/margin_2"
+                android:hint="请再次输入您的密码"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="46dp"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/confirm"
+                    android:layout_width="91dp"
+                    android:layout_height="37dp"
+                    android:textColor="@color/shop_white"
+                    android:textSize="@dimen/text_normal"
+                    android:background="@drawable/selector_pressed_color_red"
+                    android:text="确    认"
+                    android:gravity="center"
+                    />
+
+                <TextView
+                    android:id="@+id/forget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="忘记密码"
+                    android:gravity="center"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_normal"
+                    android:drawableLeft="@mipmap/forget"
+                    android:layout_marginTop="6dp"
+                    android:drawablePadding="4dp"
+                    android:padding="4dp"
+                    />
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/register"
+                android:layout_width="91dp"
+                android:layout_height="37dp"
+                android:textColor="@color/shop_black"
+                android:textSize="@dimen/text_normal"
+                android:background="@drawable/selector_pressed_color_gray"
+                android:layout_marginLeft="64dp"
+                android:text="重    置"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

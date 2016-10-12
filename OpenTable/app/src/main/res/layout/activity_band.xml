@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.activity.BandActivity"
+    android:orientation="vertical"
+    >
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注册成功，如贵单位已加入平台，请绑定单位，可享受单位特有服务"
+            android:textSize="@dimen/text_normal"
+            android:textColor="@color/shop_black"
+            android:layout_marginLeft="71dp"
+            android:layout_marginRight="71dp"
+            android:lineSpacingMultiplier="2"
+            android:inputType="textMultiLine"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/complete"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="51dp"
+            android:layout_marginTop="20dp"
+            />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="65dp"
+        >
+
+        <TextView
+            android:id="@+id/band"
+            android:layout_width="91dp"
+            android:layout_height="37dp"
+            android:textColor="@color/shop_white"
+            android:textSize="@dimen/text_normal"
+            android:background="@drawable/selector_pressed_color_red"
+            android:text="绑    定"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="91dp"
+            android:layout_height="37dp"
+            android:textColor="@color/shop_black"
+            android:textSize="@dimen/text_normal"
+            android:background="@drawable/selector_pressed_color_gray"
+            android:layout_marginLeft="64dp"
+            android:text="取    消"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 
-import com.yigu.shop.R;
+import com.yigu.opentable.R;
 
 
 /**
@@ -30,8 +30,8 @@ public class BestSwipeRefreshLayout extends SwipeRefreshLayout{
     }
 
     private void initView() {
-        setColorSchemeResources(R.color.divider_line);
-        setProgressBackgroundColorSchemeResource(R.color.background_all);
+        setColorSchemeResources(R.color.shop_red);
+        setProgressBackgroundColorSchemeResource(R.color.shop_white);
         setSize(SwipeRefreshLayout.LARGE);
     }
 
