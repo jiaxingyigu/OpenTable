@@ -1,0 +1,9 @@
+<resources>
+
+    <style name="AppTheme" parent="BaseAppTheme">
+        <!--状态栏底色-->
+        <item name="android:colorPrimaryDark">@color/shop_red</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+    </style>
+
+</resources>

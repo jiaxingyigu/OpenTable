@@ -15,6 +15,7 @@ public class DateUtil {
     private static final String YM_D = "yyyy.MM";
     private static final String YM_H = "yyyy-MM";
     private static final String YMD_H = "yyyy-MM-dd";
+    private static final String YMD_N = "yyyyMMdd";
     private static DateUtil dateUtil;
 
     public static DateUtil getInstance() {
@@ -128,6 +129,21 @@ public class DateUtil {
     public String date2YMD_H(Date date) {
         try{
             SimpleDateFormat dateFormat2 = new SimpleDateFormat(YMD_H);
+            return dateFormat2.format(date);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     * date转yyyyMMdd
+     * @param date
+     * @return
+     */
+    public String date2YMD_N(Date date) {
+        try{
+            SimpleDateFormat dateFormat2 = new SimpleDateFormat(YMD_N);
             return dateFormat2.format(date);
         }catch(Exception e){
             e.printStackTrace();

@@ -24,11 +24,12 @@
             >
 
             <TextView
+                android:id="@+id/phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/shop_black"
                 android:textSize="16sp"
-                android:text="账号：15024321682"
+                android:text=""
                 android:layout_marginLeft="25dp"
                 />
 
@@ -121,6 +122,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/enrollRL"
             android:layout_width="match_parent"
             android:layout_height="47dp"
             android:background="@color/shop_white"
@@ -207,6 +209,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/modifyRL"
             android:layout_width="match_parent"
             android:layout_height="47dp"
             android:background="@color/shop_white"
@@ -248,6 +251,99 @@
                 />
 
         </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/serviceRL"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:background="@color/shop_white"
+            android:layout_marginTop="@dimen/margin_1"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="19dp"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/service"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/shop_black"
+                    android:textSize="16sp"
+                    android:text="联系客服"
+                    android:layout_marginLeft="@dimen/margin_1"
+                    />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/shop_black"
+                android:textSize="14sp"
+                android:layout_marginRight="22dp"
+                android:text="0573-82828308"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/aboutUsRL"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:background="@color/shop_white"
+            android:layout_marginTop="@dimen/margin_1"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="19dp"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/aboutus"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/shop_black"
+                    android:textSize="16sp"
+                    android:text="关于我们"
+                    android:layout_marginLeft="@dimen/margin_1"
+                    />
+
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/right"
+                android:layout_marginRight="22dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                />
+
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/exit"

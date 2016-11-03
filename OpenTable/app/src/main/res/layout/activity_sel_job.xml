@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.activity.campaign.SelJobActivity"
+    android:orientation="vertical"
+    android:background="@color/divider_line"
+    >
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="57dp"
+        android:background="@color/shop_white"
+        android:gravity="center"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_marginLeft="38dp"
+            android:layout_marginRight="38dp"
+            android:orientation="horizontal"
+            android:background="@drawable/rect_stroke_round_4_gray__width_1"
+            android:gravity="center_vertical"
+            >
+
+            <EditText
+                android:id="@+id/search_et"
+                style="@style/editViewStyle"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:hint="请输入岗位名称"
+                android:layout_marginLeft="17dp"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/search"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <com.yigu.opentable.widget.BestSwipeRefreshLayout
+        android:id="@+id/swipRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="0.5dp"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+    </com.yigu.opentable.widget.BestSwipeRefreshLayout>
+    
+
+
+</LinearLayout>

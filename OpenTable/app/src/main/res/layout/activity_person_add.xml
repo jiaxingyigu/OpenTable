@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.activity.campaign.PersonAddActivity"
+
+    android:orientation="vertical"
+    >
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="38dp"
+            android:layout_marginRight="38dp"
+            >
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入您的姓名"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+            <EditText
+                android:id="@+id/school"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入您毕业的学校"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+            <EditText
+                android:id="@+id/origin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入您的籍贯"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+            <EditText
+                android:id="@+id/speciality"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入您所学的专业"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+            <EditText
+                android:id="@+id/strong"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入您的特长"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入您的联系方式"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                android:inputType="phone"
+                />
+
+            <LinearLayout
+                android:id="@+id/job"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/light_gray"
+                    android:textSize="@dimen/text_small"
+                    android:text="请选择您的意向求职岗位"
+                    android:paddingLeft="17dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/right"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                ></android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_2"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

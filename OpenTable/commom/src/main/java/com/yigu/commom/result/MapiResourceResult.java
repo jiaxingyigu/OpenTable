@@ -12,6 +12,15 @@ public class MapiResourceResult implements Serializable {
     private int version;
     private String url;
 
+    private String poster;
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
     public int getId() {
         return id;
     }

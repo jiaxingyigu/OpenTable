@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.activity.campaign.CompanyAddActivity"
+    android:orientation="vertical"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    >
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="38dp"
+            android:layout_marginRight="38dp"
+            >
+
+            <LinearLayout
+                android:id="@+id/typeLL"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                >
+
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColorHint="@color/light_gray"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_small"
+                    android:text="请选择企业类型"
+                    android:paddingLeft="17dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/down"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入企业名称"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+            <EditText
+                android:id="@+id/addr"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入企业地址"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+            <EditText
+                android:id="@+id/size"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入企业规模"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+            <EditText
+                android:id="@+id/tel"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入联系电话"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                android:inputType="phone"
+                />
+
+            <EditText
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="90dp"
+                style="@style/editViewStyle"
+                android:hint="请输入企业简介"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                android:paddingRight="17dp"
+                android:gravity="top"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:inputType="textMultiLine"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="是否需要岗前培训："
+                    android:textSize="@dimen/text_normal"
+                    android:textColor="@color/shop_black"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="18dp"
+                    />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/train_yes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="是"
+                        android:button="@null"
+                        android:padding="18dp"
+                        android:textSize="@dimen/text_normal"
+                        android:textColor="@color/shop_black"
+                        android:drawableLeft="@drawable/selector_check_radio"
+                        android:drawablePadding="4dp"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/train_no"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="否"
+                        android:button="@null"
+                        android:padding="18dp"
+                        android:textSize="@dimen/text_normal"
+                        android:textColor="@color/shop_black"
+                        android:layout_marginLeft="5dp"
+                        android:drawableLeft="@drawable/selector_check_radio"
+                        android:drawablePadding="4dp"
+                        />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/imageLL"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/light_gray"
+                    android:textSize="@dimen/text_small"
+                    android:text="请上传营业执照"
+                    android:paddingLeft="17dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/image"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    />
+
+            </LinearLayout>
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_vertical"
+                fresco:fadeDuration="2000"
+                fresco:placeholderImage="@mipmap/default_item"
+                fresco:placeholderImageScaleType="fitCenter"
+                fresco:progressBarAutoRotateInterval="2000"
+                fresco:progressBarImage="@mipmap/progress"
+                fresco:progressBarImageScaleType="centerInside"
+                fresco:retryImageScaleType="centerCrop"
+                android:visibility="gone"
+                android:layout_marginTop="18dp"
+                />
+
+
+            <LinearLayout
+                android:id="@+id/add"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/light_gray"
+                    android:textSize="@dimen/text_small"
+                    android:text="请添加岗位和要求"
+                    android:paddingLeft="17dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/right"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                ></android.support.v7.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_2"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

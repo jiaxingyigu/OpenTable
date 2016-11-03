@@ -13,11 +13,10 @@
             layout="@layout/lay_header"
             />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+        <com.yigu.opentable.view.HomeSliderLayout
+            android:layout_width="match_parent" android:layout_height="200dp"
+            android:id="@+id/homeSliderLayout"
             />
-
 
         <LinearLayout
             android:id="@+id/ll_order"
@@ -80,6 +79,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_info"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="78dp"
@@ -104,6 +104,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/shop_info"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="78dp"
@@ -128,6 +129,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/company_info"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="78dp"

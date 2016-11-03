@@ -1,44 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="117dp"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:background="@color/shop_white"
+    android:id="@+id/root_view"
+    android:paddingTop="14dp"
+    android:paddingBottom="14dp"
     >
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/image"
         android:layout_width="117dp"
         android:layout_height="89dp"
+        android:layout_gravity="center_vertical"
+        fresco:fadeDuration="2000"
+        fresco:placeholderImage="@mipmap/default_item"
+        fresco:placeholderImageScaleType="fitCenter"
+        fresco:progressBarAutoRotateInterval="2000"
+        fresco:progressBarImage="@mipmap/progress"
+        fresco:progressBarImageScaleType="centerInside"
+        fresco:retryImageScaleType="centerCrop"
         />
 
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/margin_10dp"
         >
 
         <TextView
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_big_x"
             android:textColor="@color/shop_black"
-            android:text="3月应届招聘会"
+            android:text=""
             />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_small"
             android:textColor="@color/shop_black"
-            android:text="如果你无法简洁的表达你的想法，那只说明你还不够了解它"
-            android:inputType="textMultiLine"
+            android:text=""
             android:ellipsize="end"
             android:layout_marginTop="16dp"
+            android:maxLines="4"
+            android:maxHeight="30dp"
             />
 
     </LinearLayout>

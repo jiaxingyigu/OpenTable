@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="260dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@drawable/shape_rect_solid_white_round_5">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="65dp"
+        android:text="标题"
+        android:textColor="@color/shop_black"
+        android:textSize="@dimen/text_big"
+        android:textIsSelectable="true"
+        />
+
+    <View
+        android:id="@+id/divider_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider_line"
+
+        />
+
+    <LinearLayout
+        android:id="@+id/dell_ll"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/left_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="左按钮"
+            android:textColor="@color/shop_black"
+            android:textSize="@dimen/text_normal" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center"
+            android:background="@color/divider_line" />
+
+        <TextView
+            android:id="@+id/right_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="右按钮"
+            android:textColor="@color/shop_green"
+            android:textSize="@dimen/text_normal" />
+    </LinearLayout>
+</LinearLayout>

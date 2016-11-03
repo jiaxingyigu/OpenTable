@@ -40,6 +40,8 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/margin_2"
                 android:hint="请输入您的手机号"
+                android:inputType="number"
+                android:maxLength="11"
                 />
 
         </LinearLayout>
@@ -58,7 +60,7 @@
                 android:id="@+id/code"
                 style="@style/editViewStyle"
                 android:layout_width="0dp"
-                android:layout_weight="2.2"
+                android:layout_weight="1.9"
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/margin_2"
                 android:hint="请输入验证码"
@@ -100,6 +102,8 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/margin_2"
                 android:hint="请输入您的密码"
+                android:inputType="textPassword"
+                android:maxLength="16"
                 />
 
         </LinearLayout>
@@ -123,6 +127,8 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/margin_2"
                 android:hint="请再次输入您的密码"
+                android:inputType="textPassword"
+                android:maxLength="16"
                 />
 
         </LinearLayout>
@@ -171,7 +177,7 @@
 
 
             <TextView
-                android:id="@+id/register"
+                android:id="@+id/reset"
                 android:layout_width="91dp"
                 android:layout_height="37dp"
                 android:textColor="@color/shop_black"

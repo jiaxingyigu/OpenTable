@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name="com.yigu.commom.application.AppContext"
@@ -21,12 +22,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".base.BaseActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
+
+        <!-- 图片裁剪 -->
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity
-            android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,11 +39,18 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.LoginActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
             android:name=".activity.RegisterActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".activity.ForgetPsdActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
@@ -51,10 +63,56 @@
         <activity
             android:name=".activity.order.OrderActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.campaign.CampaignActivity"
+        <activity
+            android:name=".activity.campaign.CampaignActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PersonActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.webview.WebviewControlActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.campaign.PersonAddActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.campaign.SelJobActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activity.campaign.CompanyAddActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ShowBigPicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.campaign.AddJobActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ModifyPsdActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".activity.set.EnrollActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.campaign.CompanyMsgActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.campaign.PersonMsgActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.AboutUSActivity"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".activity.PersonActivity"
+        <activity android:name=".activity.campaign.CampaignMsgActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.campaign.JobDetailActivity"
             android:screenOrientation="portrait"
             />
     </application>

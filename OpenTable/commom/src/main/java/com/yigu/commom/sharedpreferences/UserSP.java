@@ -53,7 +53,7 @@ public class UserSP extends AbstractSP {
     }
 
     public boolean checkLogin() {
-        return getUserBean() != null && !TextUtils.isEmpty(getUserBean().getId());
+        return getUserBean() != null && !TextUtils.isEmpty(getUserBean().getUSER_ID());
     }
 
     public void clearUserData() {

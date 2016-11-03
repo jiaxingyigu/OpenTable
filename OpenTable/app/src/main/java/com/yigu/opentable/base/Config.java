@@ -11,5 +11,5 @@ public class Config {
     public static final int daily_remark = 0x05;
     public static final int daily_image = 0x06;
     public static final int daily_deel = 0x07;
-    public static final int MAX_VALUE = 6;
+    public static final int MAX_VALUE = 9;
 }

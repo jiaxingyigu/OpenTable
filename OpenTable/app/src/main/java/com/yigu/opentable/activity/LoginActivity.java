@@ -2,10 +2,16 @@ package com.yigu.opentable.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.yigu.commom.api.UserApi;
+import com.yigu.commom.result.MapiUserResult;
+import com.yigu.commom.util.RequestCallback;
+import com.yigu.commom.util.RequestExceptionCallback;
+import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
 import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.util.ControllerUtil;
@@ -39,7 +45,30 @@ public class LoginActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login:
-                ControllerUtil.go2Main();
+                String nameStr = name.getText().toString();
+                String psdStr = psd.getText().toString();
+                if(TextUtils.isEmpty(nameStr)) {
+                    MainToast.showShortToast("请输入账号");
+                    return;
+                }
+                if(TextUtils.isEmpty(psdStr)) {
+                    MainToast.showShortToast("请输入密码");
+                    return;
+                }
+                UserApi.login(this, nameStr, psdStr, new RequestCallback<MapiUserResult>() {
+                    @Override
+                    public void success(MapiUserResult success) {
+                        MainToast.showShortToast("登录成功");
+                        userSP.saveUserBean(success);
+                        ControllerUtil.go2Main();
+                        finish();
+                    }
+                }, new RequestExceptionCallback() {
+                    @Override
+                    public void error(String code, String message) {
+                        MainToast.showShortToast(message);
+                    }
+                });
                 break;
             case R.id.register:
                 ControllerUtil.go2Register();

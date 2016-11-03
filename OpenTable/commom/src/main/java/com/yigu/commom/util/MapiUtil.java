@@ -108,12 +108,14 @@ public class MapiUtil {
         if (params != null)
 //            DebugLog.i("params=" + params.toString());
         DebugLog.i("url=" + BasicApi.BASIC_URL + url);
+        DebugLog.i(Constants.Token_VALUE);
+        params.put(Constants.Token, Constants.Token_VALUE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, BasicApi.BASIC_URL + url,
                 new Response.Listener<String>() {
                     public void onResponse(String s) {
                         DebugLog.i("mapi response" + s);
                         JSONObject jsonObject = JSONObject.parseObject(s);
-                        if (jsonObject.getString("result").equals("01")) {
+                        if (jsonObject.getString("result").equals("01")||jsonObject.getString("result").equals("02")) {
                             response.success(jsonObject);
                         }
                         String code = jsonObject.getString("result");
@@ -127,8 +129,8 @@ public class MapiUtil {
                             act.sendBroadcast(intent);
                             return;
                         }
-                        if (fail != null && !code.equals("01")) {
-                            fail.fail(code, jsonObject.getString("message"));//参数不满足条件
+                        if (fail != null && code.equals("00")) {
+                            fail.fail(code, jsonObject.getString("data"));//参数不满足条件
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -251,7 +253,7 @@ public class MapiUtil {
                     public void onSuccess(ResponseInfo<String> arg0) {
                         DebugLog.i("mapi response"+arg0.result);
                         JSONObject jsonObject = JSONObject.parseObject(arg0.result);
-                        if (jsonObject.getString("result").equals("01")) {
+                        if (jsonObject.getString("result").equals("01")||jsonObject.getString("result").equals("02")) {
                             response.success(jsonObject);
                         }
                         String code = jsonObject.getString("result");
@@ -261,7 +263,7 @@ public class MapiUtil {
 //                    activity.sendBroadcast(intent);
 //                    return;
 ////                }
-                        if (fail != null && !code.equals("0")) {
+                        if (fail != null && !code.equals("01")) {
                             fail.fail(code, jsonObject.getString("message"));
                         }
                     }

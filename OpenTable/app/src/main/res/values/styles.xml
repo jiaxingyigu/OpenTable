@@ -11,6 +11,7 @@
         <item name="android:windowBackground">@color/background_all</item>
         <item name="android:textColor">@color/shop_black</item>
         <item name="android:textSize">@dimen/text_normal</item>
+
     </style>
 
     <!-- Base application theme. -->
@@ -48,9 +49,35 @@
     <style name="editViewStyle">
         <item name="android:textColor">@color/shop_black</item>
         <item name="android:background">@null</item>
-        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textSize">@dimen/text_normal</item>
         <item name="android:textColorHint">@color/light_gray</item>
         <item name="android:singleLine">true</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+    </style>
+
+    <!--弹框样式-->
+    <style name="image_dialog_theme">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowAnimationStyle">@style/slideAnimation</item>
+    </style>
+
+    <style name="slideAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_down_in_duration</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_out_duration</item>
+    </style>
+
+    <!--弹框样式-->
+    <style name="dialog_theme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item><!--是否半透明-->
+        <item name="android:backgroundDimEnabled">true</item><!--模糊-->
     </style>
 
 </resources>

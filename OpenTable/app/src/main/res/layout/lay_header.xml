@@ -4,6 +4,7 @@
     android:layout_height="@dimen/text_height_45dp"
     android:id="@+id/lay_header"
     android:background="@color/shop_red"
+    android:layout_alignParentTop="true"
     >
 
     <ImageView
