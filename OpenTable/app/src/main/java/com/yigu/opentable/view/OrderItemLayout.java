@@ -14,6 +14,7 @@ import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
 import com.yigu.opentable.adapter.OrderItemAdapter;
 import com.yigu.opentable.interfaces.RecyOnItemClickListener;
+import com.yigu.opentable.util.ControllerUtil;
 import com.yigu.opentable.util.TableDataSource;
 import com.yigu.opentable.widget.DividerGridItemDecoration;
 
@@ -81,7 +82,7 @@ public class OrderItemLayout extends RelativeLayout {
             public void onItemClick(View view, int position) {
                 switch (mList.get(position).getId()) {
                     case TableDataSource.TYPE_UNIT:
-                        MainToast.showShortToast("单位食堂");
+                        ControllerUtil.go2UnitOrder();
                         break;
                 }
             }

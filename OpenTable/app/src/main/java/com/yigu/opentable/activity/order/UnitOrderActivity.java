@@ -1,4 +1,4 @@
-package com.yigu.opentable.activity.campaign;
+package com.yigu.opentable.activity.order;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.yigu.commom.api.CampaignApi;
 import com.yigu.commom.result.MapiCampaignResult;
+import com.yigu.commom.result.MapiItemResult;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.commom.util.DebugLog;
 import com.yigu.commom.util.RequestExceptionCallback;
@@ -17,10 +18,10 @@ import com.yigu.commom.util.RequestPageCallback;
 import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
 import com.yigu.opentable.adapter.campaign.CampaignAdapter;
+import com.yigu.opentable.adapter.order.UnitOrderAdapter;
 import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.interfaces.RecyOnItemClickListener;
 import com.yigu.opentable.util.ControllerUtil;
-import com.yigu.opentable.util.webview.BasicWebViewUrl;
 import com.yigu.opentable.widget.BestSwipeRefreshLayout;
 import com.yigu.opentable.widget.DividerListItemDecoration;
 
@@ -31,7 +32,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class CampaignActivity extends BaseActivity {
+public class UnitOrderActivity extends BaseActivity {
 
     @Bind(R.id.back)
     ImageView back;
@@ -39,40 +40,43 @@ public class CampaignActivity extends BaseActivity {
     TextView center;
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
-    @Bind(R.id.swipRefresh)
-    BestSwipeRefreshLayout swipRefresh;
-    CampaignAdapter mAdapter;
+    @Bind(R.id.swipRefreshLayout)
+    BestSwipeRefreshLayout swipeRefreshLayout;
+
+    UnitOrderAdapter mAdapter;
+    private List<MapiItemResult> mList;
 
     private Integer pageIndex=0;
     private Integer pageSize = 8;
     private Integer ISNEXT = 1;
-    List<MapiCampaignResult> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_campaign);
+        setContentView(R.layout.activity_unit_order);
         ButterKnife.bind(this);
         initView();
         initListener();
-        load();
     }
 
     private void initView() {
-        mList = new ArrayList<>();
         back.setImageResource(R.mipmap.back);
-        center.setText("活动列表");
+        center.setText("食堂点餐");
+
+        mList = new ArrayList<>();
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         recyclerView.addItemDecoration(new DividerListItemDecoration(this,OrientationHelper.HORIZONTAL, DPUtil.dip2px(4),getResources().getColor(R.color.divider_line)));
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-        mAdapter = new CampaignAdapter(this,mList);
+        mAdapter = new UnitOrderAdapter(this,mList);
         recyclerView.setAdapter(mAdapter);
+
     }
 
     private void initListener(){
-        swipRefresh.setOnRefreshListener(new BestSwipeRefreshLayout.OnRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener(new BestSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshData();
@@ -81,12 +85,7 @@ public class CampaignActivity extends BaseActivity {
         mAdapter.setRecyOnItemClickListener(new RecyOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                DebugLog.i(userSP.getUserBean().getUSER_ID());
-                DebugLog.i(mList.get(position).getId());
-
-                ControllerUtil.go2CampaignMsg(mList.get(position).getId(),mList.get(position).getBz());
-
-//                ControllerUtil.go2WebView(BasicWebViewUrl.activityUrl+mList.get(position).getId()+"&appuserid="+userSP.getUserBean().getUSER_ID(),"活动入口",false);
+                ControllerUtil.go2OrderList();
             }
         });
 
@@ -105,7 +104,6 @@ public class CampaignActivity extends BaseActivity {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
-
     }
 
     @OnClick(R.id.back)
@@ -115,10 +113,10 @@ public class CampaignActivity extends BaseActivity {
 
     private void load(){
 
-        CampaignApi.getActivitylist(this, pageIndex + "", pageSize+"",new RequestPageCallback<List<MapiCampaignResult>>() {
+      /*  CampaignApi.getActivitylist(this, pageIndex + "", pageSize+"",new RequestPageCallback<List<MapiCampaignResult>>() {
             @Override
             public void success(Integer isNext,List<MapiCampaignResult> success) {
-                swipRefresh.setRefreshing(false);
+                swipeRefreshLayout.setRefreshing(false);
                 ISNEXT = isNext;
                 if(success.isEmpty())
                     return;
@@ -128,10 +126,10 @@ public class CampaignActivity extends BaseActivity {
         }, new RequestExceptionCallback() {
             @Override
             public void error(String code, String message) {
-                swipRefresh.setRefreshing(false);
+                swipeRefreshLayout.setRefreshing(false);
                 MainToast.showShortToast(message);
             }
-        });
+        });*/
     }
 
     private void loadNext() {
@@ -152,5 +150,5 @@ public class CampaignActivity extends BaseActivity {
     }
 
 
-}
 
+}

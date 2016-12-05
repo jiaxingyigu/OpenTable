@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:gravity="center_vertical"
+    android:id="@+id/root_view"
+    >
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@color/divider_line"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/shop_white"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        >
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/image"
+            android:layout_width="76dp"
+            android:layout_height="76dp"
+            android:layout_gravity="center_vertical"
+            fresco:fadeDuration="2000"
+            fresco:placeholderImage="@mipmap/default_item"
+            fresco:placeholderImageScaleType="fitCenter"
+            fresco:progressBarAutoRotateInterval="2000"
+            fresco:progressBarImage="@mipmap/progress"
+            fresco:progressBarImageScaleType="centerInside"
+            fresco:retryImageScaleType="centerCrop"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="14dp"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="鸡腿"
+                android:textSize="@dimen/text_normal"
+                android:textColor="@color/shop_black"
+                android:maxLines="2"
+                android:ellipsize="end"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="价格：¥12.00"
+                android:textSize="@dimen/text_small_x"
+                android:textColor="@color/shop_black"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginTop="@dimen/margin_3"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="剩余数量：53份"
+                android:textSize="@dimen/text_small_x"
+                android:textColor="@color/shop_black"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginTop="@dimen/margin_1"
+                />
+
+        </LinearLayout>
+
+        <com.yigu.opentable.view.PurcaseSheetLayout
+            android:id="@+id/purcaseSheetLayout"
+            android:layout_width="90dp"
+            android:layout_height="30dp"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/right"
+            android:layout_marginLeft="@dimen/margin_2"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

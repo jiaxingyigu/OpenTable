@@ -120,6 +120,7 @@
                 />
 
             <LinearLayout
+                android:id="@+id/ll_train"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -180,7 +181,7 @@
                 android:layout_height="@dimen/text_height_40dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/rect_stroke_round_4_gray__width_1"
                 >
 

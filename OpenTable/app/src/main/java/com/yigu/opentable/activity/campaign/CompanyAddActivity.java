@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,7 +14,17 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.soundcloud.android.crop.Crop;
 import com.yigu.commom.api.BasicApi;
 import com.yigu.commom.api.CampaignApi;
@@ -21,6 +32,8 @@ import com.yigu.commom.application.ExitApplication;
 import com.yigu.commom.result.MapiCampaignResult;
 import com.yigu.commom.result.MapiImageResult;
 import com.yigu.commom.result.MapiItemResult;
+import com.yigu.commom.result.MapiResourceResult;
+import com.yigu.commom.util.DPUtil;
 import com.yigu.commom.util.DebugLog;
 import com.yigu.commom.util.FileUtil;
 import com.yigu.commom.util.JGJBitmapUtils;
@@ -40,6 +53,7 @@ import com.yigu.opentable.widget.PhotoDialog;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -77,6 +91,8 @@ public class CompanyAddActivity extends BaseActivity {
     RadioButton trainYes;
     @Bind(R.id.train_no)
     RadioButton trainNo;
+    @Bind(R.id.ll_train)
+    LinearLayout ll_train;
 
     String actid;
     String type;
@@ -126,7 +142,26 @@ public class CompanyAddActivity extends BaseActivity {
         } else
             add.setVisibility(View.GONE);
 
+        if(type.equals("3"))
+            ll_train.setVisibility(View.GONE);
+        else
+            ll_train.setVisibility(View.VISIBLE);
+
         itemResult.setActid(actid);
+
+        if(null!=userSP.getResource())
+        {
+            JSONObject jsonObject = JSONObject.parseObject(userSP.getResource());
+            String json;
+            try{
+                json = jsonObject.getJSONObject("data").getJSONObject("COMPANY").toJSONString();
+                MapiItemResult result = JSONObject.parseObject(json,MapiItemResult.class);
+                if(null!=result)
+                    setData(result);
+            }catch (Exception e){
+
+            }
+        }
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -141,6 +176,43 @@ public class CompanyAddActivity extends BaseActivity {
 
         deleteDialog = new MainAlertDialog(this);
         deleteDialog.setLeftBtnText("取消").setRightBtnText("确认").setTitle("确认删除这个岗位?");
+
+    }
+
+    private void setData(MapiItemResult result){
+        comType = Integer.valueOf(result.getType());
+        if (comType == 0)
+            typeTV.setText("企事业单位");
+        if (comType == 1)
+            typeTV.setText("机关部门");
+        if (comType == 2)
+            typeTV.setText("医院");
+        name.setText(result.getName());
+        addr.setText(result.getAddress());
+        size.setText(result.getScale());
+        tel.setText(result.getTel());
+        content.setText(result.getIntroduction());
+
+        MapiImageResult imageResult = new MapiImageResult();
+        imageResult.setID(result.getLicense());
+        imageResult.setPATH(result.getPATH());
+
+        mList.clear();
+        mList.add(imageResult);
+
+        image.setVisibility(View.VISIBLE);
+        //创建将要下载的图片的URI
+        Uri imageUri = Uri.parse(BasicApi.BASIC_IMAGE+result.getPATH());
+        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
+                .setResizeOptions(new ResizeOptions(DPUtil.dip2px(120), DPUtil.dip2px(120)))
+                .build();
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setImageRequest(request)
+                .setOldController( image.getController())
+                .setControllerListener(new BaseControllerListener<ImageInfo>())
+                .build();
+        image.setController(controller);
+
 
     }
 
@@ -217,7 +289,7 @@ public class CompanyAddActivity extends BaseActivity {
                 String sizeStr = size.getText().toString();
                 String telStr = tel.getText().toString();
                 String contentStr = content.getText().toString();
-                String train;
+                String train = "1";
                 if (comType < 0) {
                     MainToast.showShortToast("请选择企业类型");
                     return;
@@ -242,10 +314,12 @@ public class CompanyAddActivity extends BaseActivity {
                     MainToast.showShortToast("请输入企业简介");
                     return;
                 }
-                if(trainYes.isChecked()){
-                    train = "1";
-                }else{
-                    train = "0";
+                if(ll_train.getVisibility()==View.VISIBLE) {
+                    if (trainYes.isChecked()) {
+                        train = "1";
+                    } else {
+                        train = "0";
+                    }
                 }
                 if(mList.size()<=0){
                     MainToast.showShortToast("请上传营业执照");
@@ -268,6 +342,7 @@ public class CompanyAddActivity extends BaseActivity {
                 itemResult.setTrain(train);
                 itemResult.setType(comType+"");
                 showLoading();
+
                 CampaignApi.comsign(this, itemResult.getActid(), userSP.getUserBean().getUSER_ID(), itemResult.getPosts(), itemResult.getName(), itemResult.getScale(), itemResult.getAddress()
                         , itemResult.getIntroduction(), itemResult.getLicense(), itemResult.getTel(), "", itemResult.getTrain(), itemResult.getType(), new RequestCallback() {
                             @Override
@@ -363,8 +438,20 @@ public class CompanyAddActivity extends BaseActivity {
                 if (null != success) {
                     mList.add(success);
                     image.setVisibility(View.VISIBLE);
-                    image.setImageURI(BasicApi.BASIC_IMAGE + Uri.parse(mList.get(0).getPATH()));
-                    MainToast.showShortToast(mList.size()+"");
+//                    image.setImageURI(BasicApi.BASIC_IMAGE + Uri.parse(mList.get(0).getPATH()));
+
+                    //创建将要下载的图片的URI
+                    Uri imageUri = Uri.parse(BasicApi.BASIC_IMAGE+mList.get(0).getPATH());
+                    ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
+                            .setResizeOptions(new ResizeOptions(DPUtil.dip2px(120), DPUtil.dip2px(120)))
+                            .build();
+                    DraweeController controller = Fresco.newDraweeControllerBuilder()
+                            .setImageRequest(request)
+                            .setOldController( image.getController())
+                            .setControllerListener(new BaseControllerListener<ImageInfo>())
+                            .build();
+                    image.setController(controller);
+
                 }
             }
         }, new RequestExceptionCallback() {
@@ -417,12 +504,12 @@ public class CompanyAddActivity extends BaseActivity {
         outState.putSerializable("list", mList);
         super.onSaveInstanceState(outState);
     }
-
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         itemResult = (MapiItemResult) savedInstanceState.getSerializable("item");
         mList = (ArrayList<MapiImageResult>) savedInstanceState.getSerializable("list");
     }
+
 
 }

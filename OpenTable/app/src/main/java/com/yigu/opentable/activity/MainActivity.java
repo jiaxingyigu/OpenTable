@@ -1,6 +1,9 @@
 package com.yigu.opentable.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,13 +16,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.yigu.commom.api.CommonApi;
 import com.yigu.commom.api.UserApi;
+import com.yigu.commom.application.AppContext;
 import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.commom.util.RequestCallback;
 import com.yigu.commom.util.RequestExceptionCallback;
 import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
 import com.yigu.opentable.base.BaseActivity;
+import com.yigu.opentable.broadcast.ReceiverAction;
 import com.yigu.opentable.util.ControllerUtil;
+import com.yigu.opentable.util.JpushUtil;
 import com.yigu.opentable.view.HomeSliderLayout;
 import com.yigu.updatelibrary.UpdateFunGo;
 import com.yigu.updatelibrary.config.DownloadKey;
@@ -33,6 +39,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 
 public class MainActivity extends BaseActivity {
 
@@ -54,6 +61,14 @@ public class MainActivity extends BaseActivity {
             ButterKnife.bind(this);
             initView();
             load();
+            JpushUtil.getInstance().verifyInit(this);
+            if (JPushInterface.isPushStopped(AppContext.getInstance())) {
+                JPushInterface.resumePush(AppContext.getInstance());
+            }
+            if (!userSP.getAlias()) {
+                JpushUtil.getInstance().setAlias(userSP.getUserBean().getUSER_ID());
+            }
+            registerMessageReceiver();  // used for receive msg
         }
 
     }
@@ -71,8 +86,8 @@ public class MainActivity extends BaseActivity {
                 ControllerUtil.go2Person();
                 break;
             case R.id.ll_order:
-                MainToast.showShortToast("敬请期待");
-//                ControllerUtil.go2Order();
+//                MainToast.showShortToast("敬请期待");
+                ControllerUtil.go2Order();
                 break;
             case R.id.ll_sign:
                 ControllerUtil.go2Campaign();
@@ -99,14 +114,14 @@ public class MainActivity extends BaseActivity {
                 if(null!=userSP.getResource()){
                     JSONObject jsonObject = JSONObject.parseObject(userSP.getResource());
 
-                    List<MapiResourceResult> list = JSON.parseObject(jsonObject.getJSONObject("data").getJSONArray("version").toJSONString(), new TypeReference<List<MapiResourceResult>>(){
-                    });
+                    List<MapiResourceResult> list = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("version").toJSONString(), MapiResourceResult.class);
                     if(null!=list&&!list.isEmpty())
                         checkVersion(list.get(0));
-                    List<MapiResourceResult> images = JSON.parseObject(jsonObject.getJSONObject("data").getJSONArray("poster").toJSONString(), new TypeReference<List<MapiResourceResult>>(){
-                    });
+                    List<MapiResourceResult> images = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("poster").toJSONString(),  MapiResourceResult.class);
                     if(null!=images&&!images.isEmpty())
                         homeSliderLayout.load(images);
+
+
 
                 }
             }
@@ -173,6 +188,34 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    //for receive customer msg from jpush server
+    private MessageReceiver mMessageReceiver;
+
+    public void registerMessageReceiver() {
+        mMessageReceiver = new MessageReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(ReceiverAction.MESSAGE_RECEIVED_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+    }
+
+    public class MessageReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (ReceiverAction.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
+                String messge = intent.getStringExtra(JpushUtil.KEY_MESSAGE);
+                String extras = intent.getStringExtra(JpushUtil.KEY_EXTRAS);
+                StringBuilder showMsg = new StringBuilder();
+                showMsg.append(JpushUtil.KEY_MESSAGE + " : " + messge + "\n");
+                if (!JpushUtil.getInstance().isEmpty(extras)) {
+                    showMsg.append(JpushUtil.KEY_EXTRAS + " : " + extras + "\n");
+                }
+                MainToast.showLongToast(showMsg.toString());
+            }
+        }
     }
 
 }

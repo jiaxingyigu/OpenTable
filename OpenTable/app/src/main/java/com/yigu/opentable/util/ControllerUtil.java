@@ -22,6 +22,11 @@ import com.yigu.opentable.activity.campaign.JobDetailActivity;
 import com.yigu.opentable.activity.campaign.PersonAddActivity;
 import com.yigu.opentable.activity.campaign.SelJobActivity;
 import com.yigu.opentable.activity.order.OrderActivity;
+import com.yigu.opentable.activity.order.OrderDetailActivity;
+import com.yigu.opentable.activity.order.OrderListActivity;
+import com.yigu.opentable.activity.order.UnitOrderActivity;
+import com.yigu.opentable.activity.pay.PaymentActivity;
+import com.yigu.opentable.activity.purcase.PurcaseActivity;
 import com.yigu.opentable.activity.set.EnrollActivity;
 import com.yigu.opentable.activity.webview.WebviewControlActivity;
 import com.yigu.opentable.adapter.set.PersonEnrollAdapter;
@@ -201,9 +206,10 @@ public class ControllerUtil {
     /**
      * 活动入口
      */
-    public static void go2CampaignMsg(String actid) {
+    public static void go2CampaignMsg(String actid,String info) {
         Intent intent = new Intent(AppContext.getInstance(), CampaignMsgActivity.class);
         intent.putExtra("actid",actid);
+        intent.putExtra("info",info);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         AppContext.getInstance().startActivity(intent);
     }
@@ -214,6 +220,51 @@ public class ControllerUtil {
     public static void go2JobDetail(MapiCampaignResult result) {
         Intent intent = new Intent(AppContext.getInstance(), JobDetailActivity.class);
         intent.putExtra("item",result);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 单位食堂-列表
+     */
+    public static void go2UnitOrder() {
+        Intent intent = new Intent(AppContext.getInstance(), UnitOrderActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 单位食堂-列表
+     */
+    public static void go2OrderList() {
+        Intent intent = new Intent(AppContext.getInstance(), OrderListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 单位食堂-详情
+     */
+    public static void go2OrderDetail() {
+        Intent intent = new Intent(AppContext.getInstance(), OrderDetailActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 单位食堂-购物车
+     */
+    public static void go2Purcase() {
+        Intent intent = new Intent(AppContext.getInstance(), PurcaseActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 单位食堂-结算
+     */
+    public static void go2Payment() {
+        Intent intent = new Intent(AppContext.getInstance(),PaymentActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         AppContext.getInstance().startActivity(intent);
     }

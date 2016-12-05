@@ -40,19 +40,24 @@ public class CampaignMsgActivity extends BaseActivity {
     SimpleDraweeView image;
     @Bind(R.id.name)
     TextView name;
+    @Bind(R.id.info_tv)
+    TextView infoTv;
 
     String actid = "";
+    String info = "";
     MapiCampaignResult campaignResult;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign_msg);
         ButterKnife.bind(this);
-        if(null!=getIntent()){
+        if (null != getIntent()) {
             actid = getIntent().getStringExtra("actid");
+            info = getIntent().getStringExtra("info");
         }
-        if(!TextUtils.isEmpty(actid)) {
+        if (!TextUtils.isEmpty(actid)) {
             initView();
             load();
         }
@@ -61,30 +66,31 @@ public class CampaignMsgActivity extends BaseActivity {
     private void initView() {
         center.setText("活动入口");
         back.setImageResource(R.mipmap.back);
+        infoTv.setText(info);
     }
 
-    private void load(){
+    private void load() {
         CampaignApi.activityUrl(this, actid, new RequestCallback<MapiCampaignResult>() {
             @Override
             public void success(MapiCampaignResult success) {
                 campaignResult = success;
-                if(null!=campaignResult){
-                    if("0".equals(campaignResult.getSignup())||"2".equals(campaignResult.getSignup()))
+                if (null != campaignResult) {
+                    if ("0".equals(campaignResult.getSignup()) || "2".equals(campaignResult.getSignup()))
                         name.setText("企业报名");
-                    else if("1".equals(campaignResult.getSignup()))
+                    else if ("1".equals(campaignResult.getSignup()))
                         name.setText("个人报名");
-                    else if("3".equals(campaignResult.getSignup()))
+                    else if ("3".equals(campaignResult.getSignup()))
                         name.setText("活动已结束");
 
 
                     //创建将要下载的图片的URI
-                    Uri imageUri = Uri.parse(BasicApi.BASIC_IMAGE+campaignResult.getBpic());
+                    Uri imageUri = Uri.parse(BasicApi.BASIC_IMAGE + campaignResult.getBpic());
                     ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
                             .setResizeOptions(new ResizeOptions(DPUtil.dip2px(360), DPUtil.dip2px(500)))
                             .build();
                     DraweeController controller = Fresco.newDraweeControllerBuilder()
                             .setImageRequest(request)
-                            .setOldController( image.getController())
+                            .setOldController(image.getController())
                             .setControllerListener(new BaseControllerListener<ImageInfo>())
                             .build();
                     image.setController(controller);
@@ -106,10 +112,10 @@ public class CampaignMsgActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.name:
-                if(null!=campaignResult){
-                    if("0".equals(campaignResult.getSignup())||"2".equals(campaignResult.getSignup()))
+                if (null != campaignResult) {
+                    if ("0".equals(campaignResult.getSignup()) || "2".equals(campaignResult.getSignup()))
                         company();
-                    else if("1".equals(campaignResult.getSignup()))
+                    else if ("1".equals(campaignResult.getSignup()))
                         persign();
 
 
@@ -119,11 +125,11 @@ public class CampaignMsgActivity extends BaseActivity {
         }
     }
 
-    private void persign(){
+    private void persign() {
         CampaignApi.findPersign(this, campaignResult.getId(), userSP.getUserBean().getUSER_ID(), new RequestCallback() {
             @Override
             public void success(Object success) {
-                ControllerUtil.go2PersonAdd(campaignResult.getId(),campaignResult.getType());
+                ControllerUtil.go2PersonAdd(campaignResult.getId(), campaignResult.getType());
             }
         }, new RequestExceptionCallback() {
             @Override
@@ -133,11 +139,11 @@ public class CampaignMsgActivity extends BaseActivity {
         });
     }
 
-    private void company(){
+    private void company() {
         CampaignApi.findComsign(this, campaignResult.getId(), userSP.getUserBean().getUSER_ID(), new RequestCallback() {
             @Override
             public void success(Object success) {
-                ControllerUtil.go2CompanyAdd(campaignResult.getId(),campaignResult.getType());
+                ControllerUtil.go2CompanyAdd(campaignResult.getId(), campaignResult.getType());
             }
         }, new RequestExceptionCallback() {
             @Override
