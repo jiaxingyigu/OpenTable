@@ -20,6 +20,7 @@ import com.yigu.commom.util.DPUtil;
 import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
 import com.yigu.opentable.adapter.ShopPagerAdapter;
+import com.yigu.opentable.util.ControllerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,20 +67,20 @@ public class HomeSliderLayout extends RelativeLayout {
         ButterKnife.bind(this, view);
     }
 
-    public void load(List<MapiResourceResult> list) {
+    public void load(final List<MapiResourceResult> list) {
         sliderViewList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
 
             SimpleDraweeView  view = (SimpleDraweeView) LayoutInflater.from(mContext).inflate(R.layout.item_image,null);
-            if(!TextUtils.isEmpty(list.get(i).getPoster()))
-                 view.setImageURI(Uri.parse(BasicApi.BASIC_IMAGE+list.get(i).getPoster()));
+            view.setImageURI(Uri.parse(BasicApi.BASIC_IMAGE+list.get(i).getPATH()));
 //            SimpleDraweeView view = new SimpleDraweeView(mContext);
 //            view.setImageResource(R.mipmap.default_item_big);
 //            view.setScaleType(ImageView.ScaleType.FIT_XY);
+            view.setTag(i);
             view.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    MainToast.showShortToast("点击");
+                    ControllerUtil.go2WebView(list.get((Integer) v.getTag()).getUrl(),"",false);
                 }
             });
             sliderViewList.add(view);

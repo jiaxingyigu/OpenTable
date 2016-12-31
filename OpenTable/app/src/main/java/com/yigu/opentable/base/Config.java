@@ -1,5 +1,9 @@
 package com.yigu.opentable.base;
 
+import com.yigu.commom.result.MapiItemResult;
+
+import java.util.List;
+
 /**
  * Created by brain on 2016/7/26.
  */
@@ -12,4 +16,5 @@ public class Config {
     public static final int daily_image = 0x06;
     public static final int daily_deel = 0x07;
     public static final int MAX_VALUE = 9;
+
 }

@@ -5,15 +5,19 @@ import android.content.Intent;
 import com.yigu.commom.application.AppContext;
 import com.yigu.commom.result.MapiCampaignResult;
 import com.yigu.commom.result.MapiImageResult;
+import com.yigu.commom.result.MapiOrderResult;
 import com.yigu.opentable.activity.AboutUSActivity;
 import com.yigu.opentable.activity.BandActivity;
 import com.yigu.opentable.activity.BandNextActivity;
+import com.yigu.opentable.activity.CampaignEnterActivity;
 import com.yigu.opentable.activity.ForgetPsdActivity;
+import com.yigu.opentable.activity.HistoryOrderActivity;
 import com.yigu.opentable.activity.LoginActivity;
 import com.yigu.opentable.activity.MainActivity;
 import com.yigu.opentable.activity.ModifyPsdActivity;
 import com.yigu.opentable.activity.PersonActivity;
 import com.yigu.opentable.activity.RegisterActivity;
+import com.yigu.opentable.activity.ShopEnterActivity;
 import com.yigu.opentable.activity.ShowBigPicActivity;
 import com.yigu.opentable.activity.campaign.CampaignActivity;
 import com.yigu.opentable.activity.campaign.CampaignMsgActivity;
@@ -21,13 +25,22 @@ import com.yigu.opentable.activity.campaign.CompanyAddActivity;
 import com.yigu.opentable.activity.campaign.JobDetailActivity;
 import com.yigu.opentable.activity.campaign.PersonAddActivity;
 import com.yigu.opentable.activity.campaign.SelJobActivity;
+import com.yigu.opentable.activity.cook.CookListActivity;
+import com.yigu.opentable.activity.history.TenantHistoryDetailActivity;
+import com.yigu.opentable.activity.history.UnitHistoryDetailActivity;
+import com.yigu.opentable.activity.live.LiveListActivity;
+import com.yigu.opentable.activity.live.LiveMenuActivity;
 import com.yigu.opentable.activity.order.OrderActivity;
 import com.yigu.opentable.activity.order.OrderDetailActivity;
 import com.yigu.opentable.activity.order.OrderListActivity;
 import com.yigu.opentable.activity.order.UnitOrderActivity;
+import com.yigu.opentable.activity.pay.LivePayActivity;
 import com.yigu.opentable.activity.pay.PaymentActivity;
+import com.yigu.opentable.activity.pay.TenantPayActivity;
 import com.yigu.opentable.activity.purcase.PurcaseActivity;
 import com.yigu.opentable.activity.set.EnrollActivity;
+import com.yigu.opentable.activity.tenant.TenantListActivity;
+import com.yigu.opentable.activity.tenant.TenantMenuActivity;
 import com.yigu.opentable.activity.webview.WebviewControlActivity;
 import com.yigu.opentable.adapter.set.PersonEnrollAdapter;
 
@@ -236,17 +249,20 @@ public class ControllerUtil {
     /**
      * 单位食堂-列表
      */
-    public static void go2OrderList() {
+    public static void go2OrderList(MapiOrderResult mapiOrderResult) {
         Intent intent = new Intent(AppContext.getInstance(), OrderListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("item", mapiOrderResult);
         AppContext.getInstance().startActivity(intent);
     }
 
     /**
      * 单位食堂-详情
      */
-    public static void go2OrderDetail() {
+    public static void go2OrderDetail(String id,String title) {
         Intent intent = new Intent(AppContext.getInstance(), OrderDetailActivity.class);
+        intent.putExtra("id",id);
+        intent.putExtra("title",title);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         AppContext.getInstance().startActivity(intent);
     }
@@ -263,8 +279,125 @@ public class ControllerUtil {
     /**
      * 单位食堂-结算
      */
-    public static void go2Payment() {
+    public static void go2Payment(String SHOP) {
         Intent intent = new Intent(AppContext.getInstance(),PaymentActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("SHOP",SHOP);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 商户-结算
+     */
+    public static void go2TenantPay(String SHOP,boolean hasAddr) {
+        Intent intent = new Intent(AppContext.getInstance(),TenantPayActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("SHOP",SHOP);
+        intent.putExtra("hasAddr",hasAddr);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 生活馆-结算
+     */
+    public static void go2LivePay(String SHOP,boolean hasBZ) {
+        Intent intent = new Intent(AppContext.getInstance(),LivePayActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("SHOP",SHOP);
+        intent.putExtra("hasBZ",hasBZ);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 绑定单位下一步
+     */
+    public static void go2CampaignEnter() {
+        Intent intent = new Intent(AppContext.getInstance(), CampaignEnterActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 商家入驻
+     */
+    public static void go2ShopEnter() {
+        Intent intent = new Intent(AppContext.getInstance(),ShopEnterActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 商户订餐-列表
+     */
+    public static void go2TenantList() {
+        Intent intent = new Intent(AppContext.getInstance(), TenantListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 商户订餐-菜单列表
+     */
+    public static void go2TenantMenu(MapiOrderResult mapiOrderResult) {
+        Intent intent = new Intent(AppContext.getInstance(), TenantMenuActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("item", mapiOrderResult);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 生活馆-列表
+     */
+    public static void go2LiveList() {
+        Intent intent = new Intent(AppContext.getInstance(), LiveListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 生活馆-菜单列表
+     */
+    public static void go2LiveMenu(MapiOrderResult mapiOrderResult) {
+        Intent intent = new Intent(AppContext.getInstance(), LiveMenuActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("item", mapiOrderResult);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 订单中心
+     */
+    public static void go2HistoryOrder() {
+        Intent intent = new Intent(AppContext.getInstance(), HistoryOrderActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 单位订单详情
+     */
+    public static void go2UnitHistoryDetail(String id) {
+        Intent intent = new Intent(AppContext.getInstance(), UnitHistoryDetailActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("id",id);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 商户订单详情
+     */
+    public static void go2TenantHistoryDetail(String id) {
+        Intent intent = new Intent(AppContext.getInstance(), TenantHistoryDetailActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("id",id);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 厨师-列表
+     */
+    public static void go2CookList() {
+        Intent intent = new Intent(AppContext.getInstance(), CookListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         AppContext.getInstance().startActivity(intent);
     }

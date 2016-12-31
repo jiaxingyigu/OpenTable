@@ -8,12 +8,22 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.yigu.commom.api.CommonApi;
 import com.yigu.commom.result.IndexData;
 import com.yigu.commom.result.MapiResourceResult;
+import com.yigu.commom.util.FileUtil;
+import com.yigu.commom.util.RequestCallback;
+import com.yigu.commom.util.RequestExceptionCallback;
+import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
 import com.yigu.opentable.adapter.MainOrderAdapter;
 import com.yigu.opentable.base.BaseActivity;
 
+import org.xutils.DbManager;
+import org.xutils.x;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +55,8 @@ public class OrderActivity extends BaseActivity {
     }
 
     private void initView() {
+        mList.add(new IndexData(0, SCROLL, new ArrayList<MapiResourceResult>()));
+        mList.add(new IndexData(1, ITEM, new ArrayList<MapiResourceResult>()));
         center.setText("订餐系统");
         back.setImageResource(R.mipmap.back);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -54,15 +66,27 @@ public class OrderActivity extends BaseActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
-    public void load() {
-        mList.clear();
-        mList.add(new IndexData(0, SCROLL, new ArrayList<MapiResourceResult>()));
-        mList.add(new IndexData(1, ITEM, new ArrayList<MapiResourceResult>()));
-        Collections.sort(mList);
-        mAdapter.notifyDataSetChanged();
+    private void load(){
+        showLoading();
+        CommonApi.getAdvertisement(this, userSP.getUserBean().getCOMPANY(), new RequestCallback< List<MapiResourceResult>>() {
+            @Override
+            public void success( List<MapiResourceResult> success) {
+                hideLoading();
+                if(success.isEmpty())
+                    return;
+                IndexData indexData =  mList.get(0);
+                indexData.setData(success);
+                mAdapter.notifyDataSetChanged();
+            }
+        }, new RequestExceptionCallback() {
+            @Override
+            public void error(String code, String message) {
+                hideLoading();
+                MainToast.showShortToast(message);
+            }
+        });
+
     }
-
-
 
     @OnClick(R.id.back)
     public void onClick() {

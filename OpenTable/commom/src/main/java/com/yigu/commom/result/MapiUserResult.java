@@ -11,6 +11,15 @@ public class MapiUserResult extends MapiBaseResult {
     String USER_ID;
     String PHONE;
     String PASSWORD;
+    String tip;
+
+    public String getTip() {
+        return tip;
+    }
+
+    public void setTip(String tip) {
+        this.tip = tip;
+    }
 
     public String getCOMPANY() {
         return COMPANY;
@@ -51,4 +60,5 @@ public class MapiUserResult extends MapiBaseResult {
     public void setUSERNAME(String USERNAME) {
         this.USERNAME = USERNAME;
     }
+
 }

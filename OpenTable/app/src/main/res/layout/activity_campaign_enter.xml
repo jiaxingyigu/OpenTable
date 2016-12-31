@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.activity.CampaignEnterActivity"
+    android:orientation="vertical"
+    >
+
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="38dp"
+            android:layout_marginRight="38dp"
+            >
+
+            <LinearLayout
+                android:id="@+id/typeLL"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                >
+
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColorHint="@color/light_gray"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_small"
+                    android:text="请选择单位类型"
+                    android:paddingLeft="17dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/down"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入单位名称"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+            <EditText
+                android:id="@+id/addr"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                android:inputType="textMultiLine"
+                style="@style/editViewStyle"
+                android:hint="请输入单位地址"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+            <EditText
+                android:id="@+id/size"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入企业规模"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+            <EditText
+                android:id="@+id/other_phone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入授权人联系方式"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                android:inputType="phone"
+                android:visibility="gone"
+                />
+
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入联系方式"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                android:inputType="phone"
+                />
+
+            <LinearLayout
+                android:id="@+id/imageLL"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/light_gray"
+                    android:textSize="@dimen/text_small"
+                    android:text="请上传营业执照"
+                    android:paddingLeft="17dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/image"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    />
+
+            </LinearLayout>
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/image"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center_vertical"
+                fresco:fadeDuration="2000"
+                fresco:placeholderImage="@mipmap/default_item"
+                fresco:placeholderImageScaleType="fitCenter"
+                fresco:progressBarAutoRotateInterval="2000"
+                fresco:progressBarImage="@mipmap/progress"
+                fresco:progressBarImageScaleType="centerInside"
+                fresco:retryImageScaleType="centerCrop"
+                android:visibility="gone"
+                android:layout_marginTop="18dp"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

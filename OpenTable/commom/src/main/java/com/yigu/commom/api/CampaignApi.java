@@ -148,7 +148,6 @@ public class CampaignApi extends BasicApi{
         params.put("tel",tel);
         params.put("remark",remark);
         params.put("train",train);
-        params.put("train",train);
         params.put("type",type);
         MapiUtil.getInstance().call(activity,comsign,params,new MapiUtil.MapiSuccessResponse(){
             @Override
@@ -368,6 +367,135 @@ public class CampaignApi extends BasicApi{
         params.put("appuserid",appuserid);
         DebugLog.i(params.toString());
         MapiUtil.getInstance().call(activity,findComsign,params,new MapiUtil.MapiSuccessResponse(){
+            @Override
+            public void success(JSONObject json) {
+                DebugLog.i("json="+json);
+                callback.success(json);
+            }
+        },new MapiUtil.MapiFailResponse(){
+            @Override
+            public void fail(String code, String failMessage) {
+                exceptionCallback.error(code,failMessage);
+            }
+        });
+    }
+
+    /**
+     * 单位入驻
+     * @param activity
+     * @param appuserid
+     * @param name
+     * @param scale
+     * @param address
+     * @param license
+     * @param tel
+     * @param remark
+     * @param type
+     * @param callback
+     * @param exceptionCallback
+     */
+    public static void enterCampaign(Activity activity,String appuserid,String name,
+                               String scale,String address,String license,
+                               String tel,String remark,
+                               String type,final RequestCallback callback, final RequestExceptionCallback exceptionCallback){
+        Map<String,String> params = new HashMap<>();
+        params.put("appuserid",appuserid);
+        params.put("name",name);
+        params.put("scale",scale);
+        params.put("address",address);
+        params.put("license",license);
+        params.put("tel",tel);
+        params.put("remark",remark);
+        params.put("type",type);
+        MapiUtil.getInstance().call(activity,enterCampaign,params,new MapiUtil.MapiSuccessResponse(){
+            @Override
+            public void success(JSONObject json) {
+                DebugLog.i("json="+json);
+                callback.success(json);
+            }
+        },new MapiUtil.MapiFailResponse(){
+            @Override
+            public void fail(String code, String failMessage) {
+                exceptionCallback.error(code,failMessage);
+            }
+        });
+    }
+
+    /**
+     * 获取单位列表
+     * @param activity
+     * @param NAME
+     * @param callback
+     * @param exceptionCallback
+     */
+    public static void getCompanylist(Activity activity,String NAME,final RequestCallback callback, final RequestExceptionCallback exceptionCallback){
+        Map<String,String> params = new HashMap<>();
+        params.put("NAME",NAME);
+        MapiUtil.getInstance().call(activity,getCompanylist,params,new MapiUtil.MapiSuccessResponse(){
+            @Override
+            public void success(JSONObject json) {
+                DebugLog.i("json="+json);
+                List<MapiCampaignResult> result = JSONArray.parseArray(json.getJSONObject("data").getJSONArray("company").toJSONString(),MapiCampaignResult.class);
+                callback.success(result);
+            }
+        },new MapiUtil.MapiFailResponse(){
+            @Override
+            public void fail(String code, String failMessage) {
+                exceptionCallback.error(code,failMessage);
+            }
+        });
+    }
+
+    /**
+     * 绑定单位
+     * @param activity
+     * @param appuserid
+     * @param NAME
+     * @param IDcard
+     * @param COMPANY
+     * @param callback
+     * @param exceptionCallback
+     */
+    public static void binding(Activity activity,String appuserid,String NAME,String IDcard,String COMPANY,final RequestCallback callback, final RequestExceptionCallback exceptionCallback){
+        Map<String,String> params = new HashMap<>();
+        params.put("appuserid",appuserid);
+        params.put("NAME",NAME);
+        params.put("IDcard",IDcard);
+        params.put("COMPANY",COMPANY);
+        MapiUtil.getInstance().call(activity,binding,params,new MapiUtil.MapiSuccessResponse(){
+            @Override
+            public void success(JSONObject json) {
+                DebugLog.i("json="+json);
+                callback.success(json);
+            }
+        },new MapiUtil.MapiFailResponse(){
+            @Override
+            public void fail(String code, String failMessage) {
+                exceptionCallback.error(code,failMessage);
+            }
+        });
+    }
+
+    /**
+     * 商家入住
+     * @param activity
+     * @param appuserid
+     * @param NAME
+     * @param TEL
+     * @param COMPANY
+     * @param pic
+     * @param callback
+     * @param exceptionCallback
+     */
+    public static void applicationshop(Activity activity,String appuserid,String NAME,String TEL,String COMPANY,String pic,
+                                       final RequestCallback callback, final RequestExceptionCallback exceptionCallback){
+        Map<String,String> params = new HashMap<>();
+        params.put("appuserid",appuserid);
+        params.put("NAME",NAME);
+        params.put("TEL",TEL);
+        params.put("COMPANY",COMPANY);
+        params.put("pic",pic);
+        MapiUtil.getInstance().call(activity,applicationshop,params,new MapiUtil.MapiSuccessResponse(){
             @Override
             public void success(JSONObject json) {
                 DebugLog.i("json="+json);

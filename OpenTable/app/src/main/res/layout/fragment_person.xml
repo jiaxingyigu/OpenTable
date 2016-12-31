@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.fragment.person.PersonFragment"
+    android:orientation="vertical"
+    >
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="165dp"
+       android:background="#fe6e00"
+       android:gravity="center"
+       >
+
+       <com.facebook.drawee.view.SimpleDraweeView
+           android:id="@+id/head"
+           android:layout_width="54dp"
+           android:layout_height="54dp"
+           android:layout_marginTop="12dp"
+           fresco:fadeDuration="2000"
+           fresco:placeholderImage="@mipmap/head"
+           fresco:placeholderImageScaleType="fitXY"
+           fresco:roundAsCircle="true"
+           fresco:roundingBorderColor="@android:color/white"
+           fresco:roundingBorderWidth="1dp"
+           android:layout_centerHorizontal="true"
+           />
+
+       <TextView
+           android:id="@+id/shop_name"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="杉若夏暖"
+           android:textSize="@dimen/text_big_x"
+           android:textColor="@color/shop_white"
+           />
+
+       <LinearLayout
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           >
+
+           <ImageView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@mipmap/vip_icon"
+               />
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="VIP"
+               android:textColor="@color/shop_white"
+               android:textSize="@dimen/text_normal"
+               android:layout_marginLeft="7dp"
+               />
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:background="@drawable/rect_soild_dark_orange_round_4"
+               android:padding="5dp"
+               android:text="升级"
+               android:textSize="@dimen/text_normal"
+               android:layout_marginLeft="@dimen/margin_10dp"
+               />
+
+       </LinearLayout>
+
+   </RelativeLayout>
+
+</LinearLayout>

@@ -18,6 +18,7 @@ import com.yigu.commom.api.CommonApi;
 import com.yigu.commom.api.UserApi;
 import com.yigu.commom.application.AppContext;
 import com.yigu.commom.result.MapiResourceResult;
+import com.yigu.commom.util.FileUtil;
 import com.yigu.commom.util.RequestCallback;
 import com.yigu.commom.util.RequestExceptionCallback;
 import com.yigu.commom.widget.MainToast;
@@ -32,6 +33,11 @@ import com.yigu.updatelibrary.config.DownloadKey;
 import com.yigu.updatelibrary.config.UpdateKey;
 import com.yigu.updatelibrary.utils.GetAppInfo;
 
+import org.xutils.DbManager;
+import org.xutils.x;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +55,7 @@ public class MainActivity extends BaseActivity {
     ImageView ivRight;
     @Bind(R.id.homeSliderLayout)
     HomeSliderLayout homeSliderLayout;
-
+    private DbManager db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +82,10 @@ public class MainActivity extends BaseActivity {
     private void initView() {
         center.setText("首页");
         ivRight.setImageResource(R.mipmap.person_white);
+
+        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig().setDbName("open").setDbDir(new File(FileUtil.getFolderPath(this,FileUtil.TYPE_DB)));
+        db = x.getDb(daoConfig);
+
     }
 
 
@@ -86,20 +96,19 @@ public class MainActivity extends BaseActivity {
                 ControllerUtil.go2Person();
                 break;
             case R.id.ll_order:
-//                MainToast.showShortToast("敬请期待");
                 ControllerUtil.go2Order();
                 break;
-            case R.id.ll_sign:
+            case R.id.ll_sign://
                 ControllerUtil.go2Campaign();
                 break;
             case R.id.ll_info:
                 MainToast.showShortToast("敬请期待");
                 break;
-            case R.id.shop_info:
-                MainToast.showShortToast("敬请期待");
+            case R.id.shop_info://商家入驻
+                ControllerUtil.go2ShopEnter();
                 break;
-            case R.id.company_info:
-                MainToast.showShortToast("敬请期待");
+            case R.id.company_info://单位入驻
+                ControllerUtil.go2CampaignEnter();
                 break;
         }
     }
@@ -218,4 +227,19 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(null!=mMessageReceiver)
+            unregisterReceiver(mMessageReceiver);
+        if(userSP.checkLogin()){
+            try {
+                db.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+    }
 }

@@ -17,6 +17,7 @@ import java.io.File;
  */
 public class FileUtil {
     public final static String TYPE_IMAGE = "image";
+    public final static String TYPE_DB = "d";
     private final static String rootPath = "jgj";
 
     /**
@@ -89,6 +90,10 @@ public class FileUtil {
         switch (type) {
             case TYPE_IMAGE:
                 pathBuilder.append(context.getString(R.string.image));
+                break;
+            case TYPE_DB:
+                pathBuilder.append(context.getString(R.string.db));
+                break;
             default:
                 break;
         }

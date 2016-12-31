@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">commom</string>
     <string name="image">Image</string>
+    <string name="db">db</string>
 </resources>

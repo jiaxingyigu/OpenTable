@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.activity.pay.TenantPayActivity"
+    android:background="@color/divider_line"
+    >
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerView"
+        android:layout_below="@+id/lay_header"
+        android:layout_above="@+id/ll_deel"
+        ></android.support.v7.widget.RecyclerView>
+
+
+    <View
+        android:id="@+id/backgound"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#4D000000"
+        android:visibility="gone"
+        />
+
+    <com.yigu.opentable.view.PayWayLayout
+        android:id="@+id/payWayLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_deel"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_deel"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/shop_white"
+        android:paddingLeft="@dimen/margin_1"
+        android:paddingRight="@dimen/margin_1"
+        android:gravity="center_vertical"
+        >
+
+        <TextView
+            android:id="@+id/allPrice"
+            android:layout_width="0dp"
+            android:layout_weight="1.3"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|right"
+            android:text=""
+            />
+
+        <TextView
+            android:id="@+id/deel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="43dp"
+            android:text="确认下单"
+            android:textColor="@color/shop_white"
+            android:textSize="@dimen/text_normal"
+            android:layout_marginLeft="@dimen/margin_2"
+            android:gravity="center"
+            android:background="@drawable/selector_pressed_color_red"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

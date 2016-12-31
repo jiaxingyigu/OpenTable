@@ -3,6 +3,7 @@ package com.yigu.opentable.view;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,9 @@ import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
+import com.yigu.opentable.activity.order.OrderActivity;
 import com.yigu.opentable.adapter.OrderItemAdapter;
+import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.interfaces.RecyOnItemClickListener;
 import com.yigu.opentable.util.ControllerUtil;
 import com.yigu.opentable.util.TableDataSource;
@@ -34,7 +37,7 @@ public class OrderItemLayout extends RelativeLayout {
     private View view;
     List<MapiResourceResult> mList;
     OrderItemAdapter mAdapter;
-
+    private BaseActivity activity;
     public OrderItemLayout(Context context) {
         super(context);
         mContext = context;
@@ -69,7 +72,8 @@ public class OrderItemLayout extends RelativeLayout {
         initListener();
     }
 
-    public void load() {
+    public void load(BaseActivity activity) {
+        this.activity = activity;
         mList.clear();
         mList.addAll(TableDataSource.getRootResource());
         mAdapter.notifyDataSetChanged();
@@ -82,8 +86,41 @@ public class OrderItemLayout extends RelativeLayout {
             public void onItemClick(View view, int position) {
                 switch (mList.get(position).getId()) {
                     case TableDataSource.TYPE_UNIT:
-                        ControllerUtil.go2UnitOrder();
+                        if(null!=activity){
+                            if(TextUtils.isEmpty(activity.userSP.getUserBean().getCOMPANY())) {
+                                MainToast.showShortToast("请先绑定单位");
+                                ControllerUtil.go2BandNext();
+                                return;
+                            }
+                            ControllerUtil.go2UnitOrder();
+                        }
+
                         break;
+                    case TableDataSource.TYPE_TENANT:
+                        ControllerUtil.go2TenantList();
+                        break;
+                    case TableDataSource.TYPE_LIVE:
+                        if(null!=activity){
+                            if(TextUtils.isEmpty(activity.userSP.getUserBean().getCOMPANY())) {
+                                MainToast.showShortToast("请先绑定单位");
+                                ControllerUtil.go2BandNext();
+                                return;
+                            }
+                            ControllerUtil.go2LiveList();
+                        }
+                        break;
+
+                    case TableDataSource.TYPE_COOK:
+                        if(null!=activity){
+                            if(TextUtils.isEmpty(activity.userSP.getUserBean().getCOMPANY())) {
+                                MainToast.showShortToast("请先绑定单位");
+                                ControllerUtil.go2BandNext();
+                                return;
+                            }
+                            ControllerUtil.go2CookList();
+                        }
+                        break;
+
                 }
             }
         });

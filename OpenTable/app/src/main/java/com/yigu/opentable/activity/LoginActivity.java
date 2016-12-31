@@ -41,7 +41,7 @@ public class LoginActivity extends BaseActivity {
         center.setText("登录");
     }
 
-    @OnClick({R.id.login, R.id.register})
+    @OnClick({R.id.login, R.id.register,R.id.forget,})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.login:
@@ -72,6 +72,9 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.register:
                 ControllerUtil.go2Register();
+                break;
+            case R.id.forget:
+                ControllerUtil.ForgetPsd();
                 break;
         }
     }

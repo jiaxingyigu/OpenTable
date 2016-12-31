@@ -2,6 +2,7 @@ package com.yigu.opentable.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yigu.commom.result.MapiResourceResult;
+import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
+import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.interfaces.RecyOnItemClickListener;
 import com.yigu.opentable.util.TableDataSource;
 
@@ -29,6 +32,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.View
     private LayoutInflater inflater;
 
     private RecyOnItemClickListener onItemClickListener;
+
 
     public void setOnItemClickListener(RecyOnItemClickListener onItemClickListener){
         this.onItemClickListener = onItemClickListener;

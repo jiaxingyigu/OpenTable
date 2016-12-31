@@ -26,7 +26,7 @@ public class TableDataSource {
     public static List<MapiResourceResult> getRootResource(){
         List<MapiResourceResult> list = new ArrayList<>();
         list.add(new MapiResourceResult(TYPE_UNIT,"单位食堂"));
-        list.add(new MapiResourceResult(TYPE_TENANT,"企业管理"));
+        list.add(new MapiResourceResult(TYPE_TENANT,"商户订餐"));
         list.add(new MapiResourceResult(TYPE_LIVE,"生活馆"));
         list.add(new MapiResourceResult(TYPE_WORKERS,"职工之家"));
         list.add(new MapiResourceResult(TYPE_COOK,"厨师上门"));

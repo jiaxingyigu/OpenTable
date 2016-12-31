@@ -11,6 +11,7 @@
         <include layout="@layout/lay_header" />
 
         <LinearLayout
+            android:id="@+id/search_ll"
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_height_40dp"
             android:layout_marginLeft="38dp"
@@ -101,13 +102,13 @@
                 android:textSize="@dimen/text_normal" />
 
             <TextView
-                android:id="@+id/cancel"
+                android:id="@+id/reset"
                 android:layout_width="91dp"
                 android:layout_height="37dp"
                 android:layout_marginLeft="64dp"
                 android:background="@drawable/selector_pressed_color_gray"
                 android:gravity="center"
-                android:text="下次再说"
+                android:text="重置"
                 android:textColor="@color/shop_black"
                 android:textSize="@dimen/text_normal" />
 

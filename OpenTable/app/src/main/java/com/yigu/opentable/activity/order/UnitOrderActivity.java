@@ -9,10 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yigu.commom.api.CampaignApi;
+import com.yigu.commom.api.OrderApi;
 import com.yigu.commom.result.MapiCampaignResult;
 import com.yigu.commom.result.MapiItemResult;
+import com.yigu.commom.result.MapiOrderResult;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.commom.util.DebugLog;
+import com.yigu.commom.util.FileUtil;
 import com.yigu.commom.util.RequestExceptionCallback;
 import com.yigu.commom.util.RequestPageCallback;
 import com.yigu.commom.widget.MainToast;
@@ -25,6 +28,12 @@ import com.yigu.opentable.util.ControllerUtil;
 import com.yigu.opentable.widget.BestSwipeRefreshLayout;
 import com.yigu.opentable.widget.DividerListItemDecoration;
 
+import org.xutils.DbManager;
+import org.xutils.ex.DbException;
+import org.xutils.x;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,12 +53,12 @@ public class UnitOrderActivity extends BaseActivity {
     BestSwipeRefreshLayout swipeRefreshLayout;
 
     UnitOrderAdapter mAdapter;
-    private List<MapiItemResult> mList;
+    private List<MapiOrderResult> mList;
 
     private Integer pageIndex=0;
     private Integer pageSize = 8;
     private Integer ISNEXT = 1;
-
+    private DbManager db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +66,12 @@ public class UnitOrderActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
         initListener();
+        load();
     }
 
     private void initView() {
+        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig().setDbName("open").setDbDir(new File(FileUtil.getFolderPath(this,FileUtil.TYPE_DB)));
+        db = x.getDb(daoConfig);
         back.setImageResource(R.mipmap.back);
         center.setText("食堂点餐");
 
@@ -85,7 +97,7 @@ public class UnitOrderActivity extends BaseActivity {
         mAdapter.setRecyOnItemClickListener(new RecyOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ControllerUtil.go2OrderList();
+                ControllerUtil.go2OrderList(mList.get(position));
             }
         });
 
@@ -106,16 +118,36 @@ public class UnitOrderActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        try {
+            db.delete(MapiOrderResult.class);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        finish();
+    }
+
     @OnClick(R.id.back)
     public void onClick() {
+        try {
+            db.delete(MapiOrderResult.class);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         finish();
     }
 
     private void load(){
 
-      /*  CampaignApi.getActivitylist(this, pageIndex + "", pageSize+"",new RequestPageCallback<List<MapiCampaignResult>>() {
+        OrderApi.getCanteenlist(this, userSP.getUserBean().getCOMPANY(), pageIndex + "", pageSize + "", new RequestPageCallback<List<MapiOrderResult>>() {
             @Override
-            public void success(Integer isNext,List<MapiCampaignResult> success) {
+            public void success(Integer isNext, List<MapiOrderResult> success) {
                 swipeRefreshLayout.setRefreshing(false);
                 ISNEXT = isNext;
                 if(success.isEmpty())
@@ -129,7 +161,8 @@ public class UnitOrderActivity extends BaseActivity {
                 swipeRefreshLayout.setRefreshing(false);
                 MainToast.showShortToast(message);
             }
-        });*/
+        });
+
     }
 
     private void loadNext() {
@@ -150,5 +183,9 @@ public class UnitOrderActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
+    }
 }

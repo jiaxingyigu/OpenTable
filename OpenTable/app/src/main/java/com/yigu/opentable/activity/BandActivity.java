@@ -44,6 +44,7 @@ public class BandActivity extends BaseActivity {
                 ControllerUtil.go2BandNext();
                 break;
             case R.id.cancel:
+                finish();
                 break;
         }
     }

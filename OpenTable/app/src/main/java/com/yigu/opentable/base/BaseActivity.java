@@ -23,7 +23,7 @@ import com.yigu.opentable.widget.LoadingDialog;
  */
 public class BaseActivity extends AppCompatActivity {
 
-    protected UserSP userSP;
+    public UserSP userSP;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

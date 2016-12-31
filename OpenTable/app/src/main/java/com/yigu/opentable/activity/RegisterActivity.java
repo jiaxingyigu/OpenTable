@@ -45,8 +45,6 @@ public class RegisterActivity extends BaseActivity {
     TextView requestCode;
     @Bind(R.id.confirm)
     TextView confirm;
-    @Bind(R.id.forget)
-    TextView forget;
     @Bind(R.id.reset)
     TextView reset;
 
@@ -73,7 +71,7 @@ public class RegisterActivity extends BaseActivity {
         center.setText("注册");
     }
 
-    @OnClick({R.id.back, R.id.requestCode, R.id.confirm, R.id.forget, R.id.reset})
+    @OnClick({R.id.back, R.id.requestCode, R.id.confirm,  R.id.reset})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:

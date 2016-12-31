@@ -158,19 +158,6 @@
                     android:gravity="center"
                     />
 
-                <TextView
-                    android:id="@+id/forget"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="忘记密码"
-                    android:gravity="center"
-                    android:textColor="@color/shop_black"
-                    android:textSize="@dimen/text_normal"
-                    android:drawableLeft="@mipmap/forget"
-                    android:layout_marginTop="6dp"
-                    android:drawablePadding="4dp"
-                    android:padding="4dp"
-                    />
 
             </LinearLayout>
 

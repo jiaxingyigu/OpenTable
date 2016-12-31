@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.activity.order.OrderCompleteActivity">
+
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lay_header"
+        android:layout_marginTop="170dp"
+        android:orientation="horizontal"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="@dimen/margin_2"
+        >
+
+        <TextView
+            android:layout_width="183dp"
+            android:layout_height="wrap_content"
+            android:text="恭喜您，下单成功，请在我的订单中进行其他操作"
+            android:textSize="@dimen/text_normal"
+            android:textColor="@color/shop_black"
+            android:lineSpacingMultiplier="2"
+            android:inputType="textMultiLine"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/complete"
+            android:layout_marginLeft="@dimen/margin_1"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        >
+        
+        <TextView
+            android:id="@+id/order"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_margin="6dp"
+            android:text="我的订单"
+            android:textSize="@dimen/text_normal"
+            android:textColor="@color/shop_white"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:background="@drawable/selector_pressed_color_red"
+            />
+
+        <TextView
+            android:id="@+id/back_tv"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_margin="6dp"
+            android:text="返回"
+            android:textSize="@dimen/text_normal"
+            android:textColor="@color/shop_white"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/selector_pressed_color_red"
+            />
+        
+    </LinearLayout>
+
+</RelativeLayout>

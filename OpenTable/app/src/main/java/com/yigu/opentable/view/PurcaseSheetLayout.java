@@ -65,10 +65,14 @@ public class PurcaseSheetLayout extends RelativeLayout {
             num--;
         }
         count.setText(num+"");
+        if(null!=numberListener)
+            numberListener.numberCut(cut,view);
     }
 
     private void add() {
         count.setText(++num+"");
+        if(null!=numberListener)
+            numberListener.numerAdd(add,view);
     }
 
     public int getNum() {
@@ -77,6 +81,7 @@ public class PurcaseSheetLayout extends RelativeLayout {
 
     public void setNum(int num) {
         this.num = num;
+        count.setText(num+"");
     }
 
     @OnClick({R.id.cut, R.id.count, R.id.add})
@@ -92,4 +97,16 @@ public class PurcaseSheetLayout extends RelativeLayout {
                 break;
         }
     }
+
+    private  NumberListener numberListener;
+
+    public interface NumberListener{
+        void numerAdd(View view,View rooView);
+        void numberCut(View view,View rooView);
+    }
+
+    public void setNunerListener(NumberListener numberListener){
+        this.numberListener = numberListener;
+    }
+
 }

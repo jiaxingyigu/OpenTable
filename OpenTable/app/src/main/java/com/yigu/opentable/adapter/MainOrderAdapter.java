@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.yigu.commom.result.IndexData;
 import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.opentable.R;
+import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.view.OrderItemLayout;
 import com.yigu.opentable.view.OrderSliderLayout;
 
@@ -30,9 +31,12 @@ public class MainOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private List<IndexData> mList;
 
+    Context context;
+
     public MainOrderAdapter(Context context, List<IndexData> list) {
         inflater = LayoutInflater.from(context);
         mList = list;
+        this.context = context;
     }
 
     @Override
@@ -55,9 +59,9 @@ public class MainOrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof SliderViewHolder) {
-            ((SliderViewHolder) holder).orderSliderLayout.load();
+            ((SliderViewHolder) holder).orderSliderLayout.load((List<MapiResourceResult>) mList.get(position).getData());
         } else if (holder instanceof OrderItemViewHolder) {
-            ((OrderItemViewHolder) holder).orderItemLayout.load();
+            ((OrderItemViewHolder) holder).orderItemLayout.load((BaseActivity)context);
         }
     }
 

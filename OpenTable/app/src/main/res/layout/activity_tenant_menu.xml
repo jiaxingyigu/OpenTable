@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.activity.tenant.TenantMenuActivity"
+    android:background="@color/divider_line"
+    >
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <LinearLayout
+        android:id="@+id/ll_info"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="@color/shop_white"
+        android:layout_below="@+id/lay_header"
+        >
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/image"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_gravity="center_vertical"
+            fresco:fadeDuration="2000"
+            fresco:placeholderImage="@mipmap/default_item"
+            fresco:placeholderImageScaleType="fitCenter"
+            fresco:progressBarAutoRotateInterval="2000"
+            fresco:progressBarImage="@mipmap/progress"
+            fresco:progressBarImageScaleType="centerInside"
+            fresco:retryImageScaleType="centerCrop"
+            />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/shop_black"
+            android:text="简介"
+            android:ellipsize="end"
+            android:maxLines="4"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            />
+
+    </LinearLayout>
+
+    <com.yigu.opentable.widget.BestSwipeRefreshLayout
+        android:id="@+id/swipRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_info"
+        android:layout_above="@+id/ll_bottom"
+
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+    </com.yigu.opentable.widget.BestSwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:background="@color/shop_white"
+        android:paddingLeft="7dp"
+        android:paddingRight="7dp"
+        android:gravity="center_vertical"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rl_purcase"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="43dp">
+
+            <TextView
+                android:id="@+id/purcase"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="购物车"
+                android:textColor="@color/shop_white"
+                android:textSize="@dimen/text_normal"
+                android:gravity="center"
+                android:background="@drawable/selector_pressed_color_green"
+                />
+
+            <TextView
+                android:id="@+id/account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:background="@drawable/shape_oval_color_orange"
+                android:textColor="@color/shop_white"
+                android:textSize="@dimen/text_small_x"
+                android:gravity="center"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:visibility="invisible"
+                />
+
+        </RelativeLayout>
+
+
+
+        <TextView
+            android:id="@+id/deel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="43dp"
+            android:text="结  算"
+            android:textColor="@color/shop_white"
+            android:textSize="@dimen/text_normal"
+            android:layout_marginLeft="@dimen/margin_2"
+            android:gravity="center"
+            android:background="@drawable/selector_pressed_color_red"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
