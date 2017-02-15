@@ -10,6 +10,7 @@ import com.yigu.opentable.activity.AboutUSActivity;
 import com.yigu.opentable.activity.BandActivity;
 import com.yigu.opentable.activity.BandNextActivity;
 import com.yigu.opentable.activity.CampaignEnterActivity;
+import com.yigu.opentable.activity.ExpendInfoActivity;
 import com.yigu.opentable.activity.ForgetPsdActivity;
 import com.yigu.opentable.activity.HistoryOrderActivity;
 import com.yigu.opentable.activity.LoginActivity;
@@ -19,6 +20,8 @@ import com.yigu.opentable.activity.PersonActivity;
 import com.yigu.opentable.activity.RegisterActivity;
 import com.yigu.opentable.activity.ShopEnterActivity;
 import com.yigu.opentable.activity.ShowBigPicActivity;
+import com.yigu.opentable.activity.TroubleActivity;
+import com.yigu.opentable.activity.WithdrawActivity;
 import com.yigu.opentable.activity.campaign.CampaignActivity;
 import com.yigu.opentable.activity.campaign.CampaignMsgActivity;
 import com.yigu.opentable.activity.campaign.CompanyAddActivity;
@@ -37,6 +40,7 @@ import com.yigu.opentable.activity.order.UnitOrderActivity;
 import com.yigu.opentable.activity.pay.LivePayActivity;
 import com.yigu.opentable.activity.pay.PaymentActivity;
 import com.yigu.opentable.activity.pay.TenantPayActivity;
+import com.yigu.opentable.activity.platform.PlatformActivity;
 import com.yigu.opentable.activity.purcase.PurcaseActivity;
 import com.yigu.opentable.activity.set.EnrollActivity;
 import com.yigu.opentable.activity.tenant.TenantListActivity;
@@ -127,11 +131,16 @@ public class ControllerUtil {
     /**
      * h5页面
      */
-    public static void go2WebView(String url, String title, boolean isShare) {
+    public static void go2WebView(String url, String title,String shareTitle,String shareContext,String shareLOGO, boolean isShare) {
         Intent intent = new Intent(AppContext.getInstance(), WebviewControlActivity.class);
         intent.putExtra("url", url);
         intent.putExtra("title", title);
         intent.putExtra("isShare", isShare);
+        intent.putExtra("shareTitle", shareTitle);
+
+        intent.putExtra("shareContext", shareContext);
+        intent.putExtra("shareLOGO", shareLOGO);
+
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         AppContext.getInstance().startActivity(intent);
     }
@@ -219,10 +228,12 @@ public class ControllerUtil {
     /**
      * 活动入口
      */
-    public static void go2CampaignMsg(String actid,String info) {
+    public static void go2CampaignMsg(String actid,String info,String title,String pic) {
         Intent intent = new Intent(AppContext.getInstance(), CampaignMsgActivity.class);
         intent.putExtra("actid",actid);
         intent.putExtra("info",info);
+        intent.putExtra("title",title);
+        intent.putExtra("pic",pic);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         AppContext.getInstance().startActivity(intent);
     }
@@ -398,6 +409,42 @@ public class ControllerUtil {
      */
     public static void go2CookList() {
         Intent intent = new Intent(AppContext.getInstance(), CookListActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 提现
+     */
+    public static void go2Withdraw() {
+        Intent intent = new Intent(AppContext.getInstance(), WithdrawActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 平台信息
+     */
+    public static void go2Platform() {
+        Intent intent = new Intent(AppContext.getInstance(), PlatformActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 问题反馈
+     */
+    public static void go2Trouble() {
+        Intent intent = new Intent(AppContext.getInstance(), TroubleActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 推广政策
+     */
+    public static void go2ExpendInfo() {
+        Intent intent = new Intent(AppContext.getInstance(), ExpendInfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         AppContext.getInstance().startActivity(intent);
     }

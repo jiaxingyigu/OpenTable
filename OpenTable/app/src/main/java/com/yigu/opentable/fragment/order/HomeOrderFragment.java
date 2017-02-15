@@ -92,7 +92,7 @@ public class HomeOrderFragment extends BaseFrag {
         pvTime = new TimePickerView(getActivity(), TimePickerView.Type.YEAR_MONTH_DAY);
         //控制时间范围
         Calendar calendar = Calendar.getInstance();
-        pvTime.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR) + 10);//要在setTime 之前才有效果哦
+//        pvTime.setRange(calendar.get(Calendar.YEAR), calendar.get(Calendar.YEAR) + 10);//要在setTime 之前才有效果哦
         pvTime.setCyclic(false);
         pvTime.setCancelable(true);
         //时间选择后回调

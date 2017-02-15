@@ -3,6 +3,7 @@ package com.yigu.opentable.view;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,7 +78,10 @@ public class OrderSliderLayout extends RelativeLayout{
                 view.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ControllerUtil.go2WebView(list.get((Integer) v.getTag()).getUrl(),"",false);
+                        String url = list.get((Integer) v.getTag()).getUrl();
+                        if(!TextUtils.isEmpty(url))
+                            ControllerUtil.go2WebView(url,"网页详情","","","",false);
+
                     }
                 });
                 sliderViewList.add(view);

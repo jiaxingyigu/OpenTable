@@ -25,6 +25,8 @@ import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
 import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.util.ControllerUtil;
+import com.yigu.opentable.util.ShareModule;
+import com.yigu.opentable.widget.ShareDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,11 +44,15 @@ public class CampaignMsgActivity extends BaseActivity {
     TextView name;
     @Bind(R.id.info_tv)
     TextView infoTv;
+    @Bind(R.id.iv_right_two)
+    ImageView ivRightTwo;
 
     String actid = "";
     String info = "";
+    String title = "";
+    String pic = "";
     MapiCampaignResult campaignResult;
-
+    ShareDialog shareDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +62,12 @@ public class CampaignMsgActivity extends BaseActivity {
         if (null != getIntent()) {
             actid = getIntent().getStringExtra("actid");
             info = getIntent().getStringExtra("info");
+            title = getIntent().getStringExtra("title");
+            pic = getIntent().getStringExtra("pic");
         }
         if (!TextUtils.isEmpty(actid)) {
             initView();
+            initListener();
             load();
         }
     }
@@ -67,6 +76,40 @@ public class CampaignMsgActivity extends BaseActivity {
         center.setText("活动入口");
         back.setImageResource(R.mipmap.back);
         infoTv.setText(info);
+
+        ivRightTwo.setImageResource(R.mipmap.share_logo);
+        ivRightTwo.setVisibility(View.VISIBLE);
+
+        if (shareDialog == null)
+            shareDialog = new ShareDialog(this, R.style.image_dialog_theme);
+
+    }
+
+    private void initListener(){
+        shareDialog.setDialogItemClickListner(new ShareDialog.DialogItemClickListner() {
+            @Override
+            public void onItemClick(View view, int position) {
+                String SHARE_ACTIVITY_DETAIL =BasicApi.BASIC_URL+ BasicApi.SHARE_ACTIVITY_DETAIL+actid;
+                switch (position) {
+                    case 0://微信好友
+                        ShareModule shareModule1 = new ShareModule(CampaignMsgActivity.this, title, info, BasicApi.BASIC_IMAGE+pic, SHARE_ACTIVITY_DETAIL);
+                        shareModule1.startShare(1);
+                        break;
+                    case 1:
+                        ShareModule shareModule2 = new ShareModule(CampaignMsgActivity.this, title, info, BasicApi.BASIC_IMAGE+pic, SHARE_ACTIVITY_DETAIL);
+                        shareModule2.startShare(2);
+                        break;
+                    case 2:
+                        ShareModule shareModule3 = new ShareModule(CampaignMsgActivity.this, title, info,BasicApi.BASIC_IMAGE+pic, SHARE_ACTIVITY_DETAIL);
+                        shareModule3.startShare(3);
+                        break;
+                    case 3:
+                        ShareModule shareModule4 = new ShareModule(CampaignMsgActivity.this, title, info, BasicApi.BASIC_IMAGE+pic, SHARE_ACTIVITY_DETAIL);
+                        shareModule4.startShare(4);
+                        break;
+                }
+            }
+        });
     }
 
     private void load() {
@@ -86,7 +129,7 @@ public class CampaignMsgActivity extends BaseActivity {
                     //创建将要下载的图片的URI
                     Uri imageUri = Uri.parse(BasicApi.BASIC_IMAGE + campaignResult.getBpic());
                     ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
-                            .setResizeOptions(new ResizeOptions(DPUtil.dip2px(360), DPUtil.dip2px(500)))
+                            .setResizeOptions(new ResizeOptions(DPUtil.dip2px(384), DPUtil.dip2px(500)))
                             .build();
                     DraweeController controller = Fresco.newDraweeControllerBuilder()
                             .setImageRequest(request)
@@ -105,7 +148,7 @@ public class CampaignMsgActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.back, R.id.name})
+    @OnClick({R.id.back, R.id.name,R.id.iv_right_two})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -121,6 +164,9 @@ public class CampaignMsgActivity extends BaseActivity {
 
                 }
 
+                break;
+            case R.id.iv_right_two:
+                shareDialog.showDialog();
                 break;
         }
     }

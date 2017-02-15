@@ -31,8 +31,10 @@ import com.yigu.opentable.activity.purcase.TenantPurcaseActivity;
 import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.base.RequestCode;
 import com.yigu.opentable.util.ControllerUtil;
+import com.yigu.opentable.util.ShareModule;
 import com.yigu.opentable.view.PurcaseSheetLayout;
 import com.yigu.opentable.widget.BuyAnimUtil;
+import com.yigu.opentable.widget.ShareDialog;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
@@ -66,6 +68,10 @@ public class OrderDetailActivity extends BaseActivity {
     RelativeLayout rlPurcase;
     @Bind(R.id.deel)
     TextView deel;
+    @Bind(R.id.detail)
+    TextView detail;
+    @Bind(R.id.iv_right_two)
+    ImageView ivRightTwo;
 
     String SHOP = "";
     String id = "";
@@ -73,12 +79,15 @@ public class OrderDetailActivity extends BaseActivity {
     int position = 0;
     String all = "0";
 
+
     private DbManager db;
     MapiOrderResult orderResult;
 
     private ImageView buyImg;// 这是在界面上跑的小图片
 
     private String type = "";
+
+    ShareDialog shareDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +109,7 @@ public class OrderDetailActivity extends BaseActivity {
         }
         if (!TextUtils.isEmpty(id)) {
             try {
-                orderResult = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid","=",SHOP).findFirst();
+                orderResult = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid", "=", SHOP).findFirst();
                 if (null != orderResult) {
                     initView();
                     initListener();
@@ -116,9 +125,13 @@ public class OrderDetailActivity extends BaseActivity {
         back.setImageResource(R.mipmap.back);
         center.setText(title);
 
+        ivRightTwo.setImageResource(R.mipmap.share_logo);
+        ivRightTwo.setVisibility(View.VISIBLE);
+
         name.setText(orderResult.getFOOD());
         price.setText("价格：¥" + orderResult.getPRICE());
         account.setText("剩余数量：" + orderResult.getAMOUNT() + "份");
+        detail.setText(orderResult.getRemark());
         String numStr = TextUtils.isEmpty(orderResult.getNum()) ? "0" : orderResult.getNum();
         int numInt = Integer.parseInt(numStr);
         purcaseSheetLayout.setNum(numInt);
@@ -143,6 +156,9 @@ public class OrderDetailActivity extends BaseActivity {
                 .build();
         image.setController(controller);
 
+        if (shareDialog == null)
+            shareDialog = new ShareDialog(this, R.style.image_dialog_theme);
+
     }
 
     private void initListener() {
@@ -164,6 +180,32 @@ public class OrderDetailActivity extends BaseActivity {
                 cuNum();
             }
         });
+
+        shareDialog.setDialogItemClickListner(new ShareDialog.DialogItemClickListner() {
+            @Override
+            public void onItemClick(View view, int position) {
+                String SHARE_ORDER_DETAIL =BasicApi.BASIC_URL+ BasicApi.SHARE_ORDER_DETAIL+id;
+                switch (position) {
+                    case 0://微信好友
+                        ShareModule shareModule1 = new ShareModule(OrderDetailActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + title+"-"+orderResult.getFOOD(), orderResult.getRemark(), BasicApi.BASIC_IMAGE + orderResult.getPATH(), SHARE_ORDER_DETAIL);
+                        shareModule1.startShare(1);
+                        break;
+                    case 1:
+                        ShareModule shareModule2 = new ShareModule(OrderDetailActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + title+"-"+orderResult.getFOOD(), orderResult.getRemark(), BasicApi.BASIC_IMAGE + orderResult.getPATH(),SHARE_ORDER_DETAIL);
+                        shareModule2.startShare(2);
+                        break;
+                    case 2:
+                        ShareModule shareModule3 = new ShareModule(OrderDetailActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + title+"-"+orderResult.getFOOD(), orderResult.getRemark(), BasicApi.BASIC_IMAGE + orderResult.getPATH(), SHARE_ORDER_DETAIL);
+                        shareModule3.startShare(3);
+                        break;
+                    case 3:
+                        ShareModule shareModule4 = new ShareModule(OrderDetailActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + title+"-"+orderResult.getFOOD(), orderResult.getRemark(), BasicApi.BASIC_IMAGE + orderResult.getPATH(), SHARE_ORDER_DETAIL);
+                        shareModule4.startShare(4);
+                        break;
+                }
+            }
+        });
+
     }
 
     private void addNum() {
@@ -174,7 +216,7 @@ public class OrderDetailActivity extends BaseActivity {
             allNum.setVisibility(View.VISIBLE);
 
         try {
-            MapiOrderResult history = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid","=",SHOP).findFirst();
+            MapiOrderResult history = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid", "=", SHOP).findFirst();
             if (null != history) {
                 DebugLog.i("history=>" + history.getNum());
                 String numStr = TextUtils.isEmpty(history.getNum()) ? "0" : history.getNum();
@@ -192,7 +234,7 @@ public class OrderDetailActivity extends BaseActivity {
 
 
         try {
-            MapiOrderResult history = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid","=",SHOP).findFirst();
+            MapiOrderResult history = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid", "=", SHOP).findFirst();
             if (null != history) {
                 DebugLog.i("history=>" + history.getNum());
                 String numStr = TextUtils.isEmpty(history.getNum()) ? "0" : history.getNum();
@@ -217,7 +259,7 @@ public class OrderDetailActivity extends BaseActivity {
                 db.update(history);
             }
 
-            MapiOrderResult history2 = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid","=",SHOP).findFirst();
+            MapiOrderResult history2 = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid", "=", SHOP).findFirst();
             if (null != history) {
                 DebugLog.i("history2=>" + history2.getNum());
             }
@@ -237,7 +279,7 @@ public class OrderDetailActivity extends BaseActivity {
         finish();
     }
 
-    @OnClick({R.id.back, R.id.purcase,R.id.deel})
+    @OnClick({R.id.back, R.id.purcase, R.id.deel,R.id.iv_right_two})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -252,50 +294,53 @@ public class OrderDetailActivity extends BaseActivity {
                 if (type.equals("pay"))
                     ControllerUtil.go2Payment(SHOP);
                 else if (type.equals("tenant"))
-                    ControllerUtil.go2TenantPay(SHOP,true);
+                    ControllerUtil.go2TenantPay(SHOP, true);
                 else if (type.equals("live"))
-                    ControllerUtil.go2LivePay(SHOP,true);
+                    ControllerUtil.go2LivePay(SHOP, true);
                 break;
             case R.id.purcase:
                 if (type.equals("pay")) {
                     Intent payIntent = new Intent(AppContext.getInstance(), PurcaseActivity.class);
-                    payIntent.putExtra("SHOP",SHOP);
+                    payIntent.putExtra("SHOP", SHOP);
                     startActivityForResult(payIntent, RequestCode.purcase_list);
-                }else if (type.equals("tenant")) {
+                } else if (type.equals("tenant")) {
                     Intent tenantIntent = new Intent(AppContext.getInstance(), TenantPurcaseActivity.class);
-                    tenantIntent.putExtra("SHOP",SHOP);
-                    tenantIntent.putExtra("hasAddr",true);
-                    startActivityForResult(tenantIntent,RequestCode.purcase_list);
-                }else if (type.equals("live")) {
+                    tenantIntent.putExtra("SHOP", SHOP);
+                    tenantIntent.putExtra("hasAddr", true);
+                    startActivityForResult(tenantIntent, RequestCode.purcase_list);
+                } else if (type.equals("live")) {
                     Intent liveIntent = new Intent(AppContext.getInstance(), LivePurcaseActivity.class);
-                    liveIntent.putExtra("SHOP",SHOP);
-                    liveIntent.putExtra("hasBZ",true);
-                    startActivityForResult(liveIntent,RequestCode.purcase_list);
+                    liveIntent.putExtra("SHOP", SHOP);
+                    liveIntent.putExtra("hasBZ", true);
+                    startActivityForResult(liveIntent, RequestCode.purcase_list);
                 }
+                break;
+            case R.id.iv_right_two:
+                shareDialog.showDialog();
                 break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode==RESULT_OK){
-            switch (requestCode){
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
                 case RequestCode.purcase_list:
                     try {
-                        orderResult = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid","=",SHOP).findFirst();
-                        Cursor cursor = db.execQuery("select sum(num) as count from MapiOrderResult where num <> '0' and sid = '"+SHOP+"'");
+                        orderResult = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid", "=", SHOP).findFirst();
+                        Cursor cursor = db.execQuery("select sum(num) as count from MapiOrderResult where num <> '0' and sid = '" + SHOP + "'");
                         long count = 0;
-                        if (cursor.moveToFirst()){
+                        if (cursor.moveToFirst()) {
                             int nameColumnIndex = cursor.getColumnIndex("count");
-                            DebugLog.i("nameColumnIndex=>"+nameColumnIndex);
+                            DebugLog.i("nameColumnIndex=>" + nameColumnIndex);
                             count = cursor.getLong(nameColumnIndex);
-                            DebugLog.i("count===>"+count);
+                            DebugLog.i("count===>" + count);
                         }
 
                         if (count > 0) {
                             allNum.setText(count + "");
                             allNum.setVisibility(View.VISIBLE);
-                        }else{
+                        } else {
                             allNum.setText("0");
                             allNum.setVisibility(View.GONE);
                         }

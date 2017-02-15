@@ -12,6 +12,24 @@ public class MapiUserResult extends MapiBaseResult {
     String PHONE;
     String PASSWORD;
     String tip;
+    String COMPANYNAME;
+    private String logo;
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public String getCOMPANYNAME() {
+        return COMPANYNAME;
+    }
+
+    public void setCOMPANYNAME(String COMPANYNAME) {
+        this.COMPANYNAME = COMPANYNAME;
+    }
 
     public String getTip() {
         return tip;

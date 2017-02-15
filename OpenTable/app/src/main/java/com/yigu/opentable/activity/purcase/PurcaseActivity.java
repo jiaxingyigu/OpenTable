@@ -188,9 +188,11 @@ public class PurcaseActivity extends BaseActivity {
         payWayLayout.setPayWayListener(new PayWayLayout.PayWayListener() {
             @Override
             public void preorder() {
+                showLoading();
                 OrderApi.preorder(PurcaseActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales,"", new RequestCallback() {
                     @Override
                     public void success(Object success) {
+                        hideLoading();
                         try {
                             db.delete(MapiOrderResult.class);
                             MainToast.showShortToast("预购成功");
@@ -202,6 +204,7 @@ public class PurcaseActivity extends BaseActivity {
                 }, new RequestExceptionCallback() {
                     @Override
                     public void error(String code, String message) {
+                        hideLoading();
                         MainToast.showShortToast(message);
                     }
                 });
@@ -209,9 +212,11 @@ public class PurcaseActivity extends BaseActivity {
 
             @Override
             public void balancepay() {
+                showLoading();
                 OrderApi.balancepay(PurcaseActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales,"", new RequestCallback() {
                     @Override
                     public void success(Object success) {
+                        hideLoading();
                         try {
                             db.delete(MapiOrderResult.class);
                             MainToast.showShortToast("支付成功");
@@ -223,6 +228,7 @@ public class PurcaseActivity extends BaseActivity {
                 }, new RequestExceptionCallback() {
                     @Override
                     public void error(String code, String message) {
+                        hideLoading();
                         MainToast.showShortToast(message);
                     }
                 });
@@ -307,48 +313,51 @@ public class PurcaseActivity extends BaseActivity {
         List<IndexData> list = new ArrayList<>();
         try {
             List<MapiOrderResult> orderList = db.selector(MapiOrderResult.class).where("num","<>","0").and("sid","=",SHOP).orderBy("stardate", true).orderBy("orderby",false).findAll();
-            orderList.toString();
 
-            JSONArray jsonArray = new JSONArray();
+            if(null!=orderList){
+                JSONArray jsonArray = new JSONArray();
 //            jsonArray.addAll(orderList);
-            JSONObject tmpObj = null;
-            for(int i = 0; i < orderList.size(); i++)
-            {
-                tmpObj = new JSONObject();
-                tmpObj.put("PRICE" , orderList.get(i).getPRICE());
-                tmpObj.put("FOOD", orderList.get(i).getFOOD());
-                tmpObj.put("AMOUNT", orderList.get(i).getNum());
-                tmpObj.put("dinnertime", orderList.get(i).getDinnertime());
-                tmpObj.put("stardate", orderList.get(i).getStardate());
-                jsonArray.add(tmpObj);
-                tmpObj = null;
-            }
-
-            sales = jsonArray.toJSONString();
-            if(orderList!=null&&orderList.size()>0){
-                list.add(new IndexData(count++, "head", orderList.get(0)));
-                list.add(new IndexData(count++, "item", orderList.get(0)));
-                priceStr = TextUtils.isEmpty(orderList.get(0).getPRICE())?"0":orderList.get(0).getPRICE();
-                numStr = TextUtils.isEmpty(orderList.get(0).getNum())?"0":orderList.get(0).getNum();
-                allPrice += (Double.parseDouble(priceStr)*Integer.parseInt(numStr));
-                for(int i=1;i<orderList.size();i++){
-                    MapiOrderResult orderResult = orderList.get(i);
-                    if(orderResult.getStardate().equals(orderList.get(i-1).getStardate())&&orderResult.getDinnertime().equals(orderList.get(i-1).getDinnertime())){
-                        list.add(new IndexData(count++, "item", orderList.get(i)));
-                    }else{
-                        list.add(new IndexData(count++, "divider", new Object()));
-                        list.add(new IndexData(count++, "head", orderList.get(i)));
-                        list.add(new IndexData(count++, "item", orderList.get(i)));
-                    }
-
-                    priceStr = TextUtils.isEmpty(orderResult.getPRICE())?"0":orderResult.getPRICE();
-                    numStr = TextUtils.isEmpty(orderResult.getNum())?"0":orderResult.getNum();
-                    allPrice += (Double.parseDouble(priceStr)*Integer.parseInt(numStr));
-
+                JSONObject tmpObj = null;
+                for(int i = 0; i < orderList.size(); i++)
+                {
+                    tmpObj = new JSONObject();
+                    tmpObj.put("PRICE" , orderList.get(i).getPRICE());
+                    tmpObj.put("FOOD", orderList.get(i).getFOOD());
+                    tmpObj.put("AMOUNT", orderList.get(i).getNum());
+                    tmpObj.put("dinnertime", orderList.get(i).getDinnertime());
+                    tmpObj.put("stardate", orderList.get(i).getStardate());
+                    jsonArray.add(tmpObj);
+                    tmpObj = null;
                 }
+
+                sales = jsonArray.toJSONString();
+                if(orderList!=null&&orderList.size()>0){
+                    list.add(new IndexData(count++, "head", orderList.get(0)));
+                    list.add(new IndexData(count++, "item", orderList.get(0)));
+                    priceStr = TextUtils.isEmpty(orderList.get(0).getPRICE())?"0":orderList.get(0).getPRICE();
+                    numStr = TextUtils.isEmpty(orderList.get(0).getNum())?"0":orderList.get(0).getNum();
+                    allPrice += (Double.parseDouble(priceStr)*Integer.parseInt(numStr));
+                    for(int i=1;i<orderList.size();i++){
+                        MapiOrderResult orderResult = orderList.get(i);
+                        if(orderResult.getStardate().equals(orderList.get(i-1).getStardate())&&orderResult.getDinnertime().equals(orderList.get(i-1).getDinnertime())){
+                            list.add(new IndexData(count++, "item", orderList.get(i)));
+                        }else{
+                            list.add(new IndexData(count++, "divider", new Object()));
+                            list.add(new IndexData(count++, "head", orderList.get(i)));
+                            list.add(new IndexData(count++, "item", orderList.get(i)));
+                        }
+
+                        priceStr = TextUtils.isEmpty(orderResult.getPRICE())?"0":orderResult.getPRICE();
+                        numStr = TextUtils.isEmpty(orderResult.getNum())?"0":orderResult.getNum();
+                        allPrice += (Double.parseDouble(priceStr)*Integer.parseInt(numStr));
+
+                    }
+                }
+
+                allPriceTv.setText("共"+allPrice+"元");
+
             }
 
-            allPriceTv.setText("共"+allPrice+"元");
 
         } catch (DbException e) {
             e.printStackTrace();

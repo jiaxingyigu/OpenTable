@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.activity.ExpendInfoActivity">
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lay_header"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="    峰之约营销推广返利政策\n
+           为更好的做好推广与服务工作，峰之约平台推出以下2017年营销推广与服务政策:\n
+    1、采用推荐人政策，即谁推广谁就是推广企业的客户服务人员；\n
+    2、推荐人在帮助被推荐企业申请入驻时，应在推荐人联系方式中填写推荐人手机，方能确 定为该企业的推荐人，平台只认手机不听其他解释。\n
+    3、推荐人需经常学习平台操作方式，服务好被推荐企业，为更好地服务企业个人推荐企业数不应超过50家或总人数不超过30000人，如超过则需组建服务团队（服务团队规模要求需与平台联系）。\n
+    4、推荐人享受的待遇=平台扣除被推荐企业信息服务费总额×20%\n
+         例如：被推荐企业为2000人的企业每月在线支付不含未支付金额为180万元，平台扣除该企业技术服务费应为9万元，该企业又在平台上做广告支出5万元，则推荐人当月应得服务报酬为：\n
+        （90000.00元+50000元）/月×20%=28000.00元/月\n
+    5、月收入超过5万元的推荐人应定期参加平台组织的各种营销培训提高个人服务能力。\n
+    6、本推广政策最终解释权由嘉兴秀峰网络科技有限公司所有。
+"
+                android:layout_marginTop="20dp"
+                android:lineSpacingMultiplier="1.2"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+
+</RelativeLayout>

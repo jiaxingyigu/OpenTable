@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +19,8 @@ import com.yigu.commom.api.CommonApi;
 import com.yigu.commom.api.UserApi;
 import com.yigu.commom.application.AppContext;
 import com.yigu.commom.result.MapiResourceResult;
+import com.yigu.commom.result.MapiUserResult;
+import com.yigu.commom.util.DebugLog;
 import com.yigu.commom.util.FileUtil;
 import com.yigu.commom.util.RequestCallback;
 import com.yigu.commom.util.RequestExceptionCallback;
@@ -102,7 +105,8 @@ public class MainActivity extends BaseActivity {
                 ControllerUtil.go2Campaign();
                 break;
             case R.id.ll_info:
-                MainToast.showShortToast("敬请期待");
+                ControllerUtil.go2Platform();
+//                MainToast.showShortToast("敬请期待");
                 break;
             case R.id.shop_info://商家入驻
                 ControllerUtil.go2ShopEnter();
@@ -130,7 +134,12 @@ public class MainActivity extends BaseActivity {
                     if(null!=images&&!images.isEmpty())
                         homeSliderLayout.load(images);
 
-
+                    String CNAME = jsonObject.getJSONObject("data").getString("CNAME");
+                    String PATH = jsonObject.getJSONObject("data").getString("PATH");
+                    MapiUserResult userResult = userSP.getUserBean();
+                    userResult.setCOMPANY(CNAME);
+                    userResult.setLogo(PATH);
+                    userSP.saveUserBean(userResult);
 
                 }
             }
@@ -216,13 +225,33 @@ public class MainActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             if (ReceiverAction.MESSAGE_RECEIVED_ACTION.equals(intent.getAction())) {
                 String messge = intent.getStringExtra(JpushUtil.KEY_MESSAGE);
-                String extras = intent.getStringExtra(JpushUtil.KEY_EXTRAS);
+                /*String extras = intent.getStringExtra(JpushUtil.KEY_EXTRAS);
                 StringBuilder showMsg = new StringBuilder();
                 showMsg.append(JpushUtil.KEY_MESSAGE + " : " + messge + "\n");
                 if (!JpushUtil.getInstance().isEmpty(extras)) {
                     showMsg.append(JpushUtil.KEY_EXTRAS + " : " + extras + "\n");
+                }*/
+                DebugLog.i(messge);
+                if(!TextUtils.isEmpty(messge)){
+                    JSONObject jsonObject = JSONObject.parseObject(messge);
+
+                    String result = jsonObject.getString("result");
+                    String data = jsonObject.getString("data");
+
+                    MainToast.showShortToast(data);
+
+                    if("00".equals(result)){
+                        MapiUserResult userResult = userSP.getUserBean();
+                        userResult.setCOMPANY("");
+                        userResult.setLogo("");
+                        userSP.saveUserBean(userResult);
+                        Intent i = new Intent(MainActivity.this, MainActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
+                    }
+
                 }
-                MainToast.showLongToast(showMsg.toString());
+
             }
         }
     }

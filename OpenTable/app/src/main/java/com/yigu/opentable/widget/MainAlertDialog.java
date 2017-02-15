@@ -80,6 +80,10 @@ public class MainAlertDialog extends Dialog {
         return this;
     }
 
+    public String getTitle(){
+        return mTitle.getText().toString();
+    }
+
     public MainAlertDialog setLeftClickListener(View.OnClickListener clickListener) {
         mLeftButton.setOnClickListener(clickListener);
         return this;

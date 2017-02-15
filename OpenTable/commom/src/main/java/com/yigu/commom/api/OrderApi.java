@@ -138,6 +138,7 @@ public class OrderApi extends BasicApi{
         params.put("SHOP",SHOP);
         params.put("money",money);
         params.put("sales",sales);
+        DebugLog.i(params.toString());
         MapiUtil.getInstance().call(activity,preorder,params,new MapiUtil.MapiSuccessResponse(){
             @Override
             public void success(JSONObject json) {
@@ -438,6 +439,31 @@ public class OrderApi extends BasicApi{
         });
     }
 
+    /**
+     * 微信支付
+     * @param activity
+     * @param appuserid
+     * @param total_fee
+     * @param callback
+     * @param exceptionCallback
+     */
+    public static void weixinPay(Activity activity,String appuserid,String total_fee, final RequestCallback callback, final RequestExceptionCallback exceptionCallback){
+        Map<String,String> params = new HashMap<>();
+        params.put("appuserid",appuserid);
+        params.put("total_fee",total_fee);
+        MapiUtil.getInstance().call(activity,weixinPay,params,new MapiUtil.MapiSuccessResponse(){
+            @Override
+            public void success(JSONObject json) {
+                DebugLog.i("json="+json);
+                callback.success(json);
+            }
+        },new MapiUtil.MapiFailResponse(){
+            @Override
+            public void fail(String code, String failMessage) {
+                exceptionCallback.error(code,failMessage);
+            }
+        });
+    }
 
     /**
      * 上传订单

@@ -13,6 +13,8 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yigu.commom.util.FileUtil;
 
 import org.xutils.BuildConfig;
@@ -25,6 +27,10 @@ import org.xutils.x;
 public class AppContext extends Application {
 
     private static AppContext appContext;
+
+    public IWXAPI api;
+    public static final String APP_ID = "wx0c720d2693852f3b";
+
     public static AppContext getInstance(){
         return appContext;
     }
@@ -86,5 +92,17 @@ public class AppContext extends Application {
         x.Ext.setDebug(BuildConfig.DEBUG); // 是否输出debug日志
 //        JPushInterface.setDebugMode(true); 	// 设置开启日志,发布时请关闭日志
 //        JPushInterface.init(this);     		// 初始化 JPush
+
+        regToWx();
+
     }
+
+    /**
+     * 微信初始化，注册
+     */
+    private void regToWx() {
+        api = WXAPIFactory.createWXAPI(this,"wxd930ea5d5a258f4f", false);//通过wxapiFactory工厂，获取wxapi的实例
+        api.registerApp(APP_ID);//将应用的id注册到微信
+    }
+
 }

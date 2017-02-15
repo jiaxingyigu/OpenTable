@@ -43,7 +43,9 @@ import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.base.RequestCode;
 import com.yigu.opentable.interfaces.RecyOnItemClickListener;
 import com.yigu.opentable.util.ControllerUtil;
+import com.yigu.opentable.util.ShareModule;
 import com.yigu.opentable.widget.BestSwipeRefreshLayout;
+import com.yigu.opentable.widget.ShareDialog;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
@@ -80,6 +82,8 @@ public class LiveMenuActivity extends BaseActivity {
     TextView buyTime;
     @Bind(R.id.takeTime)
     TextView takeTime;
+    @Bind(R.id.iv_right_two)
+    ImageView ivRightTwo;
 
     private List<MapiOrderResult> mList;
     OrderListAadpter mAdapter;
@@ -90,6 +94,9 @@ public class LiveMenuActivity extends BaseActivity {
     MapiOrderResult mapiOrderResult;
     private DbManager db;
     String type = "";
+
+    ShareDialog shareDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +116,8 @@ public class LiveMenuActivity extends BaseActivity {
 
     private void initView() {
         back.setImageResource(R.mipmap.back);
+        ivRightTwo.setImageResource(R.mipmap.share_logo);
+        ivRightTwo.setVisibility(View.VISIBLE);
         center.setText(mapiOrderResult.getNAME());
         buyTime.setText("选购时间:"+mapiOrderResult.getStar1());
         takeTime.setText("取货时间:"+mapiOrderResult.getStar2());
@@ -139,6 +148,9 @@ public class LiveMenuActivity extends BaseActivity {
         recyclerView.setAdapter(mAdapter);
 
         mAdapter.setShopCart(rl_purcase);
+
+        if (shareDialog == null)
+            shareDialog = new ShareDialog(this, R.style.image_dialog_theme);
 
     }
 
@@ -246,6 +258,43 @@ public class LiveMenuActivity extends BaseActivity {
 
             }
         });
+
+        shareDialog.setDialogItemClickListner(new ShareDialog.DialogItemClickListner() {
+            @Override
+            public void onItemClick(View view, int position) {
+                String SHARE_LIVE_LIST =BasicApi.BASIC_URL+ BasicApi.SHARE_LIVE_LIST+mapiOrderResult.getEid();
+// BasicApi.BASIC_IMAGE + mapiOrderResult.getPIC()
+                String img_url = "";
+                if(userSP.checkLogin()){
+                    if(TextUtils.isEmpty(userSP.getUserBean().getLogo())){
+                        img_url = "";
+                    }else{
+                        img_url = BasicApi.BASIC_IMAGE + userSP.getUserBean().getLogo();
+                    }
+
+                }
+
+                switch (position) {
+                    case 0://微信好友
+                        ShareModule shareModule1 = new ShareModule(LiveMenuActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + mapiOrderResult.getNAME()+"菜单", mapiOrderResult.getINTRODUCTION(),img_url, SHARE_LIVE_LIST);
+                        shareModule1.startShare(1);
+                        break;
+                    case 1:
+                        ShareModule shareModule2 = new ShareModule(LiveMenuActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + mapiOrderResult.getNAME()+"菜单", mapiOrderResult.getINTRODUCTION(), img_url, SHARE_LIVE_LIST);
+                        shareModule2.startShare(2);
+                        break;
+                    case 2:
+                        ShareModule shareModule3 = new ShareModule(LiveMenuActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + mapiOrderResult.getNAME()+"菜单", mapiOrderResult.getINTRODUCTION(), img_url, SHARE_LIVE_LIST);
+                        shareModule3.startShare(3);
+                        break;
+                    case 3:
+                        ShareModule shareModule4 = new ShareModule(LiveMenuActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + mapiOrderResult.getNAME()+"菜单", mapiOrderResult.getINTRODUCTION(), img_url, SHARE_LIVE_LIST);
+                        shareModule4.startShare(4);
+                        break;
+                }
+            }
+        });
+
     }
 
     private void load() {
@@ -332,7 +381,7 @@ public class LiveMenuActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.back, R.id.purcase, R.id.deel})
+    @OnClick({R.id.back, R.id.purcase, R.id.deel,R.id.iv_right_two})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -347,6 +396,9 @@ public class LiveMenuActivity extends BaseActivity {
             case R.id.deel:
                 ControllerUtil.go2LivePay(mapiOrderResult.getID(),true);
                 break;
+            case R.id.iv_right_two:
+                shareDialog.showDialog();
+            break;
         }
     }
 

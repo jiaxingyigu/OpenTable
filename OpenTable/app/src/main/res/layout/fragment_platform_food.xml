@@ -1,0 +1,13 @@
+<com.yigu.opentable.widget.BestSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.fragment.platform.PlatformFoodFragment">
+
+   <android.support.v7.widget.RecyclerView
+       android:id="@+id/recyclerView"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+</com.yigu.opentable.widget.BestSwipeRefreshLayout>

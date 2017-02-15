@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yigu.commom.api.CampaignApi;
 import com.yigu.commom.result.MapiCampaignResult;
 import com.yigu.commom.result.MapiImageResult;
@@ -69,18 +70,22 @@ public class BandNextActivity extends BaseActivity {
                     return;
                 }
                 if(TextUtils.isEmpty(nameStr)){
-                    MainToast.showShortToast("请输入您的单位名称");
+                    MainToast.showShortToast("请输入您的姓名");
                     return;
                 }
                 if(TextUtils.isEmpty(cardStr)){
-                    MainToast.showShortToast("请输入您的单位名称");
+                    MainToast.showShortToast("请输入您的唯一识别码");
                     return;
                 }
-                CampaignApi.binding(this, userSP.getUserBean().getUSER_ID(), nameStr, cardStr, campaignResult.getId(), new RequestCallback() {
+                showLoading();
+                CampaignApi.binding(this, userSP.getUserBean().getUSER_ID(), nameStr, cardStr, campaignResult.getId(), new RequestCallback<JSONObject>() {
                     @Override
-                    public void success(Object success) {
+                    public void success(JSONObject success) {
+                        hideLoading();
+                        String PATH = success.getJSONObject("data").getString("PATH");
                         MapiUserResult userResult = userSP.getUserBean();
                         userResult.setCOMPANY(campaignResult.getId());
+                        userResult.setLogo(PATH);
                         userSP.saveUserBean(userResult);
                         MainToast.showShortToast("单位绑定成功");
                         finish();
@@ -88,6 +93,7 @@ public class BandNextActivity extends BaseActivity {
                 }, new RequestExceptionCallback() {
                     @Override
                     public void error(String code, String message) {
+                        hideLoading();
                         MainToast.showShortToast(message);
                     }
                 });

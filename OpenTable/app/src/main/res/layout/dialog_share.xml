@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/shop_white"
+    >
+
+    <!-- 微信/朋友圈/新浪微博 -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingTop="25dp"
+        android:weightSum="4" >
+
+
+        <!-- 微信 -->
+
+        <LinearLayout
+            android:id="@+id/share_wechat_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ssdk_oks_classic_wechat" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="微信好友"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- 微信朋友圈 -->
+
+        <LinearLayout
+            android:id="@+id/share_wechat_moments_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ssdk_oks_classic_wechatmoments" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="微信朋友圈"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- QQ好友 -->
+
+        <LinearLayout
+            android:id="@+id/share_qq_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ssdk_oks_classic_qq" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="QQ好友"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- qq朋友圈 -->
+
+        <LinearLayout
+            android:id="@+id/share_qzone_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ssdk_oks_classic_qzone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="QQ空间"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_line"
+        />
+
+
+    <!-- 取消 -->
+
+    <LinearLayout
+        android:id="@+id/share_cancel_layout"
+        android:layout_width="match_parent"
+        android:layout_height="41dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="取消"
+            android:textColor="@color/shop_red"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</LinearLayout>

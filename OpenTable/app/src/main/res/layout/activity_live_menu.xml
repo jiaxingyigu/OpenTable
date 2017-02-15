@@ -53,7 +53,7 @@
                 android:textColor="@color/shop_black"
                 android:text=""
                 android:ellipsize="end"
-                android:maxLines="4"
+                android:maxLines="2"
                 android:lineSpacingMultiplier="1.2"
                 android:layout_gravity="center_vertical"
                 />

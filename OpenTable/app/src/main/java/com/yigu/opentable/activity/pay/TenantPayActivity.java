@@ -1,6 +1,9 @@
 package com.yigu.opentable.activity.pay;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +22,9 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.sdk.app.PayTask;
+import com.tencent.mm.sdk.modelpay.PayReq;
 import com.yigu.commom.api.OrderApi;
+import com.yigu.commom.application.AppContext;
 import com.yigu.commom.result.IndexData;
 import com.yigu.commom.result.MapiOrderResult;
 import com.yigu.commom.util.DPUtil;
@@ -32,6 +37,7 @@ import com.yigu.opentable.R;
 import com.yigu.opentable.activity.order.OrderCompleteActivity;
 import com.yigu.opentable.adapter.pay.PaymentAdapter;
 import com.yigu.opentable.base.BaseActivity;
+import com.yigu.opentable.broadcast.ReceiverAction;
 import com.yigu.opentable.util.AnimationUtil;
 import com.yigu.opentable.util.zhifubao.PayResult;
 import com.yigu.opentable.view.PayWayLayout;
@@ -139,9 +145,11 @@ public class TenantPayActivity extends BaseActivity {
                 if(TextUtils.isEmpty(payWayLayout.getAddr())){
                     MainToast.showShortToast("请输入收货地址");
                 }else{
+                    showLoading();
                     OrderApi.preorder(TenantPayActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales, payWayLayout.getAddr(),new RequestCallback() {
                         @Override
                         public void success(Object success) {
+                            hideLoading();
                             try {
                                 db.delete(MapiOrderResult.class);
                                 MainToast.showShortToast("预购成功");
@@ -153,6 +161,7 @@ public class TenantPayActivity extends BaseActivity {
                     }, new RequestExceptionCallback() {
                         @Override
                         public void error(String code, String message) {
+                            hideLoading();
                             MainToast.showShortToast(message);
                         }
                     });
@@ -165,9 +174,11 @@ public class TenantPayActivity extends BaseActivity {
                 if(TextUtils.isEmpty(payWayLayout.getAddr())){
                     MainToast.showShortToast("请输入收货地址");
                 }else{
+                    showLoading();
                     OrderApi.balancepay(TenantPayActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales, payWayLayout.getAddr(),new RequestCallback() {
                         @Override
                         public void success(Object success) {
+                            hideLoading();
                             try {
                                 db.delete(MapiOrderResult.class);
                                 MainToast.showShortToast("支付成功");
@@ -179,6 +190,7 @@ public class TenantPayActivity extends BaseActivity {
                     }, new RequestExceptionCallback() {
                         @Override
                         public void error(String code, String message) {
+                            hideLoading();
                             MainToast.showShortToast(message);
                         }
                     });
@@ -188,17 +200,42 @@ public class TenantPayActivity extends BaseActivity {
             @Override
             public void weixinpay() {
 
+                if(TextUtils.isEmpty(payWayLayout.getAddr())){
+                    MainToast.showShortToast("请输入收货地址");
+                }else{
+                    showLoading();
+                    int price = (int) (allPrice*100);
+                    OrderApi.weixinPay(TenantPayActivity.this, userSP.getUserBean().getUSER_ID(), price+"", new RequestCallback<JSONObject>() {
+                        @Override
+                        public void success(JSONObject success) {
+                            hideLoading();
+//                            String orderInfo  = success.getJSONObject("data").getString("orderInfo");
+                            orderId = success.getJSONObject("data").getString("orderId");
+                            callweixinPay(success);
+                        }
+                    }, new RequestExceptionCallback() {
+                        @Override
+                        public void error(String code, String message) {
+                            hideLoading();
+                            MainToast.showShortToast(message);
+                        }
+                    });
+                }
+
             }
+
+
 
             @Override
             public void zhifubaopay() {
                 if(TextUtils.isEmpty(payWayLayout.getAddr())){
                     MainToast.showShortToast("请输入收货地址");
                 }else{
-                    OrderApi.zhifubaoPay(TenantPayActivity.this, userSP.getUserBean().getUSER_ID(), "0.01", new RequestCallback<JSONObject>() {
+                    showLoading();
+                    OrderApi.zhifubaoPay(TenantPayActivity.this, userSP.getUserBean().getUSER_ID(), allPrice+"", new RequestCallback<JSONObject>() {
                         @Override
                         public void success(JSONObject success) {
-
+                            hideLoading();
                             String orderInfo  = success.getJSONObject("data").getString("orderInfo");
                             orderId = success.getJSONObject("data").getString("orderId");
                             callPay(orderInfo);
@@ -206,6 +243,7 @@ public class TenantPayActivity extends BaseActivity {
                     }, new RequestExceptionCallback() {
                         @Override
                         public void error(String code, String message) {
+                            hideLoading();
                             MainToast.showShortToast(message);
                         }
                     });
@@ -213,6 +251,28 @@ public class TenantPayActivity extends BaseActivity {
 
             }
         });
+
+    }
+
+    /**
+     * 微信支付
+     */
+    private void callweixinPay(JSONObject json){
+
+        JSONObject jsonObject = json.getJSONObject("data").getJSONObject("orderInfo");
+        if(null != jsonObject){
+            PayReq req = new PayReq();
+            //req.appId = "wxf8b4f85f3a794e77";  // 测试用appId
+            req.appId			= jsonObject.getString("appid");
+            req.partnerId		= jsonObject.getString("partnerid");
+            req.prepayId		= jsonObject.getString("prepayid");
+            req.nonceStr		= jsonObject.getString("noncestr");
+            req.timeStamp		= jsonObject.getString("timestamp");
+            req.packageValue	= jsonObject.getString("package");
+            req.sign			= jsonObject.getString("sign");
+            // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+            AppContext.getInstance().api.sendReq(req);
+        }
 
     }
 
@@ -225,37 +285,39 @@ public class TenantPayActivity extends BaseActivity {
         List<IndexData> list = new ArrayList<>();
         try {
             List<MapiOrderResult> orderList = db.selector(MapiOrderResult.class).where("num","<>","0").and("sid","=",SHOP).orderBy("stardate", true).orderBy("orderby",false).findAll();
-            orderList.toString();
-
-            JSONArray jsonArray = new JSONArray();
+//            orderList.toString();
+            if(null!=orderList){
+                JSONArray jsonArray = new JSONArray();
 //            jsonArray.addAll(orderList);
-            JSONObject tmpObj = null;
-            for(int i = 0; i < orderList.size(); i++)
-            {
-                tmpObj = new JSONObject();
-                tmpObj.put("PRICE" , orderList.get(i).getPRICE());
-                tmpObj.put("FOOD", orderList.get(i).getFOOD());
-                tmpObj.put("AMOUNT", orderList.get(i).getNum());
-                tmpObj.put("dinnertime", orderList.get(i).getDinnertime());
-                tmpObj.put("stardate", orderList.get(i).getStardate());
-                jsonArray.add(tmpObj);
-                tmpObj = null;
-            }
-
-            sales = jsonArray.toJSONString();
-            if(orderList!=null&&orderList.size()>0){
-                for(int i=0;i<orderList.size();i++){
-                    MapiOrderResult orderResult = orderList.get(i);
-                    list.add(new IndexData(count++, "item", orderList.get(i)));
-                    list.add(new IndexData(count++, "divider", new Object()));
-                    priceStr = TextUtils.isEmpty(orderResult.getPRICE())?"0":orderResult.getPRICE();
-                    numStr = TextUtils.isEmpty(orderResult.getNum())?"0":orderResult.getNum();
-                    allPrice += (Double.parseDouble(priceStr)*Integer.parseInt(numStr));
-
+                JSONObject tmpObj = null;
+                for(int i = 0; i < orderList.size(); i++)
+                {
+                    tmpObj = new JSONObject();
+                    tmpObj.put("PRICE" , orderList.get(i).getPRICE());
+                    tmpObj.put("FOOD", orderList.get(i).getFOOD());
+                    tmpObj.put("AMOUNT", orderList.get(i).getNum());
+                    tmpObj.put("dinnertime", orderList.get(i).getDinnertime());
+                    tmpObj.put("stardate", orderList.get(i).getStardate());
+                    jsonArray.add(tmpObj);
+                    tmpObj = null;
                 }
+
+                sales = jsonArray.toJSONString();
+                if(orderList!=null&&orderList.size()>0){
+                    for(int i=0;i<orderList.size();i++){
+                        MapiOrderResult orderResult = orderList.get(i);
+                        list.add(new IndexData(count++, "item", orderList.get(i)));
+                        list.add(new IndexData(count++, "divider", new Object()));
+                        priceStr = TextUtils.isEmpty(orderResult.getPRICE())?"0":orderResult.getPRICE();
+                        numStr = TextUtils.isEmpty(orderResult.getNum())?"0":orderResult.getNum();
+                        allPrice += (Double.parseDouble(priceStr)*Integer.parseInt(numStr));
+
+                    }
+                }
+
+                allPriceTv.setText("共"+allPrice+"元");
             }
 
-            allPriceTv.setText("共"+allPrice+"元");
 
         } catch (DbException e) {
             e.printStackTrace();
@@ -427,6 +489,61 @@ public class TenantPayActivity extends BaseActivity {
         }
     };
 
+    //for receive customer msg from jpush server
+    private WEIXINPAYReceiver mMessageReceiver;
 
+    public void registerMessageReceiver() {
+        mMessageReceiver = new WEIXINPAYReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        filter.addAction(ReceiverAction.WEIXIN_PAY_ACTION);
+        registerReceiver(mMessageReceiver, filter);
+    }
+
+    int mark = 0;
+
+    public class WEIXINPAYReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(mark==0){
+                if (ReceiverAction.WEIXIN_PAY_ACTION.equals(intent.getAction())) {
+                    mark = 1;
+                    showLoading();
+                    OrderApi.zhifu(TenantPayActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice + "", sales, payWayLayout.getAddr(),orderId,"4", new RequestCallback() {
+                        @Override
+                        public void success(Object success) {
+                            hideLoading();
+                            try {
+//                            Toast.makeText(TenantPurcaseActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                                db.delete(MapiOrderResult.class);
+                                startActivity(new Intent(TenantPayActivity.this,OrderCompleteActivity.class));
+                                finish();
+                            } catch (DbException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, new RequestExceptionCallback() {
+                        @Override
+                        public void error(String code, String message) {
+                            MainToast.showShortToast(message);
+                            hideLoading();
+                        }
+                    });
+
+                    DebugLog.i("微信支付成功");
+                }
+            }
+
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(null!=mMessageReceiver)
+            unregisterReceiver(mMessageReceiver);
+    }
 
 }

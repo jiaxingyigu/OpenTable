@@ -4,11 +4,14 @@ import android.app.Activity;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.yigu.commom.result.MapiOrderResult;
+import com.yigu.commom.result.MapiPlatformResult;
 import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.commom.util.DebugLog;
 import com.yigu.commom.util.MapiUtil;
 import com.yigu.commom.util.RequestCallback;
 import com.yigu.commom.util.RequestExceptionCallback;
+import com.yigu.commom.util.RequestPageCallback;
 
 
 import java.util.HashMap;
@@ -120,6 +123,69 @@ public class CommonApi extends BasicApi{
                         exceptionCallback.error(code,message);
                     }
                 });
+    }
+
+    /**
+     * 平台信息
+     * @param act
+     * @param type
+     * @param PAGENO
+     * @param SIZE
+     * @param callback
+     * @param exceptionCallback
+     */
+    public static void knowledge(final Activity act, String appuserid,String type, String PAGENO, String SIZE, final RequestPageCallback callback, final RequestExceptionCallback exceptionCallback){
+        Map<String,String> params = new HashMap<>();
+        params.put("appuserid",appuserid);
+        params.put("type",type);
+        params.put("PAGENO",PAGENO);
+        params.put("SIZE",SIZE);
+        MapiUtil.getInstance().call(act,knowledge,params,new MapiUtil.MapiSuccessResponse(){
+            @Override
+            public void success(JSONObject json) {
+                DebugLog.i("json="+json);
+                List<MapiPlatformResult> result = JSONArray.parseArray(json.getJSONObject("data").getJSONArray("knowledge").toJSONString(),MapiPlatformResult.class);
+                Integer count = json.getJSONObject("data").getInteger("ISNEXT");
+                if(null!=count){
+                    callback.success(count,result);
+                }
+
+            }
+        },new MapiUtil.MapiFailResponse(){
+            @Override
+            public void fail(String code, String failMessage) {
+                exceptionCallback.error(code,failMessage);
+            }
+        });
+    }
+
+    /**
+     * 问题反馈
+     * @param act
+     * @param appuserid
+     * @param remark
+     * @param callback
+     * @param exceptionCallback
+     */
+    public static void comment(Activity act,String appuserid,String remark,final RequestCallback callback,
+                               final RequestExceptionCallback exceptionCallback){
+        Map<String, String> params = new HashMap<>();
+        params.put("appuserid",appuserid);
+        params.put("remark",remark);
+        MapiUtil.getInstance().call(act,comment, params,
+                new MapiUtil.MapiSuccessResponse() {
+                    @Override
+                    public void success(JSONObject json) {
+                        DebugLog.i("json="+json);
+                        callback.success(json);
+                    }
+                }, new MapiUtil.MapiFailResponse() {
+                    @Override
+                    public void fail(String code,String message) {
+                        exceptionCallback.error(code,message);
+                    }
+                });
+
     }
 
 }

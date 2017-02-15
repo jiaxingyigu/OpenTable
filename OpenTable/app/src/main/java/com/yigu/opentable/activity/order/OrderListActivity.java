@@ -26,7 +26,6 @@ import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.yigu.commom.api.BasicApi;
 import com.yigu.commom.api.OrderApi;
 import com.yigu.commom.application.AppContext;
-import com.yigu.commom.result.MapiItemResult;
 import com.yigu.commom.result.MapiOrderResult;
 import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.commom.util.DPUtil;
@@ -44,15 +43,16 @@ import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.base.RequestCode;
 import com.yigu.opentable.interfaces.RecyOnItemClickListener;
 import com.yigu.opentable.util.ControllerUtil;
+import com.yigu.opentable.util.ShareModule;
 import com.yigu.opentable.widget.BaseItemDialog;
 import com.yigu.opentable.widget.BestSwipeRefreshLayout;
+import com.yigu.opentable.widget.ShareDialog;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
 import org.xutils.x;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -90,6 +90,8 @@ public class OrderListActivity extends BaseActivity {
     TextView account;
     @Bind(R.id.rl_purcase)
     RelativeLayout rl_purcase;
+    @Bind(R.id.iv_right_two)
+    ImageView ivRightTwo;
 
     private List<MapiOrderResult> mList;
     OrderListAadpter mAdapter;
@@ -113,6 +115,8 @@ public class OrderListActivity extends BaseActivity {
 
     private DbManager db;
 
+    ShareDialog shareDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,12 +137,13 @@ public class OrderListActivity extends BaseActivity {
 
     private void initView() {
 
-        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig().setDbName("open").setDbDir(new File(FileUtil.getFolderPath(this,FileUtil.TYPE_DB)));
+        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig().setDbName("open").setDbDir(new File(FileUtil.getFolderPath(this, FileUtil.TYPE_DB)));
         db = x.getDb(daoConfig);
 
         back.setImageResource(R.mipmap.back);
         center.setText(mapiOrderResult.getNAME());
-
+        ivRightTwo.setImageResource(R.mipmap.share_logo);
+        ivRightTwo.setVisibility(View.VISIBLE);
         //创建将要下载的图片的URI
         Uri imageUri = Uri.parse(BasicApi.BASIC_IMAGE + mapiOrderResult.getPIC());
         ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
@@ -197,6 +202,9 @@ public class OrderListActivity extends BaseActivity {
         if (typeDialog == null)
             typeDialog = new BaseItemDialog(this, R.style.image_dialog_theme);
 
+        if (shareDialog == null)
+            shareDialog = new ShareDialog(this, R.style.image_dialog_theme);
+
         typeList.clear();
         typeList.add(new MapiResourceResult("", "全部"));
         typeList.add(new MapiResourceResult("0", "普通菜"));
@@ -220,12 +228,12 @@ public class OrderListActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
 
                 Intent intent = new Intent(AppContext.getInstance(), OrderDetailActivity.class);
-                intent.putExtra("id",mList.get(position).getID());
-                intent.putExtra("title",mapiOrderResult.getNAME());
-                intent.putExtra("SHOP",mapiOrderResult.getID());
-                intent.putExtra("position",position);
-                intent.putExtra("all",TextUtils.isEmpty(account.getText())?"0":account.getText().toString());
-                intent.putExtra("type","pay");
+                intent.putExtra("id", mList.get(position).getID());
+                intent.putExtra("title", mapiOrderResult.getNAME());
+                intent.putExtra("SHOP", mapiOrderResult.getID());
+                intent.putExtra("position", position);
+                intent.putExtra("all", TextUtils.isEmpty(account.getText()) ? "0" : account.getText().toString());
+                intent.putExtra("type", "pay");
                 startActivityForResult(intent, RequestCode.order_detail);
 
             }
@@ -256,6 +264,40 @@ public class OrderListActivity extends BaseActivity {
             }
         });
 
+        shareDialog.setDialogItemClickListner(new ShareDialog.DialogItemClickListner() {
+            @Override
+            public void onItemClick(View view, int position) {
+                String SHARE_SHOP_LIST =BasicApi.BASIC_URL+ BasicApi.SHARE_SHOP_LIST+mapiOrderResult.getID();
+                String img_url = "";
+                if(userSP.checkLogin()){
+                    if(TextUtils.isEmpty(userSP.getUserBean().getLogo())){
+                        img_url = "";
+                    }else{
+                        img_url = BasicApi.BASIC_IMAGE + userSP.getUserBean().getLogo();
+                    }
+
+                }
+                switch (position) {
+                    case 0://微信好友//BasicApi.BASIC_IMAGE + mapiOrderResult.getPIC()
+                        ShareModule shareModule1 = new ShareModule(OrderListActivity.this,userSP.getUserBean().getCOMPANYNAME()+"-" + mapiOrderResult.getNAME()+"菜单" , mapiOrderResult.getINTRODUCTION(), img_url , SHARE_SHOP_LIST);
+                        shareModule1.startShare(1);
+                        break;
+                    case 1:
+                        ShareModule shareModule2 = new ShareModule(OrderListActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + mapiOrderResult.getNAME()+"菜单", mapiOrderResult.getINTRODUCTION(),img_url, SHARE_SHOP_LIST);
+                        shareModule2.startShare(2);
+                        break;
+                    case 2:
+                        ShareModule shareModule3 = new ShareModule(OrderListActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + mapiOrderResult.getNAME()+"菜单", mapiOrderResult.getINTRODUCTION(),img_url, SHARE_SHOP_LIST);
+                        shareModule3.startShare(3);
+                        break;
+                    case 3:
+                        ShareModule shareModule4 = new ShareModule(OrderListActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + mapiOrderResult.getNAME()+"菜单", mapiOrderResult.getINTRODUCTION(), img_url, SHARE_SHOP_LIST);
+                        shareModule4.startShare(4);
+                        break;
+                }
+            }
+        });
+
         typeDialog.setDialogItemClickListner(new BaseItemDialog.DialogItemClickListner() {
             @Override
             public void onItemClick(View view, int position) {
@@ -267,21 +309,21 @@ public class OrderListActivity extends BaseActivity {
 
         mAdapter.setNunerListener(new OrderListAadpter.NumberListener() {
             @Override
-            public void numerAdd(View view,int position) {
-                String num = TextUtils.isEmpty(account.getText().toString())?"0":account.getText().toString();
+            public void numerAdd(View view, int position) {
+                String num = TextUtils.isEmpty(account.getText().toString()) ? "0" : account.getText().toString();
                 int numInt = Integer.parseInt(num);
-                account.setText(++numInt+"");
-                if(account.getVisibility()==View.INVISIBLE)
+                account.setText(++numInt + "");
+                if (account.getVisibility() == View.INVISIBLE)
                     account.setVisibility(View.VISIBLE);
 
                 String id = mList.get(position).getID();
 
                 try {
-                    MapiOrderResult history = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid","=",mapiOrderResult.getID()).findFirst();
-                    if(null!=history){
-                        String numStr = TextUtils.isEmpty(history.getNum())?"0":history.getNum();
+                    MapiOrderResult history = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid", "=", mapiOrderResult.getID()).findFirst();
+                    if (null != history) {
+                        String numStr = TextUtils.isEmpty(history.getNum()) ? "0" : history.getNum();
                         int numInteger = Integer.parseInt(numStr);
-                        history.setNum(++numInteger+"");
+                        history.setNum(++numInteger + "");
                         db.update(history);
                     }
 
@@ -292,31 +334,31 @@ public class OrderListActivity extends BaseActivity {
             }
 
             @Override
-            public void numberCut(View view,int position) {
+            public void numberCut(View view, int position) {
 
 
                 String id = mList.get(position).getID();
 
                 try {
-                    MapiOrderResult history = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid","=",mapiOrderResult.getID()).findFirst();
-                    if(null!=history){
-                        DebugLog.i("history=>"+history.getNum());
-                        String numStr = TextUtils.isEmpty(history.getNum())?"0":history.getNum();
+                    MapiOrderResult history = db.selector(MapiOrderResult.class).where("ID", "=", id).and("sid", "=", mapiOrderResult.getID()).findFirst();
+                    if (null != history) {
+                        DebugLog.i("history=>" + history.getNum());
+                        String numStr = TextUtils.isEmpty(history.getNum()) ? "0" : history.getNum();
                         int numInteger = Integer.parseInt(numStr);
-                        if(numInteger==0) {
+                        if (numInteger == 0) {
                             return;
-                        }else{
-                            history.setNum(--numInteger+"");
+                        } else {
+                            history.setNum(--numInteger + "");
 
-                            String num = TextUtils.isEmpty(account.getText().toString())?"0":account.getText().toString();
+                            String num = TextUtils.isEmpty(account.getText().toString()) ? "0" : account.getText().toString();
                             int numInt = Integer.parseInt(num);
-                            DebugLog.i("numInt==>"+numInt);
-                            if(numInt<=1) {
+                            DebugLog.i("numInt==>" + numInt);
+                            if (numInt <= 1) {
                                 account.setText("0");
                                 account.setVisibility(View.INVISIBLE);
-                            }else{
+                            } else {
 
-                                account.setText(--numInt+"");
+                                account.setText(--numInt + "");
                             }
                             db.update(history);
 
@@ -343,7 +385,7 @@ public class OrderListActivity extends BaseActivity {
                     return;
                 timeList.clear();
                 timeList.addAll(success);
-                timeList.add(0,new MapiResourceResult("","全部"));
+                timeList.add(0, new MapiResourceResult("", "全部"));
                 baseItemDialog.setmList(timeList);
 
                 tiemTv.setText(timeList.get(0).getTIME());
@@ -358,8 +400,9 @@ public class OrderListActivity extends BaseActivity {
             }
         });
     }
+
     private void load() {
-        DebugLog.i("dateTv=>"+dateTv.getText().toString());
+        DebugLog.i("dateTv=>" + dateTv.getText().toString());
         OrderApi.getFoodmenu(this, mapiOrderResult.getID(), dateTv.getText().toString(), type, style, pageIndex + "", pageSize + "", new RequestPageCallback<List<MapiOrderResult>>() {
             @Override
             public void success(Integer isNext, List<MapiOrderResult> success) {
@@ -369,13 +412,13 @@ public class OrderListActivity extends BaseActivity {
                     return;
                 mList.addAll(success);
                 try {
-                    DebugLog.i("sid=>"+mapiOrderResult.getID());
-                    List<MapiOrderResult> hisList = db.selector(MapiOrderResult.class).where("num","<>","0").and("sid","=",mapiOrderResult.getID()).findAll();
-                    if(null!=hisList&&hisList.size()>0){
-                        for(MapiOrderResult orderResult : mList){
-                            if(hisList.contains(orderResult)){
-                                for(MapiOrderResult hisOrder : hisList){
-                                    if(hisOrder.getID().equals(orderResult.getID())){
+                    DebugLog.i("sid=>" + mapiOrderResult.getID());
+                    List<MapiOrderResult> hisList = db.selector(MapiOrderResult.class).where("num", "<>", "0").and("sid", "=", mapiOrderResult.getID()).findAll();
+                    if (null != hisList && hisList.size() > 0) {
+                        for (MapiOrderResult orderResult : mList) {
+                            if (hisList.contains(orderResult)) {
+                                for (MapiOrderResult hisOrder : hisList) {
+                                    if (hisOrder.getID().equals(orderResult.getID())) {
                                         orderResult.setNum(hisOrder.getNum());
                                     }
                                 }
@@ -383,15 +426,15 @@ public class OrderListActivity extends BaseActivity {
                         }
 
                         int count = 0;
-                        for(MapiOrderResult orderResult : hisList){
-                            String numStr = TextUtils.isEmpty(orderResult.getNum())?"0":orderResult.getNum();
+                        for (MapiOrderResult orderResult : hisList) {
+                            String numStr = TextUtils.isEmpty(orderResult.getNum()) ? "0" : orderResult.getNum();
                             count += Integer.parseInt(numStr);
                         }
-                        if(count==0){
+                        if (count == 0) {
                             account.setText("0");
                             account.setVisibility(View.INVISIBLE);
-                        }else{
-                            account.setText(count+"");
+                        } else {
+                            account.setText(count + "");
                             account.setVisibility(View.VISIBLE);
                         }
                     }
@@ -441,7 +484,7 @@ public class OrderListActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.back, R.id.date, R.id.purcase, R.id.deel, R.id.ll_time, R.id.ll_types})
+    @OnClick({R.id.back, R.id.date, R.id.purcase, R.id.deel, R.id.ll_time, R.id.ll_types,R.id.iv_right_two})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -452,8 +495,8 @@ public class OrderListActivity extends BaseActivity {
                 break;
             case R.id.purcase:
                 Intent intent = new Intent(AppContext.getInstance(), PurcaseActivity.class);
-                intent.putExtra("SHOP",mapiOrderResult.getID());
-                startActivityForResult(intent,RequestCode.purcase_list);
+                intent.putExtra("SHOP", mapiOrderResult.getID());
+                startActivityForResult(intent, RequestCode.purcase_list);
                 break;
             case R.id.deel:
                 ControllerUtil.go2Payment(mapiOrderResult.getID());
@@ -463,6 +506,9 @@ public class OrderListActivity extends BaseActivity {
                 break;
             case R.id.ll_types:
                 typeDialog.showDialog();
+                break;
+            case R.id.iv_right_two:
+                shareDialog.showDialog();
                 break;
         }
     }
@@ -487,8 +533,8 @@ public class OrderListActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode==RESULT_OK){
-            switch (requestCode){
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
                 case RequestCode.order_detail:
                     refreshData();
                     /*if(null!=data){

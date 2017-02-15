@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:scrollbars="none"
         android:layout_below="@+id/lay_header"
+        android:layout_above="@+id/ll_bottom"
         >
 
         <LinearLayout
@@ -111,6 +112,18 @@
                 android:background="@color/divider_line"
                 />
 
+            <TextView
+                android:id="@+id/detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="@dimen/text_normal"
+                android:textColor="@color/shop_black"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                />
+
         </LinearLayout>
 
     </ScrollView>
@@ -118,6 +131,7 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:orientation="horizontal"

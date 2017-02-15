@@ -12,4 +12,5 @@
     fresco:progressBarImage="@mipmap/progress"
     fresco:progressBarImageScaleType="centerInside"
     fresco:retryImageScaleType="centerCrop"
+    fresco:actualImageScaleType="fitXY"
     />

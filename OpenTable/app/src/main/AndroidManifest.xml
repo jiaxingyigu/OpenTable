@@ -32,6 +32,23 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
+    <!-- 微信 -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <!-- mob -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- 蓝牙分享所需的权限 -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
     <application
         android:name="com.yigu.commom.application.AppContext"
         android:allowBackup="true"
@@ -39,23 +56,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--支付宝-->
+
+        <!-- 支付宝 -->
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            >
-        </activity>
-
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" >
-        </activity>
-
+            android:screenOrientation="behind" />
 
         <!-- Rich push 核心功能 since 2.0.6 -->
         <activity
@@ -276,6 +289,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.order.OrderCompleteActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ShopEnterActivity"
@@ -291,36 +305,88 @@
         <activity
             android:name=".activity.purcase.TenantPurcaseActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.live.LiveListActivity"
+        <activity
+            android:name=".activity.live.LiveListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.live.LiveMenuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.purcase.LivePurcaseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.pay.TenantPayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.pay.LivePayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HistoryOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.history.UnitHistoryDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.history.TenantHistoryDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.history.LiveHistoryDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.cook.CookListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+
+            <!-- 这个intent-filter不要忘了 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="wx0c720d2693852f3b" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.live.LiveMenuActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <!-- QQ和QQ空间分享 QQ登录的回调必须要配置的 -->
+            <intent-filter>
+                <data android:scheme="tencent1105780306" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- 新浪微博客户端分享回调必须配置 -->
+            <intent-filter>
+                <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 微信分享回调 -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.purcase.LivePurcaseActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.pay.TenantPayActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.pay.LivePayActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.HistoryOrderActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.history.UnitHistoryDetailActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.history.TenantHistoryDetailActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.history.LiveHistoryDetailActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".activity.cook.CookListActivity"
-            android:screenOrientation="portrait"
-            />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".activity.WithdrawActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.platform.PlatformActivity" />
+        <activity android:name=".activity.TroubleActivity" />
+        <activity android:name=".activity.ExpendInfoActivity"></activity>
     </application>
 
 </manifest>

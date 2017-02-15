@@ -67,6 +67,8 @@ public class CampaignEnterActivity extends BaseActivity {
     SimpleDraweeView image;
     @Bind(R.id.size)
     EditText size;
+    @Bind(R.id.other_phone)
+    EditText other_phone;
 
     ItemDialog itemDialog;
     int comType = -1;
@@ -149,6 +151,7 @@ public class CampaignEnterActivity extends BaseActivity {
                 String addrStr = addr.getText().toString();
                 String sizeStr = size.getText().toString();
                 String telStr = phone.getText().toString();
+                String otherPhone = other_phone.getText().toString();
 
                 if (comType < 0) {
                     MainToast.showShortToast("请选择企业类型");
@@ -185,7 +188,7 @@ public class CampaignEnterActivity extends BaseActivity {
                 showLoading();
 
                 CampaignApi.enterCampaign(this, userSP.getUserBean().getUSER_ID(), itemResult.getName(), itemResult.getScale(), itemResult.getAddress()
-                        , itemResult.getLicense(), itemResult.getTel(), "",  itemResult.getType(), new RequestCallback() {
+                        , itemResult.getLicense(), itemResult.getTel(), "",  itemResult.getType(), otherPhone,new RequestCallback() {
                             @Override
                             public void success(Object success) {
                                 hideLoading();

@@ -10,9 +10,17 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.common.ResizeOptions;
+import com.facebook.imagepipeline.image.ImageInfo;
+import com.facebook.imagepipeline.request.ImageRequest;
+import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.yigu.commom.api.BasicApi;
 import com.yigu.commom.result.MapiCampaignResult;
+import com.yigu.commom.util.DPUtil;
 import com.yigu.opentable.R;
 import com.yigu.opentable.interfaces.RecyOnItemClickListener;
 
@@ -64,8 +72,19 @@ public class CampaignAdapter extends RecyclerView.Adapter<CampaignAdapter.ViewHo
                     recyOnItemClickListener.onItemClick(view, (Integer) view.getTag());
             }
         });
-        if(!TextUtils.isEmpty(result.getSpic()))
-            holder.image.setImageURI(Uri.parse(BasicApi.BASIC_IMAGE+""+result.getSpic()));
+
+        //创建将要下载的图片的URI
+        Uri imageUri = Uri.parse(BasicApi.BASIC_IMAGE + result.getSpic());
+        ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
+                .setResizeOptions(new ResizeOptions(DPUtil.dip2px(117), DPUtil.dip2px(89)))
+                .build();
+        DraweeController controller = Fresco.newDraweeControllerBuilder()
+                .setImageRequest(request)
+                .setOldController( holder.image.getController())
+                .setControllerListener(new BaseControllerListener<ImageInfo>())
+                .build();
+        holder.image.setController(controller);
+
         holder.name.setText(result.getName());
         holder.content.setText(result.getBz());
     }

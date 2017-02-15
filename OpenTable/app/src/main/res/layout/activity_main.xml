@@ -18,32 +18,15 @@
             android:id="@+id/homeSliderLayout"
             />
 
-        <LinearLayout
-            android:id="@+id/ll_order"
-            android:layout_width="match_parent"
-            android:layout_height="77dp"
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="平台服务"
             android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp"
-            android:layout_marginTop="@dimen/margin_2"
-            android:gravity="center_vertical"
-            android:background="@drawable/rect_soild_light_red_round_14"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/shop_white"
-                android:textSize="19dp"
-                android:drawableLeft="@mipmap/order_manage"
-                android:text="订餐管理"
-                android:drawablePadding="@dimen/margin_3"
-                android:gravity="center"
-                android:layout_marginLeft="15dp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                />
-
-        </LinearLayout>
+            android:textSize="@dimen/text_big_x"
+            android:layout_marginTop="@dimen/margin_10dp"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -155,7 +138,48 @@
 
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_line"
+            android:layout_marginTop="@dimen/margin_2"
+            android:layout_marginBottom="@dimen/margin_10dp"
+            />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="单位服务"
+            android:layout_marginLeft="7dp"
+            android:textSize="@dimen/text_big_x"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_order"
+            android:layout_width="match_parent"
+            android:layout_height="77dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="@dimen/margin_2"
+            android:gravity="center_vertical"
+            android:background="@drawable/rect_soild_light_red_round_14"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/shop_white"
+                android:textSize="19dp"
+                android:drawableLeft="@mipmap/order_manage"
+                android:text="订餐管理"
+                android:drawablePadding="@dimen/margin_3"
+                android:gravity="center"
+                android:layout_marginLeft="15dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 

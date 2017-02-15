@@ -67,6 +67,7 @@
                 android:layout_marginTop="13dp"
                 android:background="@drawable/rect_stroke_round_4_gray__width_1"
                 android:paddingLeft="17dp"
+                android:singleLine="true"
                 />
 
             <EditText
@@ -79,6 +80,7 @@
                 android:layout_marginTop="13dp"
                 android:background="@drawable/rect_stroke_round_4_gray__width_1"
                 android:paddingLeft="17dp"
+                android:singleLine="true"
                 />
 
             <EditText
@@ -90,6 +92,7 @@
                 android:layout_marginTop="13dp"
                 android:background="@drawable/rect_stroke_round_4_gray__width_1"
                 android:paddingLeft="17dp"
+                android:singleLine="true"
                 />
 
             <EditText
@@ -97,12 +100,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/text_height_40dp"
                 style="@style/editViewStyle"
-                android:hint="请输入授权人联系方式"
+                android:hint="请输入推荐人联系方式"
                 android:layout_marginTop="13dp"
                 android:background="@drawable/rect_stroke_round_4_gray__width_1"
                 android:paddingLeft="17dp"
                 android:inputType="phone"
-                android:visibility="gone"
+                android:singleLine="true"
                 />
 
             <EditText
@@ -115,6 +118,7 @@
                 android:background="@drawable/rect_stroke_round_4_gray__width_1"
                 android:paddingLeft="17dp"
                 android:inputType="phone"
+                android:singleLine="true"
                 />
 
             <LinearLayout

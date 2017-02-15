@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.activity.TroubleActivity"
+    android:orientation="vertical"
+    >
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/rectangle_solid_white_stroke_black_round_8"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="@dimen/margin_10dp"
+        android:paddingRight="@dimen/margin_10dp"
+        android:paddingTop="@dimen/margin_10dp"
+        android:paddingBottom="@dimen/margin_10dp"
+        android:hint="请输入您要反馈的内容,最多200字"
+        android:textColorHint="@color/shop_gray"
+        android:gravity="top"
+        android:maxLength="200"
+        android:ellipsize="end"
+        />
+
+</LinearLayout>

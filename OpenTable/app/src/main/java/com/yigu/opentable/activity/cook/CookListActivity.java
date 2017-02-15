@@ -1,9 +1,12 @@
 package com.yigu.opentable.activity.cook;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +26,7 @@ import com.yigu.opentable.interfaces.RecyOnItemClickListener;
 import com.yigu.opentable.util.ControllerUtil;
 import com.yigu.opentable.widget.BestSwipeRefreshLayout;
 import com.yigu.opentable.widget.DividerListItemDecoration;
+import com.yigu.opentable.widget.MainAlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +53,8 @@ public class CookListActivity extends BaseActivity {
     List<MapiHistoryResult> mList;
     CookListAdapter mAdapter;
 
+    MainAlertDialog callDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +75,10 @@ public class CookListActivity extends BaseActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new CookListAdapter(this, mList);
         recyclerView.setAdapter(mAdapter);
+
+        callDialog = new MainAlertDialog(this);
+        callDialog.setLeftBtnText("取消").setRightBtnText("呼叫");
+
     }
 
     public void load() {
@@ -103,6 +113,11 @@ public class CookListActivity extends BaseActivity {
         mAdapter.setRecyOnItemClickListener(new RecyOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                MapiHistoryResult itemResult = mList.get(position);
+                if(!TextUtils.isEmpty(itemResult.getTel())){
+                    callDialog.setTitle(itemResult.getTel());
+                    callDialog.show();
+                }
             }
         });
 
@@ -121,6 +136,23 @@ public class CookListActivity extends BaseActivity {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+
+        callDialog.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callDialog.dismiss();
+            }
+        });
+
+        callDialog.setRightClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + callDialog.getTitle()));
+                startActivity(intent);
+                callDialog.dismiss();
+            }
+        });
+
     }
 
     private void loadNext() {

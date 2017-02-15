@@ -28,10 +28,10 @@ public class TableDataSource {
         list.add(new MapiResourceResult(TYPE_UNIT,"单位食堂"));
         list.add(new MapiResourceResult(TYPE_TENANT,"商户订餐"));
         list.add(new MapiResourceResult(TYPE_LIVE,"生活馆"));
-        list.add(new MapiResourceResult(TYPE_WORKERS,"职工之家"));
+//        list.add(new MapiResourceResult(TYPE_WORKERS,"职工之家"));
         list.add(new MapiResourceResult(TYPE_COOK,"厨师上门"));
-        list.add(new MapiResourceResult(TYPE_nutrition,"点营养餐"));
-        list.add(new MapiResourceResult(TYPE_personal,"私人营养师"));
+//        list.add(new MapiResourceResult(TYPE_nutrition,"点营养餐"));
+//        list.add(new MapiResourceResult(TYPE_personal,"私人营养师"));
         return list;
     }
 

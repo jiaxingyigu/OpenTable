@@ -170,9 +170,11 @@ public class LivePurcaseActivity extends BaseActivity {
         payWayLayout.setPayWayListener(new PayWayLayout.PayWayListener() {
             @Override
             public void preorder() {
+                showLoading();
                 OrderApi.preorder(LivePurcaseActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales,payWayLayout.getBZ(), new RequestCallback() {
                     @Override
                     public void success(Object success) {
+                        hideLoading();
                         try {
                             db.delete(MapiOrderResult.class);
                             MainToast.showShortToast("预购成功");
@@ -184,6 +186,7 @@ public class LivePurcaseActivity extends BaseActivity {
                 }, new RequestExceptionCallback() {
                     @Override
                     public void error(String code, String message) {
+                        hideLoading();
                         MainToast.showShortToast(message);
                     }
                 });
@@ -191,9 +194,11 @@ public class LivePurcaseActivity extends BaseActivity {
 
             @Override
             public void balancepay() {
+                showLoading();
                 OrderApi.balancepay(LivePurcaseActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales, payWayLayout.getBZ(),new RequestCallback() {
                     @Override
                     public void success(Object success) {
+                        hideLoading();
                         try {
                             db.delete(MapiOrderResult.class);
                             MainToast.showShortToast("支付成功");
@@ -205,6 +210,7 @@ public class LivePurcaseActivity extends BaseActivity {
                 }, new RequestExceptionCallback() {
                     @Override
                     public void error(String code, String message) {
+                        hideLoading();
                         MainToast.showShortToast(message);
                     }
                 });
@@ -290,35 +296,37 @@ public class LivePurcaseActivity extends BaseActivity {
         List<IndexData> list = new ArrayList<>();
         try {
             List<MapiOrderResult> orderList = db.selector(MapiOrderResult.class).where("num","<>","0").and("sid","=",SHOP).findAll();
-            orderList.toString();
-
-            JSONArray jsonArray = new JSONArray();
+//            orderList.toString();
+            if(null!=orderList){
+                JSONArray jsonArray = new JSONArray();
 //            jsonArray.addAll(orderList);
-            JSONObject tmpObj = null;
-            for(int i = 0; i < orderList.size(); i++)
-            {
-                tmpObj = new JSONObject();
-                tmpObj.put("PRICE" , orderList.get(i).getPRICE());
-                tmpObj.put("FOOD", orderList.get(i).getFOOD());
-                tmpObj.put("AMOUNT", orderList.get(i).getNum());
-                jsonArray.add(tmpObj);
-                tmpObj = null;
-            }
-
-            sales = jsonArray.toJSONString();
-            if(orderList!=null&&orderList.size()>0){
-                for(int i=0;i<orderList.size();i++){
-                    MapiOrderResult orderResult = orderList.get(i);
-                    list.add(new IndexData(count++, "item", orderList.get(i)));
-                    list.add(new IndexData(count++, "divider", new Object()));
-                    priceStr = TextUtils.isEmpty(orderResult.getPRICE())?"0":orderResult.getPRICE();
-                    numStr = TextUtils.isEmpty(orderResult.getNum())?"0":orderResult.getNum();
-                    allPrice += (Double.parseDouble(priceStr)*Integer.parseInt(numStr));
-
+                JSONObject tmpObj = null;
+                for(int i = 0; i < orderList.size(); i++)
+                {
+                    tmpObj = new JSONObject();
+                    tmpObj.put("PRICE" , orderList.get(i).getPRICE());
+                    tmpObj.put("FOOD", orderList.get(i).getFOOD());
+                    tmpObj.put("AMOUNT", orderList.get(i).getNum());
+                    jsonArray.add(tmpObj);
+                    tmpObj = null;
                 }
+
+                sales = jsonArray.toJSONString();
+                if(orderList!=null&&orderList.size()>0){
+                    for(int i=0;i<orderList.size();i++){
+                        MapiOrderResult orderResult = orderList.get(i);
+                        list.add(new IndexData(count++, "item", orderList.get(i)));
+                        list.add(new IndexData(count++, "divider", new Object()));
+                        priceStr = TextUtils.isEmpty(orderResult.getPRICE())?"0":orderResult.getPRICE();
+                        numStr = TextUtils.isEmpty(orderResult.getNum())?"0":orderResult.getNum();
+                        allPrice += (Double.parseDouble(priceStr)*Integer.parseInt(numStr));
+
+                    }
+                }
+
+                allPriceTv.setText("共"+allPrice+"元");
             }
 
-            allPriceTv.setText("共"+allPrice+"元");
 
         } catch (DbException e) {
             e.printStackTrace();

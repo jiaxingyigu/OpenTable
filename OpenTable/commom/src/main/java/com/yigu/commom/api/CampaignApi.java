@@ -391,13 +391,14 @@ public class CampaignApi extends BasicApi{
      * @param tel
      * @param remark
      * @param type
+     * @param introducer
      * @param callback
      * @param exceptionCallback
      */
     public static void enterCampaign(Activity activity,String appuserid,String name,
                                String scale,String address,String license,
                                String tel,String remark,
-                               String type,final RequestCallback callback, final RequestExceptionCallback exceptionCallback){
+                               String type,String introducer,final RequestCallback callback, final RequestExceptionCallback exceptionCallback){
         Map<String,String> params = new HashMap<>();
         params.put("appuserid",appuserid);
         params.put("name",name);
@@ -407,6 +408,7 @@ public class CampaignApi extends BasicApi{
         params.put("tel",tel);
         params.put("remark",remark);
         params.put("type",type);
+        params.put("introducer",introducer);
         MapiUtil.getInstance().call(activity,enterCampaign,params,new MapiUtil.MapiSuccessResponse(){
             @Override
             public void success(JSONObject json) {

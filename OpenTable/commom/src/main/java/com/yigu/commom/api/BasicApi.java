@@ -4,9 +4,16 @@ package com.yigu.commom.api;
  * Created by brain on 2016/6/14.
  */
 public class BasicApi {
-    public static String BASIC_URL = "http://115.159.118.182:8081/dinner";//http://122.225.92.10:8081
-    public static String BASIC_IMAGE = "http://115.159.118.182:8081/dinner/uploadFiles/uploadImgs/";
+    public static String BASIC_URL = "http://122.225.92.10:8081";//http://115.159.118.182:8081/dinner
+    public static String BASIC_IMAGE = "http://122.225.92.10:8081/uploadFiles/uploadImgs/";//
+
+    public static String SHARE_APP_URL = "http://a.app.qq.com/o/simple.jsp?pkgname=com.yigu.opentable";//分享app的下载地址
+    public static String LOGO_URL = BASIC_URL+ "/uploadFiles/uploadImgs/ic_launcher.png";//分享app的下载地址
     public static String loginUrl = "/appuser/getLogin.do?";
+    public static String SHARE_ORDER_DETAIL = "/apphtml/foodintroduce?id=";//详情分享
+    public static String SHARE_SHOP_LIST = "/apphtml/list?SHOP=";//菜单列表分享
+    public static String SHARE_ACTIVITY_DETAIL = "/apphtml/activity?id=";//活动详情
+    public static String  SHARE_LIVE_LIST = "/apphtml/livinglist?eid=";//生活馆菜单列表分享
     /**注册-验证码*/
     public static String normal = "/appuser/normal";
     /**注册*/
@@ -79,8 +86,18 @@ public class BasicApi {
     public static String getSalesdetailslist = "/appuser/getSalesdetailslist";
     /**获取厨师列表*/
     public static String getCooklist = "/appuser/getCooklist";
-    /**支付宝*/
+    /**支付宝支付*/
     public static String zhifubaoPay = "/appuser/zhifubaoPay";
     /**上传订单*/
     public static String zhifu = "/appuser/zhifu";
+    /**微信支付*/
+    public static String weixinPay = "/appuser/weixinPay";
+    /**个人中心*/
+    public static String personal = "/appuser/personal";
+    /**提现*/
+    public static String withdrawals = "/appuser/withdrawals";
+    /**平台信息*/
+    public static String knowledge = "/appuser/knowledge";
+    /**问题反馈*/
+    public static String comment = "/appuser/comment";
 }

@@ -40,6 +40,7 @@ public class MapiOrderResult implements Serializable{
     private String sid;
     private String star1;
     private String star2;
+    @Column(name="remark")
     private String remark;
     private String eid;
 
