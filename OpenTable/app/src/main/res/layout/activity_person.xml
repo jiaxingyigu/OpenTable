@@ -23,8 +23,6 @@
             android:orientation="vertical"
             >
 
-
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="180dp"
@@ -131,11 +129,11 @@
 
 
             <RelativeLayout
+                android:id="@+id/rl_msg"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
                 android:background="@color/shop_white"
                 android:layout_marginTop="@dimen/margin_1"
-                android:visibility="gone"
                 >
 
                 <LinearLayout
@@ -202,6 +200,50 @@
                         android:textColor="@color/shop_black"
                         android:textSize="16sp"
                         android:text="我的订单"
+                        android:layout_marginLeft="@dimen/margin_1"
+                        />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/right"
+                    android:layout_marginRight="22dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/foodOrderRL"
+                android:layout_width="match_parent"
+                android:layout_height="47dp"
+                android:background="@color/shop_white"
+                android:layout_marginTop="@dimen/margin_1"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginLeft="19dp"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/per_food"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/shop_black"
+                        android:textSize="16sp"
+                        android:text="我的订座"
                         android:layout_marginLeft="@dimen/margin_1"
                         />
 

@@ -28,7 +28,15 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:src="@mipmap/search" />
+
+
+            <EditText
                 android:id="@+id/unit_name"
                 style="@style/editViewStyle"
                 android:layout_width="0dp"
@@ -36,16 +44,23 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:hint="请输入单位名称"
+                android:hint="请输入商户名称"
+                android:paddingLeft="@dimen/margin_10dp"
+                android:inputType="text"
+                android:imeOptions="actionSearch"
                 android:maxLines="1"
-                android:paddingLeft="@dimen/margin_2" />
+                />
+
 
             <ImageView
+                android:id="@+id/clear_iv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="14dp"
-                android:src="@mipmap/search" />
+                android:layout_height="match_parent"
+                android:src="@mipmap/clear_gray"
+                android:paddingLeft="@dimen/margin_10dp"
+                android:paddingRight="@dimen/margin_10dp"
+                android:visibility="invisible"
+                />
 
         </LinearLayout>
 

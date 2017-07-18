@@ -177,7 +177,7 @@
         <!-- 图片裁剪 -->
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.MainNewActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -330,6 +330,9 @@
             android:name=".activity.history.TenantHistoryDetailActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.history.FoodHistoryDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.history.LiveHistoryDetailActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -384,9 +387,52 @@
         <activity
             android:name=".activity.WithdrawActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.platform.PlatformActivity" />
-        <activity android:name=".activity.TroubleActivity" />
-        <activity android:name=".activity.ExpendInfoActivity"></activity>
+        <activity
+            android:name=".activity.platform.PlatformActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TroubleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ExpendInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.cook.CookDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.food.FoodListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.food.FoodTypeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.food.FoodMenuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.purcase.FoodPurcaseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.pay.FoodPayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.food.FoodOrderActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FoodHisOrderActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.FoodOrderDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MsgListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.campaign.CampaignTypeActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.unit.UnitListActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>

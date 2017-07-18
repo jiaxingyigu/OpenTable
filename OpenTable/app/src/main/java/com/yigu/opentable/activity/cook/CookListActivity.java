@@ -53,8 +53,6 @@ public class CookListActivity extends BaseActivity {
     List<MapiHistoryResult> mList;
     CookListAdapter mAdapter;
 
-    MainAlertDialog callDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +64,7 @@ public class CookListActivity extends BaseActivity {
     }
 
     private void initView() {
-        center.setText("厨师信息");
+        center.setText("达人列表");
         back.setImageResource(R.mipmap.back);
         mList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -75,9 +73,6 @@ public class CookListActivity extends BaseActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new CookListAdapter(this, mList);
         recyclerView.setAdapter(mAdapter);
-
-        callDialog = new MainAlertDialog(this);
-        callDialog.setLeftBtnText("取消").setRightBtnText("呼叫");
 
     }
 
@@ -113,11 +108,13 @@ public class CookListActivity extends BaseActivity {
         mAdapter.setRecyOnItemClickListener(new RecyOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                MapiHistoryResult itemResult = mList.get(position);
+                ControllerUtil.go2CookDetail(mList.get(position));
+               /* MapiHistoryResult itemResult = mList.get(position);
                 if(!TextUtils.isEmpty(itemResult.getTel())){
                     callDialog.setTitle(itemResult.getTel());
                     callDialog.show();
                 }
+          */
             }
         });
 
@@ -134,22 +131,6 @@ public class CookListActivity extends BaseActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-            }
-        });
-
-        callDialog.setLeftClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callDialog.dismiss();
-            }
-        });
-
-        callDialog.setRightClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + callDialog.getTitle()));
-                startActivity(intent);
-                callDialog.dismiss();
             }
         });
 

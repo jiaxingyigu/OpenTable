@@ -22,7 +22,7 @@
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/image"
-                android:layout_width="360dp"
+                android:layout_width="match_parent"
                 android:layout_height="640dp"
                 android:layout_gravity="center_vertical"
                 fresco:fadeDuration="2000"
@@ -32,6 +32,7 @@
                 fresco:progressBarImage="@mipmap/progress"
                 fresco:progressBarImageScaleType="centerInside"
                 fresco:retryImageScaleType="centerCrop"
+                fresco:actualImageScaleType="fitXY"
                 />
 
         </LinearLayout>

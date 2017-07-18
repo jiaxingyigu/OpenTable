@@ -47,7 +47,7 @@ public class AboutUSActivity extends BaseActivity {
         center.setText("关于我们");
         tvRight.setText("后台地址");
         callDialog = new MainAlertDialog(this);
-        callDialog.setLeftBtnText("取消").setRightBtnText("").setTitle("http://fengzhiyue.com:8081");
+        callDialog.setLeftBtnText("取消").setRightBtnText("").setTitle("http://fengzhiyue.com");
 
     }
 

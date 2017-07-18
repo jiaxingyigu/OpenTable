@@ -8,4 +8,8 @@
         android:radius="4dp"
         />
 
+    <solid
+        android:color="@color/shop_white"
+        />
+
 </shape>

@@ -65,24 +65,24 @@ public class HistoryOrderActivity extends BaseActivity {
         unitOrderFragment = new UnitOrderFragment();
         tenantOrderFragment = new TenantOrderFragment();
         liveOrderFragment = new LiveOrderFragment();
-//        homeOrderFragment = new HomeOrderFragment();
+        homeOrderFragment = new HomeOrderFragment();
 
         list.add(unitOrderFragment);
         list.add(tenantOrderFragment);
         list.add(liveOrderFragment);
-//        list.add(homeOrderFragment);
+        list.add(homeOrderFragment);
 
         list_title.add("单位食堂");
         list_title.add("商户订餐");
         list_title.add("生活馆");
-//        list_title.add("职工之家");
+        list_title.add("美食坊");
 
         tablayout.setTabMode(TabLayout.MODE_FIXED);
         tablayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tablayout.addTab(tablayout.newTab().setText(list_title.get(0)));
         tablayout.addTab(tablayout.newTab().setText(list_title.get(1)));
         tablayout.addTab(tablayout.newTab().setText(list_title.get(2)));
-//        tablayout.addTab(tablayout.newTab().setText(list_title.get(3)));
+        tablayout.addTab(tablayout.newTab().setText(list_title.get(3)));
         mAdapter = new TabFragmentAdapter(getSupportFragmentManager(), list, list_title);
         viewpager.setAdapter(mAdapter);
         tablayout.setupWithViewPager(viewpager);

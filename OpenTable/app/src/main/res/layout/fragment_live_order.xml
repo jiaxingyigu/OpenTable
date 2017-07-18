@@ -7,6 +7,81 @@
     android:background="@color/divider_line"
     >
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/shop_white"
+        android:orientation="horizontal"
+        >
+
+        <RadioButton
+            android:id="@+id/pay"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="未付款"
+            android:button="@null"
+            android:textColor="@drawable/selector_order_text_radio"
+            android:gravity="center"
+            android:checked="true"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
+
+        <RadioButton
+            android:id="@+id/unComplete"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="未完成"
+            android:button="@null"
+            android:textColor="@drawable/selector_order_text_radio"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
+
+        <RadioButton
+            android:id="@+id/complete"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="已完成"
+            android:button="@null"
+            android:textColor="@drawable/selector_order_text_radio"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
+
+        <RadioButton
+            android:id="@+id/uncancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="取消中"
+            android:button="@null"
+            android:textColor="@drawable/selector_order_text_radio"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
+
+        <RadioButton
+            android:id="@+id/cancel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="已取消"
+            android:button="@null"
+            android:textColor="@drawable/selector_order_text_radio"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            />
+
+    </RadioGroup>
+
     <LinearLayout
         android:id="@+id/ll_date"
         android:layout_width="match_parent"

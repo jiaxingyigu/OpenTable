@@ -19,6 +19,7 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.yigu.commom.api.BasicApi;
 import com.yigu.commom.api.UserApi;
+import com.yigu.commom.application.AppContext;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.commom.util.RequestCallback;
 import com.yigu.commom.util.RequestExceptionCallback;
@@ -26,6 +27,7 @@ import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
 import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.util.ControllerUtil;
+import com.yigu.opentable.util.JpushUtil;
 import com.yigu.opentable.widget.MainAlertDialog;
 
 import butterknife.Bind;
@@ -141,7 +143,7 @@ public class PersonActivity extends BaseActivity {
 
 
     @OnClick({R.id.back, R.id.exit, R.id.modifyRL, R.id.enrollRL, R.id.aboutUsRL, R.id.serviceRL, R.id.bandRL, R.id.orderRL
-    ,R.id.withdraw,R.id.trouble_rl,R.id.expendRL})
+    ,R.id.withdraw,R.id.trouble_rl,R.id.expendRL,R.id.foodOrderRL,R.id.rl_msg})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -149,7 +151,9 @@ public class PersonActivity extends BaseActivity {
                 break;
             case R.id.exit:
                 userSP.clearUserData();
-                Intent i = new Intent(this, MainActivity.class);
+                JpushUtil.getInstance().setAlias("");
+                JpushUtil.getInstance().stopPush(AppContext.getInstance());
+                Intent i = new Intent(this, MainNewActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 i.putExtra("type", 3);
                 startActivity(i);
@@ -185,6 +189,12 @@ public class PersonActivity extends BaseActivity {
                 break;
             case R.id.expendRL:
                 ControllerUtil.go2ExpendInfo();
+                break;
+            case R.id.foodOrderRL:
+                ControllerUtil.go2FoodHisOrder();
+                break;
+            case R.id.rl_msg:
+                ControllerUtil.go2MsgList();
                 break;
         }
     }

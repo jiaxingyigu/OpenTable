@@ -2,11 +2,14 @@ package com.yigu.opentable.activity.order;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yigu.opentable.R;
+import com.yigu.opentable.activity.FoodHisOrderActivity;
+import com.yigu.opentable.activity.MainNewActivity;
 import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.util.ControllerUtil;
 
@@ -21,11 +24,15 @@ public class OrderCompleteActivity extends BaseActivity {
     @Bind(R.id.center)
     TextView center;
 
+    String backStr = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_complete);
         ButterKnife.bind(this);
+        if(null!=getIntent())
+            backStr = getIntent().getStringExtra("back");
         initView();
     }
 
@@ -40,7 +47,13 @@ public class OrderCompleteActivity extends BaseActivity {
                 ControllerUtil.go2HistoryOrder();
                 break;
             case R.id.back_tv:
-                startActivity(new Intent(this, OrderActivity.class));
+                if(!TextUtils.isEmpty(backStr)&&backStr.equals("food"))
+                    startActivity(new Intent(this, FoodHisOrderActivity.class));
+                else if(!TextUtils.isEmpty(backStr)&&backStr.equals("cook")){
+                    startActivity(new Intent(this, MainNewActivity.class));
+                }
+                else
+                    startActivity(new Intent(this, MainNewActivity.class));
                 finish();
                 break;
         }
@@ -48,7 +61,13 @@ public class OrderCompleteActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, OrderActivity.class));
+        if(!TextUtils.isEmpty(backStr)&&backStr.equals("food"))
+            startActivity(new Intent(this, FoodHisOrderActivity.class));
+        else if(!TextUtils.isEmpty(backStr)&&backStr.equals("cook")){
+            startActivity(new Intent(this, MainNewActivity.class));
+        }
+        else
+            startActivity(new Intent(this, MainNewActivity.class));
         finish();
     }
 }

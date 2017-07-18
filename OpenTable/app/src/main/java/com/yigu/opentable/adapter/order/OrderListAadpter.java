@@ -108,6 +108,7 @@ public class OrderListAadpter extends RecyclerView.Adapter<OrderListAadpter.View
         String numStr = TextUtils.isEmpty(mapiOrderResult.getNum())?"0":mapiOrderResult.getNum();
         holder.purcaseSheetLayout.setNum(Integer.parseInt(numStr));
         holder.purcaseSheetLayout.setTag(position);
+        holder.purcaseSheetLayout.setMaxNum(TextUtils.isEmpty(mapiOrderResult.getAMOUNT())?0:Integer.parseInt(mapiOrderResult.getAMOUNT()));
         holder.purcaseSheetLayout.setNunerListener(new PurcaseSheetLayout.NumberListener() {
             @Override
             public void numerAdd(View view,View rootView) {

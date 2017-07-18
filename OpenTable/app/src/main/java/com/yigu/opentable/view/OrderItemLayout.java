@@ -121,6 +121,10 @@ public class OrderItemLayout extends RelativeLayout {
                         }
                         break;
 
+                    case TableDataSource.TYPE_WORKERS://美食坊
+                        ControllerUtil.go2FoodList();
+                        break;
+
                 }
             }
         });

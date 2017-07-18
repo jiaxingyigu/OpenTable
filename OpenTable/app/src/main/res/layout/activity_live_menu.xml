@@ -15,7 +15,7 @@
     <LinearLayout
         android:id="@+id/ll_info"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"

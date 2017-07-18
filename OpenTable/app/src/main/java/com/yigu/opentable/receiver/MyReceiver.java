@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.yigu.commom.util.DebugLog;
-import com.yigu.opentable.activity.MainActivity;
+import com.yigu.opentable.activity.MainNewActivity;
 import com.yigu.opentable.broadcast.ReceiverAction;
 import com.yigu.opentable.util.JpushUtil;
 
@@ -50,7 +50,7 @@ public class MyReceiver extends BroadcastReceiver {
 			String title = intent.getStringExtra(JPushInterface.EXTRA_NOTIFICATION_TITLE);
 
 			//打开自定义的Activity
-			Intent i = new Intent(context, MainActivity.class);
+			Intent i = new Intent(context, MainNewActivity.class);
 			i.putExtras(bundle);
 			//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

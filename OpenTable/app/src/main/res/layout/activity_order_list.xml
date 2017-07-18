@@ -16,7 +16,7 @@
     <LinearLayout
         android:id="@+id/ll_info"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_small"
             android:textColor="@color/shop_black"
-            android:text="简介"
+            android:text=""
             android:ellipsize="end"
             android:maxLines="4"
             android:lineSpacingMultiplier="1.2"

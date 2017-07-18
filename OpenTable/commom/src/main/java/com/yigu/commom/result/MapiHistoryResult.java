@@ -15,6 +15,141 @@ public class MapiHistoryResult implements Serializable{
     private String tel;
     private String name;
     private String PATH;
+    private String remark;
+    private String shopname;
+    private String seat;
+    private String usedate;
+    private String flag;
+    private String state;
+    private String dinnertime;
+    private String reply;
+    private String SHOP;
+    private String INTRODUCTION;
+    private String zhifu;
+    private String takeTime;
+    private String stardate2;
+    private String roomservice;
+    private String ctype;
+
+    public String getCtype() {
+        return ctype;
+    }
+
+    public void setCtype(String ctype) {
+        this.ctype = ctype;
+    }
+
+    public String getRoomservice() {
+        return roomservice;
+    }
+
+    public void setRoomservice(String roomservice) {
+        this.roomservice = roomservice;
+    }
+
+    public String getStardate2() {
+        return stardate2;
+    }
+
+    public void setStardate2(String stardate2) {
+        this.stardate2 = stardate2;
+    }
+
+    public String getTakeTime() {
+        return takeTime;
+    }
+
+    public void setTakeTime(String takeTime) {
+        this.takeTime = takeTime;
+    }
+
+    public String getZhifu() {
+        return zhifu;
+    }
+
+    public void setZhifu(String zhifu) {
+        this.zhifu = zhifu;
+    }
+
+    public String getINTRODUCTION() {
+        return INTRODUCTION;
+    }
+
+    public void setINTRODUCTION(String INTRODUCTION) {
+        this.INTRODUCTION = INTRODUCTION;
+    }
+
+    public String getSHOP() {
+        return SHOP;
+    }
+
+    public void setSHOP(String SHOP) {
+        this.SHOP = SHOP;
+    }
+
+    public String getReply() {
+        return reply;
+    }
+
+    public void setReply(String reply) {
+        this.reply = reply;
+    }
+
+    public String getDinnertime() {
+        return dinnertime;
+    }
+
+    public void setDinnertime(String dinnertime) {
+        this.dinnertime = dinnertime;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        this.flag = flag;
+    }
+
+    public String getSeat() {
+        return seat;
+    }
+
+    public void setSeat(String seat) {
+        this.seat = seat;
+    }
+
+    public String getShopname() {
+        return shopname;
+    }
+
+    public void setShopname(String shopname) {
+        this.shopname = shopname;
+    }
+
+    public String getUsedate() {
+        return usedate;
+    }
+
+    public void setUsedate(String usedate) {
+        this.usedate = usedate;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public String getName() {
         return name;

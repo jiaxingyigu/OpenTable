@@ -38,12 +38,12 @@
             >
 
             <LinearLayout
-                android:id="@+id/ll_sign"
+                android:id="@+id/company_info"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="78dp"
                 android:gravity="center"
-                android:background="@drawable/rect_soild_blue_round_14"
+                android:background="@drawable/rect_soild_light_green_round_14"
                 >
 
                 <TextView
@@ -51,33 +51,8 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/shop_white"
                     android:textSize="13dp"
-                    android:drawableTop="@mipmap/sign_up"
-                    android:text="活动报名"
-                    android:drawablePadding="12dp"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_info"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="78dp"
-                android:gravity="center"
-                android:background="@drawable/rect_soild_high_green_round_14"
-                android:layout_marginLeft="8dp"
-                >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/shop_white"
-                    android:textSize="13dp"
-                    android:drawableTop="@mipmap/info"
-                    android:text="平台信息"
+                    android:drawableTop="@mipmap/unit"
+                    android:text="单位入驻"
                     android:drawablePadding="12dp"
                     android:gravity="center"
                     android:maxLines="1"
@@ -112,12 +87,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/company_info"
+                android:id="@+id/ll_info"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="78dp"
                 android:gravity="center"
-                android:background="@drawable/rect_soild_light_green_round_14"
+                android:background="@drawable/rect_soild_high_green_round_14"
                 android:layout_marginLeft="8dp"
                 >
 
@@ -126,8 +101,8 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/shop_white"
                     android:textSize="13dp"
-                    android:drawableTop="@mipmap/unit"
-                    android:text="单位入驻"
+                    android:drawableTop="@mipmap/info"
+                    android:text="平台信息"
                     android:drawablePadding="12dp"
                     android:gravity="center"
                     android:maxLines="1"
@@ -135,6 +110,32 @@
                     />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_sign"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="78dp"
+                android:gravity="center"
+                android:background="@drawable/rect_soild_blue_round_14"
+                android:layout_marginLeft="8dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/shop_white"
+                    android:textSize="13dp"
+                    android:drawableTop="@mipmap/sign_up"
+                    android:text="活动报名"
+                    android:drawablePadding="12dp"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -181,6 +182,67 @@
 
         </LinearLayout>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="@dimen/margin_2"
+        android:layout_marginBottom="@dimen/margin_2"
+        >
+
+        <LinearLayout
+            android:id="@+id/live_info"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="78dp"
+            android:gravity="center"
+            android:background="@drawable/rect_soild_white_stroke_gray_round_14"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/shop_black"
+                android:textSize="13dp"
+                android:drawableLeft="@mipmap/order_live"
+                android:text="生活馆"
+                android:drawablePadding="12dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cook_info"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="78dp"
+            android:gravity="center"
+            android:background="@drawable/rect_soild_white_stroke_gray_round_14"
+            android:layout_marginLeft="8dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/shop_black"
+                android:textSize="13dp"
+                android:drawableLeft="@mipmap/order_cook"
+                android:text="达人堂"
+                android:drawablePadding="12dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="end"
+                />
+
+        </LinearLayout>
+
+</LinearLayout>
     </LinearLayout>
 
 

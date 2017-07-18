@@ -1,12 +1,14 @@
 package com.yigu.commom.api;
 
 import android.app.Activity;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.yigu.commom.result.MapiCampaignResult;
 import com.yigu.commom.result.MapiImageResult;
 import com.yigu.commom.result.MapiItemResult;
+import com.yigu.commom.result.MapiMsgResult;
 import com.yigu.commom.util.DebugLog;
 import com.yigu.commom.util.MapiUtil;
 import com.yigu.commom.util.RequestCallback;
@@ -31,10 +33,12 @@ public class CampaignApi extends BasicApi{
      * @param callback
      * @param exceptionCallback
      */
-    public static void getActivitylist(Activity activity, String PAGENO, String SIZE, final RequestPageCallback callback, final RequestExceptionCallback exceptionCallback){
+    public static void getActivitylist(Activity activity, String PAGENO, String SIZE,String type, final RequestPageCallback callback, final RequestExceptionCallback exceptionCallback){
         Map<String,String> params = new HashMap<>();
         params.put("PAGENO",PAGENO);
         params.put("SIZE",SIZE);
+        if(!TextUtils.isEmpty(type))
+            params.put("type",type);
         MapiUtil.getInstance().call(activity,getActivitylist,params,new MapiUtil.MapiSuccessResponse(){
             @Override
             public void success(JSONObject json) {
@@ -502,6 +506,36 @@ public class CampaignApi extends BasicApi{
             public void success(JSONObject json) {
                 DebugLog.i("json="+json);
                 callback.success(json);
+            }
+        },new MapiUtil.MapiFailResponse(){
+            @Override
+            public void fail(String code, String failMessage) {
+                exceptionCallback.error(code,failMessage);
+            }
+        });
+    }
+
+    /**
+     * 获取单位列表
+     * @param activity
+     * @param NAME
+     * @param callback
+     * @param exceptionCallback
+     */
+    public static void getNCompanylist(Activity activity,String NAME,String PAGENO, String SIZE,final RequestPageCallback callback, final RequestExceptionCallback exceptionCallback){
+        Map<String,String> params = new HashMap<>();
+        params.put("NAME",NAME);
+        params.put("PAGENO",PAGENO);
+        params.put("SIZE",SIZE);
+        MapiUtil.getInstance().call(activity,getNCompanylist,params,new MapiUtil.MapiSuccessResponse(){
+            @Override
+            public void success(JSONObject json) {
+                DebugLog.i("json="+json);
+                List<MapiCampaignResult> result = JSONArray.parseArray(json.getJSONObject("data").getJSONArray("company").toJSONString(),MapiCampaignResult.class);
+                Integer count = json.getJSONObject("data").getInteger("ISNEXT");
+                if(null!=count){
+                    callback.success(count,result);
+                }
             }
         },new MapiUtil.MapiFailResponse(){
             @Override

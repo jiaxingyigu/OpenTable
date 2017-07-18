@@ -110,12 +110,14 @@ public class RegisterActivity extends BaseActivity {
                     MainToast.showShortToast("两次密码输入不一致");
                     return;
                 }
+                showLoading();
                 UserApi.register(this, phoneStr2, codeStr, psdStr, new RequestCallback<MapiUserResult>() {
                     @Override
                     public void success(MapiUserResult success) {
+                        hideLoading();
                         MainToast.showShortToast("注册成功");
                         userSP.saveUserBean(success);
-                        Intent cancelIntent = new Intent(RegisterActivity.this,MainActivity.class);
+                        Intent cancelIntent = new Intent(RegisterActivity.this,MainNewActivity.class);
                         cancelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(cancelIntent);
@@ -124,6 +126,7 @@ public class RegisterActivity extends BaseActivity {
                 }, new RequestExceptionCallback() {
                     @Override
                     public void error(String code, String message) {
+                        hideLoading();
                         MainToast.showShortToast(message);
                     }
                 });

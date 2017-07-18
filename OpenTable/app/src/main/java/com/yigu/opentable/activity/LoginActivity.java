@@ -55,9 +55,11 @@ public class LoginActivity extends BaseActivity {
                     MainToast.showShortToast("请输入密码");
                     return;
                 }
+                showLoading();
                 UserApi.login(this, nameStr, psdStr, new RequestCallback<MapiUserResult>() {
                     @Override
                     public void success(MapiUserResult success) {
+                        hideLoading();
                         MainToast.showShortToast("登录成功");
                         userSP.saveUserBean(success);
                         ControllerUtil.go2Main();
@@ -66,6 +68,7 @@ public class LoginActivity extends BaseActivity {
                 }, new RequestExceptionCallback() {
                     @Override
                     public void error(String code, String message) {
+                        hideLoading();
                         MainToast.showShortToast(message);
                     }
                 });

@@ -98,7 +98,7 @@ public class TenantMenuActivity extends BaseActivity {
             initListener();
             showLoading();
             load();
-            loadTip();
+//            loadTip();
         }
     }
 
@@ -153,6 +153,7 @@ public class TenantMenuActivity extends BaseActivity {
                 intent.putExtra("all", TextUtils.isEmpty(account.getText()) ? "0" : account.getText().toString());
                 intent.putExtra("type","tenant");
                 intent.putExtra("SHOP",mapiOrderResult.getID());
+                intent.putExtra("companyId",mapiOrderResult.getCompanyId());
                 startActivityForResult(intent, RequestCode.order_detail);
             }
         });
@@ -349,11 +350,11 @@ public class TenantMenuActivity extends BaseActivity {
             case R.id.purcase:
                 Intent intent = new Intent(AppContext.getInstance(), TenantPurcaseActivity.class);
                 intent.putExtra("SHOP",mapiOrderResult.getID());
-                intent.putExtra("hasAddr",true);
+                intent.putExtra("companyId",mapiOrderResult.getCompanyId());
                 startActivityForResult(intent,RequestCode.purcase_list);
                 break;
             case R.id.deel:
-                ControllerUtil.go2TenantPay(mapiOrderResult.getID(),true);
+                ControllerUtil.go2TenantPay(mapiOrderResult.getID(),mapiOrderResult.getCompanyId());
                 break;
         }
     }

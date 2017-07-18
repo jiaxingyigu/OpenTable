@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yigu.opentable.activity.food.FoodOrderActivity"
+    android:orientation="vertical"
+    >
+
+    <include
+        layout="@layout/lay_header"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="38dp"
+            android:layout_marginRight="38dp"
+            >
+
+            <LinearLayout
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:gravity="center_vertical"
+                android:layout_marginTop="40dp"
+                android:paddingLeft="17dp"
+                >
+
+                <TextView
+                    android:id="@+id/date_tv"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="@dimen/text_small"
+                    android:textColor="@color/shop_black"
+                    android:gravity="center_vertical"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:padding="4dp"
+                    android:hint="用餐日期"
+                    />
+
+                <ImageView
+                    android:id="@+id/clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/clear_icon"
+                    android:paddingRight="8dp"
+                    android:paddingLeft="8dp"
+                    android:visibility="gone"
+                    />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/date_icon"
+                    android:paddingRight="7dp"
+                    />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/detailTime"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入具体用餐时间"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+            <EditText
+                android:id="@+id/number"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="请输入用餐人数"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                android:inputType="number"
+                android:maxLength="4"
+                />
+
+            <EditText
+                android:id="@+id/instruction"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/text_height_40dp"
+                style="@style/editViewStyle"
+                android:hint="备注说明：位置要求等"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                android:paddingLeft="17dp"
+                />
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</LinearLayout>

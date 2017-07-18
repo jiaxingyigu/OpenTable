@@ -8,8 +8,8 @@ android {
         applicationId "com.yigu.opentable"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 11
-        versionName "1.0.11"
+        versionCode 22
+        versionName "2.1"
     }
     buildTypes {
         release {
@@ -42,6 +42,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
     compile 'com.android.support:design:23.4.0'
-    compile 'com.bigkoo:pickerview:2.1.0'
     compile 'com.github.xiaoxiongmeipigu:VersionUpdate-master:1.0.1'
 }

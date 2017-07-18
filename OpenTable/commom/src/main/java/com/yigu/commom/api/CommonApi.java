@@ -4,6 +4,10 @@ import android.app.Activity;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.yigu.commom.result.MapiDepartmentResult;
+import com.yigu.commom.result.MapiMsgResult;
 import com.yigu.commom.result.MapiOrderResult;
 import com.yigu.commom.result.MapiPlatformResult;
 import com.yigu.commom.result.MapiResourceResult;
@@ -51,12 +55,14 @@ public class CommonApi extends BasicApi{
      * 支付方式列表
      * @param activity
      * @param SHOP
+     * @param account
      * @param callback
      * @param exceptionCallback
      */
-    public static void getPayment(Activity activity, String SHOP, final RequestCallback callback, final RequestExceptionCallback exceptionCallback){
+    public static void getPayment(Activity activity, String SHOP,String account, final RequestCallback callback, final RequestExceptionCallback exceptionCallback){
         Map<String,String> params = new HashMap<>();
         params.put("SHOP",SHOP);
+        params.put("account",account);
         MapiUtil.getInstance().call(activity,getPayment,params,new MapiUtil.MapiSuccessResponse(){
             @Override
             public void success(JSONObject json) {
@@ -186,6 +192,69 @@ public class CommonApi extends BasicApi{
                     }
                 });
 
+    }
+
+
+    /**
+     * 我的消息
+     * @param act
+     * @param appuserid
+     * @param PAGENO
+     * @param SIZE
+     * @param callback
+     * @param exceptionCallback
+     */
+    public static void getMessages(final Activity act, String appuserid,String PAGENO, String SIZE, final RequestPageCallback callback, final RequestExceptionCallback exceptionCallback){
+        Map<String,String> params = new HashMap<>();
+        params.put("appuserid",appuserid);
+        params.put("PAGENO",PAGENO);
+        params.put("SIZE",SIZE);
+        MapiUtil.getInstance().call(act,getMessages,params,new MapiUtil.MapiSuccessResponse(){
+            @Override
+            public void success(JSONObject json) {
+                DebugLog.i("json="+json);
+                List<MapiMsgResult> result = JSONArray.parseArray(json.getJSONObject("data").getJSONArray("message").toJSONString(),MapiMsgResult.class);
+                Integer count = json.getJSONObject("data").getInteger("ISNEXT");
+                if(null!=count){
+                    callback.success(count,result);
+                }
+
+            }
+        },new MapiUtil.MapiFailResponse(){
+            @Override
+            public void fail(String code, String failMessage) {
+                exceptionCallback.error(code,failMessage);
+            }
+        });
+    }
+
+    /**
+     * 获取部门科室接口
+     * @param act
+     * @param COMPANY
+     * @param callback
+     * @param exceptionCallback
+     */
+    public static void getDepartment(Activity act,String COMPANY,final RequestCallback callback,
+                                     final RequestExceptionCallback exceptionCallback){
+        Map<String, String> params = new HashMap<>();
+        params.put("COMPANY",COMPANY);
+        MapiUtil.getInstance().call(act,getDepartment, params,
+                new MapiUtil.MapiSuccessResponse() {
+                    @Override
+                    public void success(JSONObject json) {
+                        DebugLog.i("json="+json);
+
+                        Gson gson = new Gson();
+                        List<MapiDepartmentResult> result = gson.fromJson(json.getJSONArray("data").toJSONString(), new TypeToken<List<MapiDepartmentResult>>(){}.getType());
+                        callback.success(result);
+                    }
+                }, new MapiUtil.MapiFailResponse() {
+                    @Override
+                    public void fail(String code,String message) {
+                        exceptionCallback.error(code,message);
+                    }
+                });
     }
 
 }

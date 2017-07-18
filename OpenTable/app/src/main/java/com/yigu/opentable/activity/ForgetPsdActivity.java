@@ -18,6 +18,7 @@ import com.yigu.commom.util.RequestExceptionCallback;
 import com.yigu.commom.util.SMSUtils;
 import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
+import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.receiver.SMSBroadcastReceiver;
 import com.yigu.opentable.util.ControllerUtil;
 
@@ -25,7 +26,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ForgetPsdActivity extends AppCompatActivity {
+public class ForgetPsdActivity extends BaseActivity {
 
     @Bind(R.id.back)
     ImageView back;
@@ -103,9 +104,11 @@ public class ForgetPsdActivity extends AppCompatActivity {
                     MainToast.showShortToast("两次密码输入不一致");
                     return;
                 }
+                showLoading();
                 UserApi.editPassword(this, phoneStr2, codeStr, psdStr, new RequestCallback() {
                     @Override
                     public void success(Object success) {
+                        hideLoading();
                         MainToast.showShortToast("密码修改成功");
                         Intent cancelIntent = new Intent(ForgetPsdActivity.this,LoginActivity.class);
                         cancelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -116,6 +119,7 @@ public class ForgetPsdActivity extends AppCompatActivity {
                 }, new RequestExceptionCallback() {
                     @Override
                     public void error(String code, String message) {
+                        hideLoading();
                         MainToast.showShortToast(message);
                     }
                 });

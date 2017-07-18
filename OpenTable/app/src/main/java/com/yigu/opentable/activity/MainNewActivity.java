@@ -5,19 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.OrientationHelper;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
 import com.yigu.commom.api.CommonApi;
-import com.yigu.commom.api.UserApi;
 import com.yigu.commom.application.AppContext;
+import com.yigu.commom.result.IndexData;
+import com.yigu.commom.result.MapiCampaignResult;
+import com.yigu.commom.result.MapiOrderResult;
+import com.yigu.commom.result.MapiPlatformResult;
 import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.commom.result.MapiUserResult;
 import com.yigu.commom.util.DebugLog;
@@ -26,11 +29,11 @@ import com.yigu.commom.util.RequestCallback;
 import com.yigu.commom.util.RequestExceptionCallback;
 import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
+import com.yigu.opentable.adapter.MainNewAdapter;
 import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.broadcast.ReceiverAction;
 import com.yigu.opentable.util.ControllerUtil;
 import com.yigu.opentable.util.JpushUtil;
-import com.yigu.opentable.view.HomeSliderLayout;
 import com.yigu.updatelibrary.UpdateFunGo;
 import com.yigu.updatelibrary.config.DownloadKey;
 import com.yigu.updatelibrary.config.UpdateKey;
@@ -43,22 +46,25 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
 
-public class MainActivity extends BaseActivity {
+public class MainNewActivity extends BaseActivity {
 
     @Bind(R.id.center)
     TextView center;
-    @Bind(R.id.iv_right)
-    ImageView ivRight;
-    @Bind(R.id.homeSliderLayout)
-    HomeSliderLayout homeSliderLayout;
+    @Bind(R.id.tv_right)
+    TextView tvRight;
+    @Bind(R.id.recyclerView)
+    RecyclerView recyclerView;
+
+    MainNewAdapter mAdapter;
+    List<IndexData> mList;
     private DbManager db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +72,7 @@ public class MainActivity extends BaseActivity {
             ControllerUtil.go2Login();
             finish();
         } else {
-            setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_main_new);
             ButterKnife.bind(this);
             initView();
             load();
@@ -75,64 +81,79 @@ public class MainActivity extends BaseActivity {
                 JPushInterface.resumePush(AppContext.getInstance());
             }
             if (!userSP.getAlias()) {
+                DebugLog.i("getAlias===>false");
                 JpushUtil.getInstance().setAlias(userSP.getUserBean().getUSER_ID());
             }
             registerMessageReceiver();  // used for receive msg
         }
-
     }
 
     private void initView() {
         center.setText("首页");
-        ivRight.setImageResource(R.mipmap.person_white);
-
-        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig().setDbName("open").setDbDir(new File(FileUtil.getFolderPath(this,FileUtil.TYPE_DB)));
+        tvRight.setText("个人中心");
+        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig().setDbName("open").setDbDir(new File(FileUtil.getFolderPath(this, FileUtil.TYPE_DB)));
         db = x.getDb(daoConfig);
 
+        mList = new ArrayList<>();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        mAdapter = new MainNewAdapter(this, mList);
+        recyclerView.setAdapter(mAdapter);
+
     }
 
-
-    @OnClick({R.id.iv_right, R.id.ll_order, R.id.ll_sign, R.id.ll_info, R.id.shop_info, R.id.company_info})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_right:
-                ControllerUtil.go2Person();
-                break;
-            case R.id.ll_order:
-                ControllerUtil.go2Order();
-                break;
-            case R.id.ll_sign://
-                ControllerUtil.go2Campaign();
-                break;
-            case R.id.ll_info:
-                ControllerUtil.go2Platform();
-//                MainToast.showShortToast("敬请期待");
-                break;
-            case R.id.shop_info://商家入驻
-                ControllerUtil.go2ShopEnter();
-                break;
-            case R.id.company_info://单位入驻
-                ControllerUtil.go2CampaignEnter();
-                break;
-        }
-    }
-
-    private void load(){
+    private void load() {
         showLoading();
         CommonApi.loadResources(this, userSP.getUserBean().getUSER_ID(), new RequestCallback<String>() {
             @Override
             public void success(String success) {
                 hideLoading();
                 userSP.saveResource(success);
-                if(null!=userSP.getResource()){
+                if (null != userSP.getResource()) {
                     JSONObject jsonObject = JSONObject.parseObject(userSP.getResource());
 
                     List<MapiResourceResult> list = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("version").toJSONString(), MapiResourceResult.class);
-                    if(null!=list&&!list.isEmpty())
+                    if (null != list && !list.isEmpty())
                         checkVersion(list.get(0));
-                    List<MapiResourceResult> images = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("poster").toJSONString(),  MapiResourceResult.class);
-                    if(null!=images&&!images.isEmpty())
-                        homeSliderLayout.load(images);
+                    List<MapiResourceResult> images = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("poster").toJSONString(), MapiResourceResult.class);
+                    if (null != images && !images.isEmpty()) {
+//                        homeSliderLayout.setSlider(true);
+//                        homeSliderLayout.load(images);
+                        mList.add(new IndexData(0, "SLIDER_IMAGE", images));
+                    }
+
+                    mList.add(new IndexData(1, "SERVICE", new Object()));
+
+                    if(null!=jsonObject.getJSONObject("data").getJSONArray("ptxx")){
+                        List<MapiPlatformResult> plats = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("ptxx").toJSONString(), MapiPlatformResult.class);
+                        if (null != plats && !plats.isEmpty()) {
+                            mList.add(new IndexData(2, "ITEM_FLAT", plats));
+                        }
+                    }
+
+                    if(null!=jsonObject.getJSONObject("data").getJSONArray("com")){
+                        List<MapiCampaignResult> units = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("com").toJSONString(), MapiCampaignResult.class);
+                        if (null != units && !units.isEmpty()) {
+                            mList.add(new IndexData(3, "ITEM_UNIT", units));
+                        }
+                    }
+
+                    if(null!=jsonObject.getJSONObject("data").getJSONArray("sp")){
+                        List<MapiOrderResult> tenants = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("sp").toJSONString(), MapiOrderResult.class);
+                        if (null != tenants && !tenants.isEmpty()) {
+                            mList.add(new IndexData(4, "ITEM_TENANT", tenants));
+                        }
+                    }
+
+                    if(null!=jsonObject.getJSONObject("data").getJSONArray("msf")){
+                        List<MapiOrderResult> foods = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("msf").toJSONString(), MapiOrderResult.class);
+                        if (null != foods && !foods.isEmpty()) {
+                            mList.add(new IndexData(5, "ITEM_FOOD", foods));
+                        }
+                    }
+
+                    mAdapter.notifyDataSetChanged();
 
                     String CNAME = jsonObject.getJSONObject("data").getString("CNAME");
                     String PATH = jsonObject.getJSONObject("data").getString("PATH");
@@ -164,7 +185,7 @@ public class MainActivity extends BaseActivity {
             DownloadKey.changeLog = result.getRemark();
             DownloadKey.apkUrl = result.getUrl();
             //如果你想通过Dialog来进行下载，可以如下设置
-            UpdateKey.DialogOrNotification= UpdateKey.WITH_DIALOG;
+            UpdateKey.DialogOrNotification = UpdateKey.WITH_DIALOG;
             DownloadKey.ToShowDownloadView = DownloadKey.showUpdateView;
             UpdateFunGo.init(this);
         }
@@ -185,8 +206,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int type = intent.getIntExtra("type",0);
-        if(type==3){
+        int type = intent.getIntExtra("type", 0);
+        if (type == 3) {
             ControllerUtil.go2Login();
             finish();
         }
@@ -219,6 +240,11 @@ public class MainActivity extends BaseActivity {
         registerReceiver(mMessageReceiver, filter);
     }
 
+    @OnClick(R.id.tv_right)
+    public void onClick() {
+        ControllerUtil.go2Person();
+    }
+
     public class MessageReceiver extends BroadcastReceiver {
 
         @Override
@@ -232,7 +258,7 @@ public class MainActivity extends BaseActivity {
                     showMsg.append(JpushUtil.KEY_EXTRAS + " : " + extras + "\n");
                 }*/
                 DebugLog.i(messge);
-                if(!TextUtils.isEmpty(messge)){
+                if (!TextUtils.isEmpty(messge)) {
                     JSONObject jsonObject = JSONObject.parseObject(messge);
 
                     String result = jsonObject.getString("result");
@@ -240,14 +266,20 @@ public class MainActivity extends BaseActivity {
 
                     MainToast.showShortToast(data);
 
-                    if("00".equals(result)){
+                    if ("00".equals(result)) {
                         MapiUserResult userResult = userSP.getUserBean();
                         userResult.setCOMPANY("");
                         userResult.setLogo("");
                         userSP.saveUserBean(userResult);
-                        Intent i = new Intent(MainActivity.this, MainActivity.class);
+                        Intent i = new Intent(MainNewActivity.this, MainNewActivity.class);
                         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(i);
+                    } else if ("11".equals(result)) {
+                        Intent foodIntent = new Intent(ReceiverAction.FOOD_COMPLETE_ACTION);
+                        sendBroadcast(foodIntent);
+                    } else if ("22".equals(result)) {
+                        Intent foodIntent = new Intent(ReceiverAction.FOOD_FAIL_ACTION);
+                        sendBroadcast(foodIntent);
                     }
 
                 }
@@ -259,16 +291,14 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(null!=mMessageReceiver)
+        if (null != mMessageReceiver)
             unregisterReceiver(mMessageReceiver);
-        if(userSP.checkLogin()){
+        if (userSP.checkLogin()) {
             try {
                 db.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-
     }
 }

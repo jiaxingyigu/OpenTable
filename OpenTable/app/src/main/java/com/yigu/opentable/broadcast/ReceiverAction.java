@@ -15,5 +15,6 @@ public class ReceiverAction {
     public static String assignLicense_action = "com.yigu.opentable.assignLicense.SENDBROADCAST";
 
     public static String WEIXIN_PAY_ACTION = "com.example.jpushdemo.WEIXIN_PAY_ACTION";
-
+    public static String FOOD_COMPLETE_ACTION = "com.yigu.opentable.food.FOOD_COMPLETE_ACTION";
+    public static String FOOD_FAIL_ACTION = "com.yigu.opentable.food.FOOD_FAIL_ACTION";
 }

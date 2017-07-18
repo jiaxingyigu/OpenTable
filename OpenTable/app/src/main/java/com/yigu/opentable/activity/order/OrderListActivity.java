@@ -177,7 +177,7 @@ public class OrderListActivity extends BaseActivity {
 
         //通过日历获取下一天日期
         calendar.setTime(new Date());
-        calendar.add(Calendar.DAY_OF_YEAR, +1);
+//        calendar.add(Calendar.DAY_OF_YEAR, +1);
         pvTime.setTime(calendar.getTime());
 
         pvTime.setCyclic(false);
@@ -234,6 +234,7 @@ public class OrderListActivity extends BaseActivity {
                 intent.putExtra("position", position);
                 intent.putExtra("all", TextUtils.isEmpty(account.getText()) ? "0" : account.getText().toString());
                 intent.putExtra("type", "pay");
+                intent.putExtra("companyId",userSP.getUserBean().getCOMPANY());
                 startActivityForResult(intent, RequestCode.order_detail);
 
             }
@@ -271,7 +272,7 @@ public class OrderListActivity extends BaseActivity {
                 String img_url = "";
                 if(userSP.checkLogin()){
                     if(TextUtils.isEmpty(userSP.getUserBean().getLogo())){
-                        img_url = "";
+                        img_url = BasicApi.LOGO_URL;
                     }else{
                         img_url = BasicApi.BASIC_IMAGE + userSP.getUserBean().getLogo();
                     }
@@ -377,6 +378,7 @@ public class OrderListActivity extends BaseActivity {
     }
 
     private void loadTime() {
+        showLoading();
         OrderApi.getDinnertime(this, mapiOrderResult.getID(), new RequestCallback<List<MapiResourceResult>>() {
             @Override
             public void success(List<MapiResourceResult> success) {
@@ -403,9 +405,11 @@ public class OrderListActivity extends BaseActivity {
 
     private void load() {
         DebugLog.i("dateTv=>" + dateTv.getText().toString());
+        showLoading();
         OrderApi.getFoodmenu(this, mapiOrderResult.getID(), dateTv.getText().toString(), type, style, pageIndex + "", pageSize + "", new RequestPageCallback<List<MapiOrderResult>>() {
             @Override
             public void success(Integer isNext, List<MapiOrderResult> success) {
+                hideLoading();
                 swipRefreshLayout.setRefreshing(false);
                 ISNEXT = isNext;
                 if (success.isEmpty())
@@ -455,6 +459,7 @@ public class OrderListActivity extends BaseActivity {
         }, new RequestExceptionCallback() {
             @Override
             public void error(String code, String message) {
+                hideLoading();
                 swipRefreshLayout.setRefreshing(false);
                 MainToast.showShortToast(message);
             }
@@ -496,10 +501,11 @@ public class OrderListActivity extends BaseActivity {
             case R.id.purcase:
                 Intent intent = new Intent(AppContext.getInstance(), PurcaseActivity.class);
                 intent.putExtra("SHOP", mapiOrderResult.getID());
+                intent.putExtra("companyId",userSP.getUserBean().getCOMPANY());
                 startActivityForResult(intent, RequestCode.purcase_list);
                 break;
             case R.id.deel:
-                ControllerUtil.go2Payment(mapiOrderResult.getID());
+                ControllerUtil.go2Payment(mapiOrderResult.getID(),userSP.getUserBean().getCOMPANY());
                 break;
             case R.id.ll_time:
                 baseItemDialog.showDialog();

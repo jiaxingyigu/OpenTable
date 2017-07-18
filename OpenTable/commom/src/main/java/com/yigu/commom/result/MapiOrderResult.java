@@ -42,7 +42,64 @@ public class MapiOrderResult implements Serializable{
     private String star2;
     @Column(name="remark")
     private String remark;
+    @Column(name="eid")
     private String eid;
+    private String seatId="";
+
+    private String companyId;
+
+    private String name;
+    private String addr;
+    private String bpic;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getBpic() {
+        return bpic;
+    }
+
+    public void setBpic(String bpic) {
+        this.bpic = bpic;
+    }
+
+    public String getAddr() {
+        return addr;
+    }
+
+    public void setAddr(String addr) {
+        this.addr = addr;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getSeatId() {
+        return seatId;
+    }
+
+    public void setSeatId(String seatId) {
+        this.seatId = seatId;
+    }
 
     public String getSid() {
         return sid;

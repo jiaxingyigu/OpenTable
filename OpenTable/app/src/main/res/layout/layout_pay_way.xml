@@ -15,6 +15,7 @@
         >
 
         <TextView
+            android:id="@+id/addrTip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="收货地址："
@@ -52,6 +53,7 @@
         >
 
         <TextView
+            android:id="@+id/bzTip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="留言备注："
@@ -76,24 +78,27 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/payTip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="支付方式："
+        android:textSize="@dimen/text_normal"
+        android:textColor="@color/shop_black"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginLeft="@dimen/margin_1"
+        android:layout_below="@+id/ll_bz"
+        android:layout_marginTop="@dimen/margin_1"
+        />
+
     <LinearLayout
         android:orientation="horizontal" android:layout_width="match_parent"
         android:layout_height="53dp"
         android:gravity="center_vertical"
         android:layout_marginRight="@dimen/margin_1"
-        android:layout_below="@+id/ll_bz"
+        android:layout_below="@+id/payTip"
         >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="支付方式："
-            android:textSize="@dimen/text_normal"
-            android:textColor="@color/shop_black"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:layout_marginLeft="@dimen/margin_1"
-            />
 
         <TextView
             android:id="@+id/type_one"
@@ -155,7 +160,6 @@
             android:textSize="@dimen/text_small"
             android:textColor="@color/shop_black"
             android:background="@drawable/rect_stroke_round_4_gray__width_1"
-
             android:layout_marginLeft="14dp"
             android:gravity="center"
             android:visibility="gone"

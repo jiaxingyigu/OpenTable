@@ -120,9 +120,18 @@ public class PlatformFoodFragment extends BaseFrag {
         mAdapter.setRecyOnItemClickListener(new RecyOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                String url =mList.get(position).getUrl();
+
+                String url = mList.get(position).getUrl();
+
+                String img_url ="";
+                if(TextUtils.isEmpty(mList.get(position).getPATH())){
+                    img_url = BasicApi.LOGO_URL;
+                }else{
+                    img_url = BasicApi.BASIC_IMAGE + mList.get(position).getPATH();
+                }
+
                 if(!TextUtils.isEmpty(url))
-                    ControllerUtil.go2WebView(url,"平台信息详情","饮食营养知识",mList.get(position).getTitle(), BasicApi.BASIC_IMAGE + mList.get(position).getPATH(),true);
+                    ControllerUtil.go2WebView(url,"平台信息详情","饮食营养知识",mList.get(position).getTitle(), img_url,true);
             }
         });
 

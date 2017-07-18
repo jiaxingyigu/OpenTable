@@ -4,8 +4,8 @@ package com.yigu.commom.api;
  * Created by brain on 2016/6/14.
  */
 public class BasicApi {
-    public static String BASIC_URL = "http://122.225.92.10:8081";//http://115.159.118.182:8081/dinner
-    public static String BASIC_IMAGE = "http://122.225.92.10:8081/uploadFiles/uploadImgs/";//
+    public static String BASIC_URL = "http://fengzhiyue.com";//http://115.159.118.182:8081/dinner  http://fengzhiyue.com
+    public static String BASIC_IMAGE = "http://fengzhiyue.com/uploadFiles/uploadImgs/";//
 
     public static String SHARE_APP_URL = "http://a.app.qq.com/o/simple.jsp?pkgname=com.yigu.opentable";//分享app的下载地址
     public static String LOGO_URL = BASIC_URL+ "/uploadFiles/uploadImgs/ic_launcher.png";//分享app的下载地址
@@ -100,4 +100,33 @@ public class BasicApi {
     public static String knowledge = "/appuser/knowledge";
     /**问题反馈*/
     public static String comment = "/appuser/comment";
+    /**美食坊列表*/
+    public static String getWorkersHomelist = "/appuser/getWorkersHomelist";
+    /**美食坊订座*/
+    public static String reservation = "/appuser/reservation";
+    /**美食坊订座列表*/
+    public static String getSeatlist = "/appuser/getSeatlist";
+    public static String fukuan = "/appuser/fukuan";
+    public static String delesales = "/appuser/delesales";
+    /**我的消息*/
+    public static String getMessages = "/appuser/getMessages";
+    /**获取单位*/
+    public static String getNCompanylist = "/appuser/getNCompanylist";
+    /**获取部门科室接口*/
+    public static String getDepartment = "/appuser/getDepartment";
+    /**取消订单*/
+    public static String cancelOrder = "/appuser/cancelOrder";
+    /**获取店铺送货方式*/
+    public static String getDelivery = "/appuser/getDelivery";
+    /**单位列表*/
+    public static String getCompanys = "/appuser/getCompanys";
+
+    /**食堂预购*/
+    public static String preordercanteen = "/appuser/preordercanteen";
+    /**食堂职工卡*/
+    public static String balancepaycanteen = "/appuser/balancepaycanteen";
+    /**食堂支付宝*/
+    public static String zhifubaoPaycanteen = "/appuser/zhifubaoPaycanteen";
+    /**食堂微信*/
+    public static String weixinPaycanteen = "/appuser/weixinPaycanteen";
 }

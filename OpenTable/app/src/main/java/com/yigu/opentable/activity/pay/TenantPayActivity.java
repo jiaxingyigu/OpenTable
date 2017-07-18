@@ -23,10 +23,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.sdk.app.PayTask;
 import com.tencent.mm.sdk.modelpay.PayReq;
+import com.yigu.commom.api.CommonApi;
 import com.yigu.commom.api.OrderApi;
 import com.yigu.commom.application.AppContext;
 import com.yigu.commom.result.IndexData;
 import com.yigu.commom.result.MapiOrderResult;
+import com.yigu.commom.result.MapiResourceResult;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.commom.util.DebugLog;
 import com.yigu.commom.util.FileUtil;
@@ -41,6 +43,7 @@ import com.yigu.opentable.broadcast.ReceiverAction;
 import com.yigu.opentable.util.AnimationUtil;
 import com.yigu.opentable.util.zhifubao.PayResult;
 import com.yigu.opentable.view.PayWayLayout;
+import com.yigu.opentable.view.PayWayTwoLayout;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
@@ -67,7 +70,7 @@ public class TenantPayActivity extends BaseActivity {
     @Bind(R.id.deel)
     TextView deel;
     @Bind(R.id.payWayLayout)
-    PayWayLayout payWayLayout;
+    PayWayTwoLayout payWayLayout;
     @Bind(R.id.backgound)
     View backgound;
     @Bind(R.id.allPrice)
@@ -87,10 +90,9 @@ public class TenantPayActivity extends BaseActivity {
     double allPrice = 0;
     String sales = "";
 
-    private boolean hasAddr = false;
-
     private static final int SDK_PAY_FLAG = 1;
     String orderId = "";
+    String companyId = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,11 +101,13 @@ public class TenantPayActivity extends BaseActivity {
 
         if(null!=getIntent()) {
             SHOP = getIntent().getStringExtra("SHOP");
-            hasAddr = getIntent().getBooleanExtra("hasAddr",false);
+            companyId = getIntent().getStringExtra("companyId");
         } if(!TextUtils.isEmpty(SHOP)){
             initView();
             initListener();
             load();
+            loadPay();
+            registerMessageReceiver();
         }
     }
 
@@ -121,32 +125,22 @@ public class TenantPayActivity extends BaseActivity {
         mAdapter = new PaymentAdapter(this, mList);
         recyclerView.setAdapter(mAdapter);
 
-        payWayLayout.setTypeTwo();
-        payWayLayout.setTypeThree();
-        payWayLayout.setTypeFour();
-
-        if(hasAddr)
-            payWayLayout.showAddr();
-
-        payWayLayout.setAddrTip(TextUtils.isEmpty(userSP.getUserBean().getTip())?"":userSP.getUserBean().getTip());
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) payWayLayout.getLayoutParams();
-        lp.width= RelativeLayout.LayoutParams.MATCH_PARENT;
-        lp.height= DPUtil.dip2px(153);
-        payWayLayout.setLayoutParams(lp);
-
+        payWayLayout.loadSend(SHOP);
+        payWayLayout.load(companyId);
 
     }
 
     private void initListener() {
 
-        payWayLayout.setPayWayListener(new PayWayLayout.PayWayListener() {
+        payWayLayout.setPayWayListener(new PayWayTwoLayout.PayWayListener() {
             @Override
             public void preorder() {
-                if(TextUtils.isEmpty(payWayLayout.getAddr())){
-                    MainToast.showShortToast("请输入收货地址");
+                if(TextUtils.isEmpty(payWayLayout.getSendPay())){
+                    MainToast.showShortToast("请选择送货方式");
                 }else{
                     showLoading();
-                    OrderApi.preorder(TenantPayActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales, payWayLayout.getAddr(),new RequestCallback() {
+                    OrderApi.preorder(TenantPayActivity.this,companyId, userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales, payWayLayout.getBz(),"","",
+                            payWayLayout.getCtype1(),payWayLayout.getCtype2(),payWayLayout.getCtype3(),payWayLayout.getSendPay(),new RequestCallback() {
                         @Override
                         public void success(Object success) {
                             hideLoading();
@@ -171,11 +165,12 @@ public class TenantPayActivity extends BaseActivity {
 
             @Override
             public void balancepay() {
-                if(TextUtils.isEmpty(payWayLayout.getAddr())){
-                    MainToast.showShortToast("请输入收货地址");
+                if(TextUtils.isEmpty(payWayLayout.getSendPay())){
+                    MainToast.showShortToast("请选择送货方式");
                 }else{
                     showLoading();
-                    OrderApi.balancepay(TenantPayActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales, payWayLayout.getAddr(),new RequestCallback() {
+                    OrderApi.balancepay(TenantPayActivity.this, companyId,userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales, payWayLayout.getBz(),"","",
+                            payWayLayout.getCtype1(),payWayLayout.getCtype2(),payWayLayout.getCtype3(),payWayLayout.getSendPay(),new RequestCallback() {
                         @Override
                         public void success(Object success) {
                             hideLoading();
@@ -200,12 +195,13 @@ public class TenantPayActivity extends BaseActivity {
             @Override
             public void weixinpay() {
 
-                if(TextUtils.isEmpty(payWayLayout.getAddr())){
-                    MainToast.showShortToast("请输入收货地址");
+                if(TextUtils.isEmpty(payWayLayout.getSendPay())){
+                    MainToast.showShortToast("请选择送货方式");
                 }else{
                     showLoading();
                     int price = (int) (allPrice*100);
-                    OrderApi.weixinPay(TenantPayActivity.this, userSP.getUserBean().getUSER_ID(), price+"", new RequestCallback<JSONObject>() {
+                    OrderApi.weixinPay(TenantPayActivity.this,companyId, userSP.getUserBean().getUSER_ID(), SHOP, allPrice + "", price +"",sales, payWayLayout.getBz(),"","",
+                            payWayLayout.getCtype1(),payWayLayout.getCtype2(),payWayLayout.getCtype3(),payWayLayout.getSendPay(),new RequestCallback<JSONObject>() {
                         @Override
                         public void success(JSONObject success) {
                             hideLoading();
@@ -228,13 +224,14 @@ public class TenantPayActivity extends BaseActivity {
 
             @Override
             public void zhifubaopay() {
-                if(TextUtils.isEmpty(payWayLayout.getAddr())){
-                    MainToast.showShortToast("请输入收货地址");
+                if(TextUtils.isEmpty(payWayLayout.getSendPay())){
+                    MainToast.showShortToast("请选择送货方式");
                 }else{
                     showLoading();
-                    OrderApi.zhifubaoPay(TenantPayActivity.this, userSP.getUserBean().getUSER_ID(), allPrice+"", new RequestCallback<JSONObject>() {
+                    OrderApi.zhifubaoPay(TenantPayActivity.this,companyId, userSP.getUserBean().getUSER_ID(), SHOP, allPrice + "", sales, payWayLayout.getBz(),"","",
+                            payWayLayout.getCtype1(),payWayLayout.getCtype2(),payWayLayout.getCtype3(),payWayLayout.getSendPay(),new RequestCallback<JSONObject>() {
                         @Override
-                        public void success(JSONObject success) {
+                        public void success(JSONObject success) {//
                             hideLoading();
                             String orderInfo  = success.getJSONObject("data").getString("orderInfo");
                             orderId = success.getJSONObject("data").getString("orderId");
@@ -296,7 +293,6 @@ public class TenantPayActivity extends BaseActivity {
                     tmpObj.put("PRICE" , orderList.get(i).getPRICE());
                     tmpObj.put("FOOD", orderList.get(i).getFOOD());
                     tmpObj.put("AMOUNT", orderList.get(i).getNum());
-                    tmpObj.put("dinnertime", orderList.get(i).getDinnertime());
                     tmpObj.put("stardate", orderList.get(i).getStardate());
                     jsonArray.add(tmpObj);
                     tmpObj = null;
@@ -443,10 +439,11 @@ public class TenantPayActivity extends BaseActivity {
                     Log.i("resultInfo",payResult.getResult());
                     Log.i("memo",payResult.getMemo());
                     if (TextUtils.equals(resultStatus, "9000")) {
-
+                        /*showLoading();
                         OrderApi.zhifu(TenantPayActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice + "", sales, payWayLayout.getAddr(),orderId,"3", new RequestCallback() {
                             @Override
                             public void success(Object success) {
+                                hideLoading();
                                 try {
                                     Toast.makeText(TenantPayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
                                     db.delete(MapiOrderResult.class);
@@ -459,10 +456,17 @@ public class TenantPayActivity extends BaseActivity {
                         }, new RequestExceptionCallback() {
                             @Override
                             public void error(String code, String message) {
+                                hideLoading();
                                 MainToast.showShortToast(message);
                             }
-                        });
-
+                        });*/
+                        try {
+                            Toast.makeText(TenantPayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                            db.delete(MapiOrderResult.class);
+                            startActivity(new Intent(TenantPayActivity.this,OrderCompleteActivity.class));
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
 
                         DebugLog.i("支付宝支付成功");
 //					Toast.makeText(PayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
@@ -509,7 +513,7 @@ public class TenantPayActivity extends BaseActivity {
             if(mark==0){
                 if (ReceiverAction.WEIXIN_PAY_ACTION.equals(intent.getAction())) {
                     mark = 1;
-                    showLoading();
+                    /*showLoading();
                     OrderApi.zhifu(TenantPayActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice + "", sales, payWayLayout.getAddr(),orderId,"4", new RequestCallback() {
                         @Override
                         public void success(Object success) {
@@ -530,7 +534,16 @@ public class TenantPayActivity extends BaseActivity {
                             MainToast.showShortToast(message);
                             hideLoading();
                         }
-                    });
+                    });*/
+
+                    try {
+//                            Toast.makeText(TenantPurcaseActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        db.delete(MapiOrderResult.class);
+                        startActivity(new Intent(TenantPayActivity.this,OrderCompleteActivity.class));
+                        finish();
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
 
                     DebugLog.i("微信支付成功");
                 }
@@ -538,6 +551,41 @@ public class TenantPayActivity extends BaseActivity {
 
         }
     }
+
+    private void loadPay(){
+        showLoading();
+        CommonApi.getPayment(this, SHOP,"2", new RequestCallback<List<MapiResourceResult>>() {
+            @Override
+            public void success(List<MapiResourceResult> success) {
+                hideLoading();
+                if(null!=success){
+                    for(MapiResourceResult mapiResourceResult : success){
+                        switch (mapiResourceResult.getTYPE()){
+                            case "1":
+                                payWayLayout.setTypeOne();
+                                break;
+                            case "2":
+                                payWayLayout.setTypeTwo();
+                                break;
+                            case "3":
+                                payWayLayout.setTypeThree();
+                                break;
+                            case "4":
+                                payWayLayout.setTypeFour();
+                                break;
+                        }
+                    }
+                }
+            }
+        }, new RequestExceptionCallback() {
+            @Override
+            public void error(String code, String message) {
+                hideLoading();
+                MainToast.showShortToast(message);
+            }
+        });
+    }
+
 
     @Override
     protected void onDestroy() {

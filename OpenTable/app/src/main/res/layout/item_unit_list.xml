@@ -2,10 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="165dp"
     android:gravity="center_vertical"
     android:id="@+id/root_view"
+    android:background="@color/shop_white"
     >
+
+    <TextView
+        android:id="@+id/salesno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="订单号："
+        android:textSize="@dimen/text_big"
+        android:textColor="@color/shop_black"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="15dp"
+        />
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="@dimen/text_normal"
+        android:textColor="@color/shop_black"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginTop="@dimen/margin_1"
+        android:paddingLeft="15dp"
+        />
 
     <LinearLayout
         android:orientation="horizontal" android:layout_width="match_parent"
@@ -18,8 +45,8 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/image"
-            android:layout_width="76dp"
-            android:layout_height="76dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center_vertical"
             fresco:fadeDuration="2000"
             fresco:placeholderImage="@mipmap/default_item"
@@ -40,32 +67,37 @@
             >
 
             <TextView
-                android:id="@+id/date"
+                android:id="@+id/takeTime"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text=""
-                android:textSize="@dimen/text_big"
-                android:textColor="@color/shop_black"
+                android:textSize="@dimen/text_small"
+                android:textColor="@color/shop_red"
                 android:maxLines="1"
                 android:ellipsize="end"
+                android:visibility="gone"
+                android:gravity="center_vertical"
                 />
 
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text=""
                 android:textSize="@dimen/text_small"
                 android:textColor="@color/shop_black"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:layout_marginTop="@dimen/margin_2"
+                android:gravity="center_vertical"
                 />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_1"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
                 >
 
                 <TextView
@@ -93,6 +125,45 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:id="@+id/zhifu"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="@dimen/text_small_x"
+                    android:textColor="@color/shop_red"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    />
+
+                <TextView
+                    android:id="@+id/cancel_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="取消"
+                    android:textSize="@dimen/text_small_x"
+                    android:textColor="@color/shop_red"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/rect_soild_white_stroke_gray_round_10"
+                    android:paddingLeft="@dimen/margin_2"
+                    android:paddingRight="@dimen/margin_2"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_marginLeft="@dimen/margin_10dp"
+                    />
+
+            </LinearLayout>
 
 
         </LinearLayout>

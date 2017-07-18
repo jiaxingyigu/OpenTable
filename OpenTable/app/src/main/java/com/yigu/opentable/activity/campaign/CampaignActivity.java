@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,14 +49,21 @@ public class CampaignActivity extends BaseActivity {
     private Integer ISNEXT = 1;
     List<MapiCampaignResult> mList;
 
+    String type = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_campaign);
-        ButterKnife.bind(this);
-        initView();
-        initListener();
-        load();
+        if(null!=getIntent())
+            type = getIntent().getStringExtra("type");
+        if(!TextUtils.isEmpty(type)){
+            ButterKnife.bind(this);
+            initView();
+            initListener();
+            load();
+        }
+
     }
 
     private void initView() {
@@ -115,7 +123,7 @@ public class CampaignActivity extends BaseActivity {
 
     private void load(){
 
-        CampaignApi.getActivitylist(this, pageIndex + "", pageSize+"",new RequestPageCallback<List<MapiCampaignResult>>() {
+        CampaignApi.getActivitylist(this, pageIndex + "", pageSize+"",type,new RequestPageCallback<List<MapiCampaignResult>>() {
             @Override
             public void success(Integer isNext,List<MapiCampaignResult> success) {
                 swipRefresh.setRefreshing(false);

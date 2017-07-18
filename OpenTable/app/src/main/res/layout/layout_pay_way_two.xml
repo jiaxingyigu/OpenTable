@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yigu.opentable.view.MaxHeightLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/shop_white"
+    android:paddingLeft="@dimen/margin_2"
+    android:paddingRight="@dimen/margin_2"
+    android:id="@+id/maxLayout"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:id="@+id/send_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_2"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="送货方式"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_normal"
+
+                    />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_2"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:id="@+id/radioOne"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:text="自提"
+                        android:background="@drawable/selector_send_bg_radio"
+                        android:textColor="@drawable/selector_send_text_radio"
+                        android:textSize="@dimen/text_normal"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:visibility="gone"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/radioTwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:button="@null"
+                        android:text="送货上门"
+                        android:background="@drawable/selector_send_bg_radio"
+                        android:textColor="@drawable/selector_send_text_radio"
+                        android:textSize="@dimen/text_normal"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:checked="true"
+                        android:layout_marginLeft="@dimen/margin_10dp"
+                        android:visibility="gone"
+                        />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_2"
+                android:gravity="center_vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_normal"
+                    android:text="地址"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/addrLL"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                    android:layout_marginLeft="12dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/addr_tv"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:textColorHint="@color/light_gray"
+                        android:textColor="@color/shop_black"
+                        android:textSize="@dimen/text_small"
+                        android:text="请选择所在部门"
+                        android:paddingLeft="17dp"
+                        android:gravity="center_vertical"
+                        />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/down"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/margin_2"
+                android:layout_marginBottom="@dimen/margin_2"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="订单备注"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_normal"
+                    />
+
+                <EditText
+                    android:id="@+id/bz_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:singleLine="true"
+                    android:minHeight="70dp"
+                    android:gravity="top|left"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:padding="@dimen/margin_10dp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/margin_2"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="支付方式"
+                    android:textColor="@color/shop_black"
+                    android:textSize="@dimen/text_normal"
+                    />
+
+                <LinearLayout
+                    android:orientation="horizontal" android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="@dimen/margin_10dp"
+                    android:weightSum="4"
+                    >
+
+                    <TextView
+                        android:id="@+id/type_one"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="33dp"
+                        android:text="预购"
+                        android:textSize="@dimen/text_small"
+                        android:textColor="@color/shop_black"
+                        android:padding="4dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/type_two"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="33dp"
+                        android:text="职工卡"
+                        android:textSize="@dimen/text_small"
+                        android:textColor="@color/shop_black"
+                        android:padding="4dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                        android:gravity="center"
+                        android:layout_marginLeft="14dp"
+                        android:visibility="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/type_three"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="33dp"
+                        android:text="支付宝"
+                        android:textSize="@dimen/text_small"
+                        android:textColor="@color/shop_black"
+                        android:padding="4dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                        android:layout_marginLeft="14dp"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        />
+
+                    <TextView
+                        android:id="@+id/type_four"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="33dp"
+                        android:text="微信"
+                        android:textSize="@dimen/text_small"
+                        android:textColor="@color/shop_black"
+                        android:background="@drawable/rect_stroke_round_4_gray__width_1"
+                        android:layout_marginLeft="14dp"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        />
+
+
+                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/divider_line"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</com.yigu.opentable.view.MaxHeightLayout>

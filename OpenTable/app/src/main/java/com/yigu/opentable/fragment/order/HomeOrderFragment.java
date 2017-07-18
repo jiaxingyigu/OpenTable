@@ -1,6 +1,7 @@
 package com.yigu.opentable.fragment.order;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -14,18 +15,26 @@ import android.widget.TextView;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.yigu.commom.api.OrderApi;
+import com.yigu.commom.application.AppContext;
 import com.yigu.commom.result.MapiHistoryResult;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.commom.util.DateUtil;
+import com.yigu.commom.util.RequestCallback;
 import com.yigu.commom.util.RequestExceptionCallback;
 import com.yigu.commom.util.RequestPageCallback;
 import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
+import com.yigu.opentable.activity.history.FoodHistoryDetailActivity;
+import com.yigu.opentable.activity.history.TenantHistoryDetailActivity;
+import com.yigu.opentable.activity.history.UnitHistoryDetailActivity;
 import com.yigu.opentable.adapter.order.UnitListAdapter;
 import com.yigu.opentable.base.BaseFrag;
+import com.yigu.opentable.base.RequestCode;
 import com.yigu.opentable.interfaces.RecyOnItemClickListener;
+import com.yigu.opentable.util.ControllerUtil;
 import com.yigu.opentable.widget.BestSwipeRefreshLayout;
 import com.yigu.opentable.widget.DividerListItemDecoration;
+import com.yigu.opentable.widget.MainAlertDialog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -62,6 +71,12 @@ public class HomeOrderFragment extends BaseFrag {
     private String created = "";
 
     TimePickerView pvTime;
+
+    String isfinish="0";
+    String state = "1";
+    String type = "0";
+
+    MainAlertDialog cancelDialog;
 
     public HomeOrderFragment() {
     }
@@ -108,14 +123,18 @@ public class HomeOrderFragment extends BaseFrag {
 
         });
 
+        cancelDialog = new MainAlertDialog(getActivity());
+        cancelDialog.setLeftBtnText("取消").setRightBtnText("确认").setTitle("确认取消该订单？");
+
     }
 
     public void load() {
-
-        OrderApi.getSaleslist(getActivity(), userSP.getUserBean().getUSER_ID(), "4", created, pageIndex + "", pageSize + "",
+        showLoading();
+        OrderApi.getSaleslist(getActivity(), userSP.getUserBean().getUSER_ID(), "4", created,isfinish,state, pageIndex + "", pageSize + "",
                 new RequestPageCallback<List<MapiHistoryResult>>() {
                     @Override
                     public void success(Integer isNext, List<MapiHistoryResult> success) {
+                        hideLoading();
                         swipRefreshLayout.setRefreshing(false);
                         ISNEXT = isNext;
                         if (success.isEmpty())
@@ -126,6 +145,7 @@ public class HomeOrderFragment extends BaseFrag {
                 }, new RequestExceptionCallback() {
                     @Override
                     public void error(String code, String message) {
+                        hideLoading();
                         swipRefreshLayout.setRefreshing(false);
                         MainToast.showShortToast(message);
                     }
@@ -133,6 +153,24 @@ public class HomeOrderFragment extends BaseFrag {
     }
 
     private void initListener() {
+
+        cancelDialog.setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelDialog.dismiss();
+            }
+        });
+
+        cancelDialog.setRightClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(pos>=0){
+                    cancel();
+                }
+                cancelDialog.dismiss();
+            }
+        });
+
         swipRefreshLayout.setOnRefreshListener(new BestSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -142,6 +180,16 @@ public class HomeOrderFragment extends BaseFrag {
         mAdapter.setRecyOnItemClickListener(new RecyOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+//                ControllerUtil.go2TenantHistoryDetail(mList.get(position).getId(),type);
+
+                Intent intent = new Intent(AppContext.getInstance(), FoodHistoryDetailActivity.class);
+                intent.putExtra("id",mList.get(position).getId());
+                intent.putExtra("type",type);
+                intent.putExtra("bz",mList.get(position).getBz());
+                intent.putExtra("zhifu",mList.get(position).getZhifu());
+                intent.putExtra("addr",mList.get(position).getCtype());
+                intent.putExtra("send",mList.get(position).getRoomservice());
+                startActivityForResult(intent, RequestCode.order_detail);
 
             }
         });
@@ -151,7 +199,7 @@ public class HomeOrderFragment extends BaseFrag {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                if ((newState == RecyclerView.SCROLL_STATE_IDLE) && manager.findLastVisibleItemPosition() >= 0 && (manager.findLastVisibleItemPosition() == (manager.getItemCount() - 1))) {
+                if ((newState == RecyclerView.SCROLL_STATE_IDLE) && manager.findLastVisibleItemPosition() > 0 && (manager.findLastVisibleItemPosition() == (manager.getItemCount() - 1))) {
                     loadNext();
                 }
             }
@@ -161,10 +209,20 @@ public class HomeOrderFragment extends BaseFrag {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+
+        mAdapter.setRecyOnItemCancelClickListener(new UnitListAdapter.CancelOnItemClickListener() {
+            @Override
+            public void onItemCancelClick(View view, int position) {
+                pos = position;
+                cancelDialog.show();
+            }
+        });
+
     }
 
     private void loadNext() {
         if (ISNEXT != null && ISNEXT == 0) {
+            MainToast.showShortToast("已经到底部了");
             return;
         }
         pageIndex++;
@@ -183,10 +241,14 @@ public class HomeOrderFragment extends BaseFrag {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if(null!=cancelDialog){
+            cancelDialog.dismiss();
+            cancelDialog = null;
+        }
         ButterKnife.unbind(this);
     }
 
-    @OnClick({R.id.clear, R.id.date})
+    @OnClick({R.id.clear, R.id.date,R.id.pay,R.id.unComplete, R.id.complete,R.id.uncancel,R.id.cancel})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.clear:
@@ -198,6 +260,79 @@ public class HomeOrderFragment extends BaseFrag {
             case R.id.date:
                 pvTime.show();
                 break;
+            case R.id.pay:
+                isfinish="0";
+                state = "1";
+                type = "0";
+                mAdapter.setCancel(false);
+                mAdapter.setType(type);
+                refreshData();
+                break;
+            case R.id.unComplete:
+                isfinish="0";
+                state = "0";
+                type = "1";
+                mAdapter.setCancel(true);
+                mAdapter.setType(type);
+                refreshData();
+                break;
+            case R.id.complete:
+                isfinish="1";
+                state = "0";
+                type = "2";
+                mAdapter.setCancel(false);
+                mAdapter.setType(type);
+                refreshData();
+                break;
+            case R.id.uncancel:
+                isfinish="2";
+                state = "0";
+                type = "2";
+                mAdapter.setCancel(false);
+                mAdapter.setType(type);
+                refreshData();
+                break;
+            case R.id.cancel:
+                isfinish="3";
+                state = "0";
+                type = "2";
+                mAdapter.setCancel(false);
+                mAdapter.setType(type);
+                refreshData();
+                break;
         }
+    }
+
+    private int pos = -1;
+
+    private void cancel(){
+        showLoading();
+        OrderApi.cancelOrder(getActivity(), mList.get(pos).getId(), new RequestCallback() {
+            @Override
+            public void success(Object success) {
+                hideLoading();
+                mList.remove(pos);
+                mAdapter.notifyDataSetChanged();
+                pos = -1;
+                MainToast.showShortToast("提交成功，请等待商家审核...");
+            }
+        }, new RequestExceptionCallback() {
+            @Override
+            public void error(String code, String message) {
+                hideLoading();
+                pos = -1;
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if(resultCode==getActivity().RESULT_OK){
+            if(requestCode==RequestCode.order_detail){
+                refreshData();
+            }
+        }
+
     }
 }

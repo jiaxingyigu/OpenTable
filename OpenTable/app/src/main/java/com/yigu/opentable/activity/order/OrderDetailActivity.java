@@ -25,6 +25,7 @@ import com.yigu.commom.util.DPUtil;
 import com.yigu.commom.util.DebugLog;
 import com.yigu.commom.util.FileUtil;
 import com.yigu.opentable.R;
+import com.yigu.opentable.activity.purcase.FoodPurcaseActivity;
 import com.yigu.opentable.activity.purcase.LivePurcaseActivity;
 import com.yigu.opentable.activity.purcase.PurcaseActivity;
 import com.yigu.opentable.activity.purcase.TenantPurcaseActivity;
@@ -78,6 +79,8 @@ public class OrderDetailActivity extends BaseActivity {
     String title = "";
     int position = 0;
     String all = "0";
+    String eid = "";
+    String companyId = "";
 
 
     private DbManager db;
@@ -88,6 +91,7 @@ public class OrderDetailActivity extends BaseActivity {
     private String type = "";
 
     ShareDialog shareDialog;
+    private String seat = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +109,9 @@ public class OrderDetailActivity extends BaseActivity {
             position = getIntent().getIntExtra("position", 0);
             all = getIntent().getStringExtra("all");
             type = getIntent().getStringExtra("type");
+            seat = getIntent().getStringExtra("seat");
+            eid = getIntent().getStringExtra("eid");
+            companyId = getIntent().getStringExtra("companyId");
             DebugLog.i("type==>" + type);
         }
         if (!TextUtils.isEmpty(id)) {
@@ -130,12 +137,12 @@ public class OrderDetailActivity extends BaseActivity {
 
         name.setText(orderResult.getFOOD());
         price.setText("价格：¥" + orderResult.getPRICE());
-        account.setText("剩余数量：" + orderResult.getAMOUNT() + "份");
+        account.setText("剩余数量：" + (TextUtils.isEmpty( orderResult.getAMOUNT())?0:Integer.parseInt( orderResult.getAMOUNT())) + "份");
         detail.setText(orderResult.getRemark());
         String numStr = TextUtils.isEmpty(orderResult.getNum()) ? "0" : orderResult.getNum();
         int numInt = Integer.parseInt(numStr);
         purcaseSheetLayout.setNum(numInt);
-
+        purcaseSheetLayout.setMaxNum(TextUtils.isEmpty( orderResult.getAMOUNT())?0:Integer.parseInt( orderResult.getAMOUNT()));
         int allInt = Integer.parseInt(all);
 
         if (allInt > 0) {
@@ -185,21 +192,28 @@ public class OrderDetailActivity extends BaseActivity {
             @Override
             public void onItemClick(View view, int position) {
                 String SHARE_ORDER_DETAIL =BasicApi.BASIC_URL+ BasicApi.SHARE_ORDER_DETAIL+id;
+                String img_url = "";
+                if(TextUtils.isEmpty(orderResult.getPATH())){
+                    img_url = BasicApi.LOGO_URL;
+                }else{
+                    img_url = BasicApi.BASIC_IMAGE + orderResult.getPATH();
+                }
+
                 switch (position) {
                     case 0://微信好友
-                        ShareModule shareModule1 = new ShareModule(OrderDetailActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + title+"-"+orderResult.getFOOD(), orderResult.getRemark(), BasicApi.BASIC_IMAGE + orderResult.getPATH(), SHARE_ORDER_DETAIL);
+                        ShareModule shareModule1 = new ShareModule(OrderDetailActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + title+"-"+orderResult.getFOOD(), orderResult.getRemark(),img_url, SHARE_ORDER_DETAIL);
                         shareModule1.startShare(1);
                         break;
                     case 1:
-                        ShareModule shareModule2 = new ShareModule(OrderDetailActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + title+"-"+orderResult.getFOOD(), orderResult.getRemark(), BasicApi.BASIC_IMAGE + orderResult.getPATH(),SHARE_ORDER_DETAIL);
+                        ShareModule shareModule2 = new ShareModule(OrderDetailActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + title+"-"+orderResult.getFOOD(), orderResult.getRemark(), img_url,SHARE_ORDER_DETAIL);
                         shareModule2.startShare(2);
                         break;
                     case 2:
-                        ShareModule shareModule3 = new ShareModule(OrderDetailActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + title+"-"+orderResult.getFOOD(), orderResult.getRemark(), BasicApi.BASIC_IMAGE + orderResult.getPATH(), SHARE_ORDER_DETAIL);
+                        ShareModule shareModule3 = new ShareModule(OrderDetailActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + title+"-"+orderResult.getFOOD(), orderResult.getRemark(),img_url, SHARE_ORDER_DETAIL);
                         shareModule3.startShare(3);
                         break;
                     case 3:
-                        ShareModule shareModule4 = new ShareModule(OrderDetailActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + title+"-"+orderResult.getFOOD(), orderResult.getRemark(), BasicApi.BASIC_IMAGE + orderResult.getPATH(), SHARE_ORDER_DETAIL);
+                        ShareModule shareModule4 = new ShareModule(OrderDetailActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + title+"-"+orderResult.getFOOD(), orderResult.getRemark(), img_url, SHARE_ORDER_DETAIL);
                         shareModule4.startShare(4);
                         break;
                 }
@@ -292,27 +306,38 @@ public class OrderDetailActivity extends BaseActivity {
                 break;
             case R.id.deel:
                 if (type.equals("pay"))
-                    ControllerUtil.go2Payment(SHOP);
+                    ControllerUtil.go2Payment(SHOP,companyId);
                 else if (type.equals("tenant"))
-                    ControllerUtil.go2TenantPay(SHOP, true);
+                    ControllerUtil.go2TenantPay(SHOP,companyId);
                 else if (type.equals("live"))
-                    ControllerUtil.go2LivePay(SHOP, true);
+                    ControllerUtil.go2LivePay(SHOP,eid,companyId);
+                else if(type.equals("food")){
+                    ControllerUtil.go2FoodPay(SHOP,seat,companyId);
+                }
                 break;
             case R.id.purcase:
                 if (type.equals("pay")) {
                     Intent payIntent = new Intent(AppContext.getInstance(), PurcaseActivity.class);
                     payIntent.putExtra("SHOP", SHOP);
+                    payIntent.putExtra("companyId",companyId);
                     startActivityForResult(payIntent, RequestCode.purcase_list);
                 } else if (type.equals("tenant")) {
                     Intent tenantIntent = new Intent(AppContext.getInstance(), TenantPurcaseActivity.class);
                     tenantIntent.putExtra("SHOP", SHOP);
-                    tenantIntent.putExtra("hasAddr", true);
+                    tenantIntent.putExtra("companyId",companyId);
                     startActivityForResult(tenantIntent, RequestCode.purcase_list);
                 } else if (type.equals("live")) {
                     Intent liveIntent = new Intent(AppContext.getInstance(), LivePurcaseActivity.class);
                     liveIntent.putExtra("SHOP", SHOP);
-                    liveIntent.putExtra("hasBZ", true);
+                    liveIntent.putExtra("companyId",companyId);
+                    liveIntent.putExtra("eid", eid);
                     startActivityForResult(liveIntent, RequestCode.purcase_list);
+                }else if(type.equals("food")){
+                    Intent foodIntent = new Intent(AppContext.getInstance(), FoodPurcaseActivity.class);
+                    foodIntent.putExtra("SHOP",SHOP);
+                    foodIntent.putExtra("seat",seat);
+                    foodIntent.putExtra("companyId",companyId);
+                    startActivityForResult(foodIntent,RequestCode.purcase_list);
                 }
                 break;
             case R.id.iv_right_two:

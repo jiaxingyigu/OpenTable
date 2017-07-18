@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
+import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
 
 import butterknife.Bind;
@@ -70,6 +71,10 @@ public class PurcaseSheetLayout extends RelativeLayout {
     }
 
     private void add() {
+        if(maxNum>=0&&(num+1)>maxNum){
+            MainToast.showShortToast("库存不足");
+            return;
+        }
         count.setText(++num+"");
         if(null!=numberListener)
             numberListener.numerAdd(add,view);
@@ -107,6 +112,12 @@ public class PurcaseSheetLayout extends RelativeLayout {
 
     public void setNunerListener(NumberListener numberListener){
         this.numberListener = numberListener;
+    }
+
+    private int maxNum=-1;
+
+    public void setMaxNum(int maxNum){
+        this.maxNum = maxNum;
     }
 
 }

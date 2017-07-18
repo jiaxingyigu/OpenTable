@@ -172,6 +172,8 @@ public class LiveMenuActivity extends BaseActivity {
                 intent.putExtra("all", TextUtils.isEmpty(account.getText()) ? "0" : account.getText().toString());
                 intent.putExtra("type","live");
                 intent.putExtra("SHOP",mapiOrderResult.getID());
+                intent.putExtra("eid",mapiOrderResult.getEid());
+                intent.putExtra("companyId",userSP.getUserBean().getCOMPANY());
                 startActivityForResult(intent, RequestCode.order_detail);
             }
         });
@@ -267,13 +269,12 @@ public class LiveMenuActivity extends BaseActivity {
                 String img_url = "";
                 if(userSP.checkLogin()){
                     if(TextUtils.isEmpty(userSP.getUserBean().getLogo())){
-                        img_url = "";
+                        img_url = BasicApi.LOGO_URL;
                     }else{
                         img_url = BasicApi.BASIC_IMAGE + userSP.getUserBean().getLogo();
                     }
 
                 }
-
                 switch (position) {
                     case 0://微信好友
                         ShareModule shareModule1 = new ShareModule(LiveMenuActivity.this, userSP.getUserBean().getCOMPANYNAME()+"-" + mapiOrderResult.getNAME()+"菜单", mapiOrderResult.getINTRODUCTION(),img_url, SHARE_LIVE_LIST);
@@ -298,6 +299,7 @@ public class LiveMenuActivity extends BaseActivity {
     }
 
     private void load() {
+        showLoading();
         OrderApi.getSFoodmenu(this, mapiOrderResult.getID(),mapiOrderResult.getEid(), pageIndex + "", pageSize + "", new RequestPageCallback<List<MapiOrderResult>>() {
             @Override
             public void success(Integer isNext, List<MapiOrderResult> success) {
@@ -385,16 +387,24 @@ public class LiveMenuActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
+                try {
+                    db.delete(MapiOrderResult.class);
+                } catch (DbException e) {
+                    e.printStackTrace();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
                 finish();
                 break;
             case R.id.purcase:
                 Intent intent = new Intent(AppContext.getInstance(), LivePurcaseActivity.class);
                 intent.putExtra("SHOP",mapiOrderResult.getID());
-                intent.putExtra("hasBZ",true);
+                intent.putExtra("companyId",userSP.getUserBean().getCOMPANY());
+                intent.putExtra("eid",mapiOrderResult.getEid());
                 startActivityForResult(intent,RequestCode.purcase_list);
                 break;
             case R.id.deel:
-                ControllerUtil.go2LivePay(mapiOrderResult.getID(),true);
+                ControllerUtil.go2LivePay(mapiOrderResult.getID(),mapiOrderResult.getEid(),userSP.getUserBean().getCOMPANY());
                 break;
             case R.id.iv_right_two:
                 shareDialog.showDialog();
@@ -458,6 +468,19 @@ public class LiveMenuActivity extends BaseActivity {
             }
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        try {
+            db.delete(MapiOrderResult.class);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        finish();
     }
 
 }

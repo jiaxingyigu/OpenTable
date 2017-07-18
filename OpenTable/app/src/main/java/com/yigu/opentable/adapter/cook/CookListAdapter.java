@@ -3,6 +3,7 @@ package com.yigu.opentable.adapter.cook;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +73,11 @@ public class CookListAdapter extends RecyclerView.Adapter<CookListAdapter.ViewHo
 
         holder.name.setText(itemResult.getName());
         holder.tel.setText("电话："+itemResult.getTel());
+        if(TextUtils.isEmpty(itemResult.getRemark())) {
+            holder.info.setText("暂无介绍");
+        }else{
+            holder.info.setText("介绍：" + itemResult.getRemark());
+        }
 
         //创建将要下载的图片的URI
         Uri imageUri = Uri.parse(BasicApi.BASIC_IMAGE + itemResult.getPATH());
@@ -96,6 +102,8 @@ public class CookListAdapter extends RecyclerView.Adapter<CookListAdapter.ViewHo
         LinearLayout rootView;
         @Bind(R.id.tel)
         TextView tel;
+        @Bind(R.id.info)
+        TextView info;
 
         public ViewHolder(View itemView) {
             super(itemView);

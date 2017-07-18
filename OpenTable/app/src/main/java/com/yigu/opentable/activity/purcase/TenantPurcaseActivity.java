@@ -46,6 +46,7 @@ import com.yigu.opentable.broadcast.ReceiverAction;
 import com.yigu.opentable.util.AnimationUtil;
 import com.yigu.opentable.util.zhifubao.PayResult;
 import com.yigu.opentable.view.PayWayLayout;
+import com.yigu.opentable.view.PayWayTwoLayout;
 
 import org.xutils.DbManager;
 import org.xutils.ex.DbException;
@@ -75,7 +76,7 @@ public class TenantPurcaseActivity extends BaseActivity {
     @Bind(R.id.backgound)
     View backgound;
     @Bind(R.id.payWayLayout)
-    PayWayLayout payWayLayout;
+    PayWayTwoLayout payWayLayout;
     @Bind(R.id.allPrice)
     TextView allPriceTv;
     @Bind(R.id.deel)
@@ -88,9 +89,9 @@ public class TenantPurcaseActivity extends BaseActivity {
 
     PurcaseAdapter mAdapter;
     private List<IndexData> mList = new ArrayList<>();
-    private boolean hasAddr = false;
     private static final int SDK_PAY_FLAG = 1;
     String orderId = "";
+    String companyId = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,12 +99,13 @@ public class TenantPurcaseActivity extends BaseActivity {
         ButterKnife.bind(this);
         if(null!=getIntent()) {
             SHOP = getIntent().getStringExtra("SHOP");
-            hasAddr = getIntent().getBooleanExtra("hasAddr",false);
+            companyId = getIntent().getStringExtra("companyId");
         }
         if(!TextUtils.isEmpty(SHOP)){
             initView();
             initListener();
             load();
+            loadPay();
             registerMessageReceiver();
         }
     }
@@ -123,20 +125,13 @@ public class TenantPurcaseActivity extends BaseActivity {
         mAdapter = new PurcaseAdapter(this, mList);
         recyclerView.setAdapter(mAdapter);
 
-        payWayLayout.setTypeTwo();
-        payWayLayout.setTypeThree();
-        payWayLayout.setTypeFour();
+        payWayLayout.loadSend(SHOP);
+        payWayLayout.load(companyId);
 
-        payWayLayout.setAddrTip(TextUtils.isEmpty(userSP.getUserBean().getTip())?"":userSP.getUserBean().getTip());
-
-        if(hasAddr)
-            payWayLayout.showAddr();
-
-
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) payWayLayout.getLayoutParams();
+     /*   RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) payWayLayout.getLayoutParams();
         lp.width= RelativeLayout.LayoutParams.MATCH_PARENT;
-        lp.height= DPUtil.dip2px(153);
-        payWayLayout.setLayoutParams(lp);
+        lp.height= DPUtil.dip2px(173);
+        payWayLayout.setLayoutParams(lp);*/
 
     }
 
@@ -195,14 +190,15 @@ public class TenantPurcaseActivity extends BaseActivity {
             }
         });
 
-        payWayLayout.setPayWayListener(new PayWayLayout.PayWayListener() {
+        payWayLayout.setPayWayListener(new PayWayTwoLayout.PayWayListener() {
             @Override
             public void preorder() {
-                if(TextUtils.isEmpty(payWayLayout.getAddr())){
-                    MainToast.showShortToast("请输入收货地址");
+                if(TextUtils.isEmpty(payWayLayout.getSendPay())){
+                    MainToast.showShortToast("请选择送货方式");
                 }else{
                     showLoading();
-                    OrderApi.preorder(TenantPurcaseActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales, payWayLayout.getAddr(),new RequestCallback() {
+                    OrderApi.preorder(TenantPurcaseActivity.this, companyId,userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales, payWayLayout.getBz(),"","",
+                            payWayLayout.getCtype1(),payWayLayout.getCtype2(),payWayLayout.getCtype3(),payWayLayout.getSendPay(),new RequestCallback() {
                         @Override
                         public void success(Object success) {
                             hideLoading();
@@ -227,11 +223,12 @@ public class TenantPurcaseActivity extends BaseActivity {
 
             @Override
             public void balancepay() {
-                if(TextUtils.isEmpty(payWayLayout.getAddr())){
-                    MainToast.showShortToast("请输入收货地址");
+                if(TextUtils.isEmpty(payWayLayout.getSendPay())){
+                    MainToast.showShortToast("请选择送货方式");
                 }else{
                     showLoading();
-                    OrderApi.balancepay(TenantPurcaseActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales,payWayLayout.getAddr(), new RequestCallback() {
+                    OrderApi.balancepay(TenantPurcaseActivity.this,companyId, userSP.getUserBean().getUSER_ID(), SHOP, allPrice+"", sales,payWayLayout.getBz(), "","",
+                            payWayLayout.getCtype1(),payWayLayout.getCtype2(),payWayLayout.getCtype3(),payWayLayout.getSendPay(),new RequestCallback() {
                         @Override
                         public void success(Object success) {
                             hideLoading();
@@ -256,12 +253,13 @@ public class TenantPurcaseActivity extends BaseActivity {
 
             @Override
             public void weixinpay() {
-                if(TextUtils.isEmpty(payWayLayout.getAddr())){
-                    MainToast.showShortToast("请输入收货地址");
+                if(TextUtils.isEmpty(payWayLayout.getSendPay())){
+                    MainToast.showShortToast("请选择送货方式");
                 }else{
                     showLoading();
                     int price = (int) (allPrice*100);
-                    OrderApi.weixinPay(TenantPurcaseActivity.this, userSP.getUserBean().getUSER_ID(), price+"", new RequestCallback<JSONObject>() {
+                    OrderApi.weixinPay(TenantPurcaseActivity.this, companyId,userSP.getUserBean().getUSER_ID(), SHOP, allPrice + "", price +"",sales, payWayLayout.getBz(),"", "",
+                            payWayLayout.getCtype1(),payWayLayout.getCtype2(),payWayLayout.getCtype3(),payWayLayout.getSendPay(),new RequestCallback<JSONObject>() {
                         @Override
                         public void success(JSONObject success) {
                             hideLoading();
@@ -281,11 +279,12 @@ public class TenantPurcaseActivity extends BaseActivity {
 
             @Override
             public void zhifubaopay() {
-                if(TextUtils.isEmpty(payWayLayout.getAddr())){
-                    MainToast.showShortToast("请输入收货地址");
+                if(TextUtils.isEmpty(payWayLayout.getSendPay())){
+                    MainToast.showShortToast("请选择送货方式");
                 }else{
                     showLoading();
-                    OrderApi.zhifubaoPay(TenantPurcaseActivity.this, userSP.getUserBean().getUSER_ID(), allPrice+"", new RequestCallback<JSONObject>() {
+                    OrderApi.zhifubaoPay(TenantPurcaseActivity.this,companyId, userSP.getUserBean().getUSER_ID(), SHOP, allPrice + "", sales, payWayLayout.getBz(),"","",
+                            payWayLayout.getCtype1(),payWayLayout.getCtype2(),payWayLayout.getCtype3(),payWayLayout.getSendPay(),new RequestCallback<JSONObject>() {
                         @Override
                         public void success(JSONObject success) {//
                             hideLoading();
@@ -301,7 +300,6 @@ public class TenantPurcaseActivity extends BaseActivity {
                         }
                     });
                 }
-
 
             }
         });
@@ -386,6 +384,7 @@ public class TenantPurcaseActivity extends BaseActivity {
                     tmpObj.put("PRICE" , orderList.get(i).getPRICE());
                     tmpObj.put("FOOD", orderList.get(i).getFOOD());
                     tmpObj.put("AMOUNT", orderList.get(i).getNum());
+                    tmpObj.put("stardate", orderList.get(i).getStardate());
                     jsonArray.add(tmpObj);
                     tmpObj = null;
                 }
@@ -500,7 +499,7 @@ public class TenantPurcaseActivity extends BaseActivity {
                     Log.i("resultInfo",payResult.getResult());
                     Log.i("memo",payResult.getMemo());
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        showLoading();
+                        /*showLoading();
                         OrderApi.zhifu(TenantPurcaseActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice + "", sales, payWayLayout.getAddr(),orderId,"3", new RequestCallback() {
                             @Override
                             public void success(Object success) {
@@ -520,7 +519,15 @@ public class TenantPurcaseActivity extends BaseActivity {
                                 MainToast.showShortToast(message);
                                 hideLoading();
                             }
-                        });
+                        });*/
+
+                        try {
+                            Toast.makeText(TenantPurcaseActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                            db.delete(MapiOrderResult.class);
+                            startActivity(new Intent(TenantPurcaseActivity.this,OrderCompleteActivity.class));
+                        } catch (DbException e) {
+                            e.printStackTrace();
+                        }
 
                         DebugLog.i("支付宝支付成功");
 //					Toast.makeText(PayActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
@@ -567,7 +574,7 @@ public class TenantPurcaseActivity extends BaseActivity {
             if(mark==0){
                 if (ReceiverAction.WEIXIN_PAY_ACTION.equals(intent.getAction())) {
                     mark = 1;
-                    showLoading();
+                    /*showLoading();
                     OrderApi.zhifu(TenantPurcaseActivity.this, userSP.getUserBean().getUSER_ID(), SHOP, allPrice + "", sales, payWayLayout.getAddr(),orderId,"4", new RequestCallback() {
                         @Override
                         public void success(Object success) {
@@ -588,13 +595,56 @@ public class TenantPurcaseActivity extends BaseActivity {
                             MainToast.showShortToast(message);
                             hideLoading();
                         }
-                    });
+                    });*/
+
+                    try {
+//                            Toast.makeText(TenantPurcaseActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                        db.delete(MapiOrderResult.class);
+                        startActivity(new Intent(TenantPurcaseActivity.this,OrderCompleteActivity.class));
+                        finish();
+                    } catch (DbException e) {
+                        e.printStackTrace();
+                    }
 
                     DebugLog.i("微信支付成功");
                 }
             }
 
         }
+    }
+
+    private void loadPay(){
+        showLoading();
+        CommonApi.getPayment(this, SHOP,"2", new RequestCallback<List<MapiResourceResult>>() {
+            @Override
+            public void success(List<MapiResourceResult> success) {
+                hideLoading();
+                if(null!=success){
+                    for(MapiResourceResult mapiResourceResult : success){
+                        switch (mapiResourceResult.getTYPE()){
+                            case "1":
+                                payWayLayout.setTypeOne();
+                                break;
+                            case "2":
+                                payWayLayout.setTypeTwo();
+                                break;
+                            case "3":
+                                payWayLayout.setTypeThree();
+                                break;
+                            case "4":
+                                payWayLayout.setTypeFour();
+                                break;
+                        }
+                    }
+                }
+            }
+        }, new RequestExceptionCallback() {
+            @Override
+            public void error(String code, String message) {
+                hideLoading();
+                MainToast.showShortToast(message);
+            }
+        });
     }
 
     @Override

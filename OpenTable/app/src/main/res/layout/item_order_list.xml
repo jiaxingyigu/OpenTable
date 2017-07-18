@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="115dp"
     android:gravity="center_vertical"
     android:id="@+id/root_view"
     >
@@ -24,8 +24,8 @@
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/image"
-            android:layout_width="76dp"
-            android:layout_height="76dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:layout_gravity="center_vertical"
             fresco:fadeDuration="2000"
             fresco:placeholderImage="@mipmap/default_item"
@@ -54,6 +54,7 @@
                 android:textColor="@color/shop_black"
                 android:maxLines="2"
                 android:ellipsize="end"
+                android:layout_marginTop="@dimen/margin_10dp"
                 />
 
             <TextView
@@ -65,7 +66,7 @@
                 android:textColor="@color/shop_black"
                 android:maxLines="2"
                 android:ellipsize="end"
-                android:layout_marginTop="@dimen/margin_3"
+                android:layout_marginTop="@dimen/margin_1"
                 />
 
             <TextView
@@ -78,6 +79,7 @@
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:layout_marginTop="@dimen/margin_1"
+                android:layout_marginBottom="@dimen/margin_10dp"
                 />
 
         </LinearLayout>

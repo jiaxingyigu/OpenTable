@@ -27,11 +27,24 @@ public class TableDataSource {
         List<MapiResourceResult> list = new ArrayList<>();
         list.add(new MapiResourceResult(TYPE_UNIT,"单位食堂"));
         list.add(new MapiResourceResult(TYPE_TENANT,"商户订餐"));
-        list.add(new MapiResourceResult(TYPE_LIVE,"生活馆"));
-//        list.add(new MapiResourceResult(TYPE_WORKERS,"职工之家"));
-        list.add(new MapiResourceResult(TYPE_COOK,"厨师上门"));
+//        list.add(new MapiResourceResult(TYPE_LIVE,"生活馆"));
+        list.add(new MapiResourceResult(TYPE_WORKERS,"美食坊"));
+//        list.add(new MapiResourceResult(TYPE_COOK,"达人堂"));
 //        list.add(new MapiResourceResult(TYPE_nutrition,"点营养餐"));
 //        list.add(new MapiResourceResult(TYPE_personal,"私人营养师"));
+        return list;
+    }
+
+    public static List<MapiResourceResult> getCampaingTypeResource(){
+        List<MapiResourceResult> list = new ArrayList<>();
+        list.add(new MapiResourceResult(1,"校园招聘会"));
+        list.add(new MapiResourceResult(2,"培训班"));
+        list.add(new MapiResourceResult(3,"顶岗实习"));
+        list.add(new MapiResourceResult(4,"商务活动"));
+        list.add(new MapiResourceResult(5,"部门全员岗位订培"));
+        list.add(new MapiResourceResult(6,"专业人才订培"));
+        list.add(new MapiResourceResult(7,"学生兼职"));
+        list.add(new MapiResourceResult(8,"其他"));
         return list;
     }
 

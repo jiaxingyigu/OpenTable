@@ -139,7 +139,7 @@ public class ShareModule implements PlatformActionListener, Callback {
 	 * @return
 	 */
 	public String getSite() {
-		return "鲇鱼（上海）软件有限公司";
+		return "浙江禾匠信息科技有限公司";
 	}
 
 	public void setSite(String site) {

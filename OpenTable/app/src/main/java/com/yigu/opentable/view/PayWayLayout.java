@@ -41,6 +41,11 @@ public class PayWayLayout extends LinearLayout {
     EditText addrEt;
     @Bind(R.id.ll_addr)
     LinearLayout llAddr;
+    @Bind(R.id.addrTip)
+    TextView addrTip;
+    @Bind(R.id.bzTip)
+    TextView bzTip;
+
     private Context mContext;
     private View view;
 
@@ -96,6 +101,9 @@ public class PayWayLayout extends LinearLayout {
         typeFour.setVisibility(View.VISIBLE);
     }
 
+    public void setBZTip(String tip){
+        bzTip.setText(tip);
+    }
 
     public void showBZ() {
         if (llBz.getVisibility() == View.GONE)
@@ -109,6 +117,10 @@ public class PayWayLayout extends LinearLayout {
 
     public String getBZ() {
         return TextUtils.isEmpty(bzEt.getText()) ? "" : bzEt.getText().toString();
+    }
+
+    public void setAddrText(String tip) {
+       addrTip.setText(tip);
     }
 
     public String getAddr(){

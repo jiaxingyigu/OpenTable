@@ -57,6 +57,10 @@ public class JpushUtil {
 		}
 	}
 
+	public void stopPush(Context context){
+		JPushInterface.stopPush(context);
+	}
+
 	// 校验Tag Alias 只能是数字,英文字母和中文
 	public boolean isValidTagAndAlias(String s) {
 		Pattern p = Pattern.compile("^[\\u4E00-\\u9FA50-9a-zA-Z_@!#$&*+=.|￥¥]+$");

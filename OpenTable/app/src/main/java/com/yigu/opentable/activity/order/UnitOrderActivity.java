@@ -144,11 +144,12 @@ public class UnitOrderActivity extends BaseActivity {
     }
 
     private void load(){
-
+        showLoading();
         OrderApi.getCanteenlist(this, userSP.getUserBean().getCOMPANY(), pageIndex + "", pageSize + "", new RequestPageCallback<List<MapiOrderResult>>() {
             @Override
             public void success(Integer isNext, List<MapiOrderResult> success) {
                 swipeRefreshLayout.setRefreshing(false);
+                hideLoading();
                 ISNEXT = isNext;
                 if(success.isEmpty())
                     return;
@@ -159,6 +160,7 @@ public class UnitOrderActivity extends BaseActivity {
             @Override
             public void error(String code, String message) {
                 swipeRefreshLayout.setRefreshing(false);
+                hideLoading();
                 MainToast.showShortToast(message);
             }
         });

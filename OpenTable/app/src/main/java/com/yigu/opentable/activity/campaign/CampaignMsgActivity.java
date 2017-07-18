@@ -90,21 +90,29 @@ public class CampaignMsgActivity extends BaseActivity {
             @Override
             public void onItemClick(View view, int position) {
                 String SHARE_ACTIVITY_DETAIL =BasicApi.BASIC_URL+ BasicApi.SHARE_ACTIVITY_DETAIL+actid;
+
+                String img_url ="";
+                if(TextUtils.isEmpty(pic)){
+                    img_url = BasicApi.LOGO_URL;
+                }else{
+                    img_url = BasicApi.BASIC_IMAGE + pic;
+                }
+
                 switch (position) {
                     case 0://微信好友
-                        ShareModule shareModule1 = new ShareModule(CampaignMsgActivity.this, title, info, BasicApi.BASIC_IMAGE+pic, SHARE_ACTIVITY_DETAIL);
+                        ShareModule shareModule1 = new ShareModule(CampaignMsgActivity.this, title, info, img_url, SHARE_ACTIVITY_DETAIL);
                         shareModule1.startShare(1);
                         break;
                     case 1:
-                        ShareModule shareModule2 = new ShareModule(CampaignMsgActivity.this, title, info, BasicApi.BASIC_IMAGE+pic, SHARE_ACTIVITY_DETAIL);
+                        ShareModule shareModule2 = new ShareModule(CampaignMsgActivity.this, title, info, img_url, SHARE_ACTIVITY_DETAIL);
                         shareModule2.startShare(2);
                         break;
                     case 2:
-                        ShareModule shareModule3 = new ShareModule(CampaignMsgActivity.this, title, info,BasicApi.BASIC_IMAGE+pic, SHARE_ACTIVITY_DETAIL);
+                        ShareModule shareModule3 = new ShareModule(CampaignMsgActivity.this, title, info,img_url, SHARE_ACTIVITY_DETAIL);
                         shareModule3.startShare(3);
                         break;
                     case 3:
-                        ShareModule shareModule4 = new ShareModule(CampaignMsgActivity.this, title, info, BasicApi.BASIC_IMAGE+pic, SHARE_ACTIVITY_DETAIL);
+                        ShareModule shareModule4 = new ShareModule(CampaignMsgActivity.this, title, info, img_url, SHARE_ACTIVITY_DETAIL);
                         shareModule4.startShare(4);
                         break;
                 }

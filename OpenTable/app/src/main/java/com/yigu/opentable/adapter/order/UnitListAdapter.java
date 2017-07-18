@@ -3,6 +3,7 @@ package com.yigu.opentable.adapter.order;
 import android.content.Context;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,8 +39,30 @@ public class UnitListAdapter extends RecyclerView.Adapter<UnitListAdapter.ViewHo
     List<MapiHistoryResult> mList = new ArrayList<>();
     RecyOnItemClickListener recyOnItemClickListener;
 
+    String type = "0";
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    boolean cancel = false;
+
+    public void setCancel(boolean cancel){
+        this.cancel = cancel;
+    }
+
     public void setRecyOnItemClickListener(RecyOnItemClickListener recyOnItemClickListener) {
         this.recyOnItemClickListener = recyOnItemClickListener;
+    }
+
+    CancelOnItemClickListener cancelOnItemClickListener;
+
+    public interface CancelOnItemClickListener {
+        void onItemCancelClick(View view, int position);
+    }
+
+    public void setRecyOnItemCancelClickListener(CancelOnItemClickListener cancelOnItemClickListener) {
+        this.cancelOnItemClickListener = cancelOnItemClickListener;
     }
 
     public UnitListAdapter(Context context, List<MapiHistoryResult> list) {
@@ -70,15 +93,23 @@ public class UnitListAdapter extends RecyclerView.Adapter<UnitListAdapter.ViewHo
             }
         });
 
-        holder.date.setText(itemResult.getCreated());
-        holder.price.setText("总价：¥"+itemResult.getPrice());
+        holder.date.setText("下单时间："+itemResult.getCreated());
+
+        if(TextUtils.isEmpty(itemResult.getStardate2())){
+            holder.takeTime.setVisibility(View.GONE);
+        }else{
+            holder.takeTime.setVisibility(View.VISIBLE);
+            holder.takeTime.setText("取货时间："+itemResult.getStardate2());
+        }
+
+        holder.price.setText("总价：¥" + itemResult.getPrice());
         holder.name.setText(itemResult.getName());
-        holder.tel.setText("电话："+itemResult.getTel());
+        holder.tel.setText("电话：" + itemResult.getTel());
 
         //创建将要下载的图片的URI
         Uri imageUri = Uri.parse(BasicApi.BASIC_IMAGE + itemResult.getPATH());
         ImageRequest request = ImageRequestBuilder.newBuilderWithSource(imageUri)
-                .setResizeOptions(new ResizeOptions(DPUtil.dip2px(76), DPUtil.dip2px(76)))
+                .setResizeOptions(new ResizeOptions(DPUtil.dip2px(80), DPUtil.dip2px(80)))
                 .build();
         DraweeController controller = Fresco.newDraweeControllerBuilder()
                 .setImageRequest(request)
@@ -86,6 +117,23 @@ public class UnitListAdapter extends RecyclerView.Adapter<UnitListAdapter.ViewHo
                 .setControllerListener(new BaseControllerListener<ImageInfo>())
                 .build();
         holder.image.setController(controller);
+
+        holder.salesno.setText("订单号："+itemResult.getSalesno());
+        holder.zhifu.setText(itemResult.getZhifu());
+        holder.cancelTv.setTag(position);
+        holder.cancelTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(null!=cancelOnItemClickListener)
+                    cancelOnItemClickListener.onItemCancelClick(view, (Integer) view.getTag());
+            }
+        });
+        if(cancel){
+            holder.cancelTv.setVisibility(View.VISIBLE);
+
+        }else{
+            holder.cancelTv.setVisibility(View.GONE);
+        }
 
     }
 
@@ -102,6 +150,15 @@ public class UnitListAdapter extends RecyclerView.Adapter<UnitListAdapter.ViewHo
         LinearLayout rootView;
         @Bind(R.id.tel)
         TextView tel;
+        @Bind(R.id.salesno)
+        TextView salesno;
+        @Bind(R.id.zhifu)
+        TextView zhifu;
+        @Bind(R.id.takeTime)
+        TextView takeTime;
+        @Bind(R.id.cancel_tv)
+        TextView cancelTv;
+
 
         public ViewHolder(View itemView) {
             super(itemView);

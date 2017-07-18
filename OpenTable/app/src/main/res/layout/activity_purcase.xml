@@ -27,7 +27,7 @@
         android:visibility="gone"
         />
 
-    <com.yigu.opentable.view.PayWayLayout
+    <com.yigu.opentable.view.PayWayTwoLayout
         android:id="@+id/payWayLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

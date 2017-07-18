@@ -11,12 +11,200 @@
         layout="@layout/lay_header"
         />
 
+    <LinearLayout
+        android:id="@+id/ll_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_10dp"
+        android:layout_below="@+id/lay_header"
+        android:background="@color/shop_white"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="送货方式："
+                android:textSize="@dimen/text_big_x"
+                android:textColor="@color/shop_black"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                />
+
+            <TextView
+                android:id="@+id/send_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="@dimen/text_normal"
+                android:textColor="@color/shop_black"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:lineSpacingMultiplier="1.2"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/divider_line"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_addr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_10dp"
+        android:layout_below="@+id/ll_send"
+        android:background="@color/shop_white"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="地        址："
+                android:textSize="@dimen/text_big_x"
+                android:textColor="@color/shop_black"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                />
+
+            <TextView
+                android:id="@+id/addr_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="@dimen/text_normal"
+                android:textColor="@color/shop_black"
+                android:layout_marginLeft="@dimen/margin_10dp"
+                android:layout_marginRight="@dimen/margin_10dp"
+                android:lineSpacingMultiplier="1.2"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/divider_line"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/margin_10dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_10dp"
+        android:layout_below="@+id/ll_addr"
+        android:background="@color/shop_white"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="备        注："
+            android:textSize="@dimen/text_big_x"
+            android:textColor="@color/shop_black"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            />
+
+        <TextView
+            android:id="@+id/bz_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="@dimen/text_normal"
+            android:textColor="@color/shop_black"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_marginTop="@dimen/margin_1"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/divider_line"
+            android:layout_marginLeft="@dimen/margin_10dp"
+            android:layout_marginRight="@dimen/margin_10dp"
+            android:layout_marginTop="@dimen/margin_1"
+            />
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/recyclerView"
-        android:layout_below="@+id/lay_header"
+        android:layout_below="@+id/ll_bz"
+        android:layout_above="@+id/ll_deel"
         ></android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/ll_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/del"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="43dp"
+            android:text="删除订单"
+            android:textColor="@color/shop_white"
+            android:textSize="@dimen/text_normal"
+            android:gravity="center"
+            android:background="@drawable/selector_pressed_color_green"
+            />
+
+        <TextView
+            android:id="@+id/pay"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="43dp"
+            android:text="结  算"
+            android:textColor="@color/shop_white"
+            android:textSize="@dimen/text_normal"
+            android:layout_marginLeft="@dimen/margin_2"
+            android:gravity="center"
+            android:background="@drawable/selector_pressed_color_red"
+            />
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>

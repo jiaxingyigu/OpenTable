@@ -6,8 +6,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,7 +33,6 @@ import com.yigu.opentable.util.ControllerUtil;
 import com.yigu.opentable.widget.BestSwipeRefreshLayout;
 
 import org.xutils.DbManager;
-import org.xutils.db.sqlite.WhereBuilder;
 import org.xutils.ex.DbException;
 import org.xutils.x;
 
@@ -48,28 +51,33 @@ public class TenantListActivity extends BaseActivity {
     @Bind(R.id.center)
     TextView center;
     @Bind(R.id.unit_name)
-    TextView unitName;
+    EditText searchEt;
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
     @Bind(R.id.swipRefreshLayout)
     BestSwipeRefreshLayout swipRefreshLayout;
+    @Bind(R.id.tv_right)
+    TextView tvRight;
+    @Bind(R.id.clear_iv)
+    ImageView clearIv;
 
     private List<MapiOrderResult> mList;
     TenantListAdapter mAdapter;
 
-    private Integer pageIndex=0;
+    private Integer pageIndex = 0;
     private Integer pageSize = 8;
     private Integer ISNEXT = 1;
 
     MapiCampaignResult campaignResult;
     String companyId = "  ";
     private DbManager db;
+    String USERNAME = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tenant_list);
         ButterKnife.bind(this);
-        initView();
         initView();
         initListener();
         load();
@@ -77,22 +85,61 @@ public class TenantListActivity extends BaseActivity {
 
     private void initView() {
 
-        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig().setDbName("open").setDbDir(new File(FileUtil.getFolderPath(this,FileUtil.TYPE_DB)));
+        DbManager.DaoConfig daoConfig = new DbManager.DaoConfig().setDbName("open").setDbDir(new File(FileUtil.getFolderPath(this, FileUtil.TYPE_DB)));
         db = x.getDb(daoConfig);
 
-        companyId  = TextUtils.isEmpty(userSP.getUserBean().getCOMPANY())?"  ":userSP.getUserBean().getCOMPANY();
+        companyId = TextUtils.isEmpty(userSP.getUserBean().getCOMPANY()) ? "  " : userSP.getUserBean().getCOMPANY();
         back.setImageResource(R.mipmap.back);
         center.setText("商户订餐");
+        tvRight.setText("切换单位");
+        tvRight.setCompoundDrawablesWithIntrinsicBounds(0,0,R.mipmap.down_white,0);
+
         mList = new ArrayList<>();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-        mAdapter = new TenantListAdapter(this,mList);
+        mAdapter = new TenantListAdapter(this, mList);
         recyclerView.setAdapter(mAdapter);
     }
 
-    private void initListener(){
+    private void initListener() {
+
+        searchEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {//EditorInfo.IME_ACTION_SEARCH、EditorInfo.IME_ACTION_SEND等分别对应EditText的imeOptions属性
+                    //TODO回车键按下时要执行的操作
+                    String keyWord = searchEt.getText().toString().trim();
+                    USERNAME = keyWord;
+                    refreshData();
+                }
+                return true;
+            }
+        });
+
+        searchEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count,
+                                          int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if (charSequence.length() > 0) {
+                    clearIv.setVisibility(View.VISIBLE);
+                } else {
+                    clearIv.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         swipRefreshLayout.setOnRefreshListener(new BestSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -102,7 +149,9 @@ public class TenantListActivity extends BaseActivity {
         mAdapter.setRecyOnItemClickListener(new RecyOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ControllerUtil.go2TenantMenu(mList.get(position));
+                MapiOrderResult orderResult = mList.get(position);
+                orderResult.setCompanyId(companyId);
+                ControllerUtil.go2TenantMenu(orderResult);
             }
         });
 
@@ -111,7 +160,7 @@ public class TenantListActivity extends BaseActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                if ((newState == RecyclerView.SCROLL_STATE_IDLE) && manager.findLastVisibleItemPosition()>=0&&(manager.findLastVisibleItemPosition() == (manager.getItemCount() - 1))) {
+                if ((newState == RecyclerView.SCROLL_STATE_IDLE) && manager.findLastVisibleItemPosition() >= 0 && (manager.findLastVisibleItemPosition() == (manager.getItemCount() - 1))) {
                     loadNext();
                 }
             }
@@ -123,14 +172,15 @@ public class TenantListActivity extends BaseActivity {
         });
     }
 
-    private void load(){
-
-        OrderApi.getMerchantlist(this, companyId, pageIndex + "", pageSize + "", new RequestPageCallback<List<MapiOrderResult>>() {
+    private void load() {
+        showLoading();
+        OrderApi.getMerchantlist(this, companyId, pageIndex + "", pageSize + "", USERNAME,new RequestPageCallback<List<MapiOrderResult>>() {
             @Override
             public void success(Integer isNext, List<MapiOrderResult> success) {
+                hideLoading();
                 swipRefreshLayout.setRefreshing(false);
                 ISNEXT = isNext;
-                if(success.isEmpty())
+                if (success.isEmpty())
                     return;
                 mList.addAll(success);
                 mAdapter.notifyDataSetChanged();
@@ -138,6 +188,7 @@ public class TenantListActivity extends BaseActivity {
         }, new RequestExceptionCallback() {
             @Override
             public void error(String code, String message) {
+                hideLoading();
                 swipRefreshLayout.setRefreshing(false);
                 MainToast.showShortToast(message);
             }
@@ -146,7 +197,7 @@ public class TenantListActivity extends BaseActivity {
     }
 
     private void loadNext() {
-        if (ISNEXT != null && ISNEXT==0) {
+        if (ISNEXT != null && ISNEXT == 0) {
             return;
         }
         pageIndex++;
@@ -169,13 +220,13 @@ public class TenantListActivity extends BaseActivity {
             db.delete(MapiOrderResult.class);
         } catch (DbException e) {
             e.printStackTrace();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         finish();
     }
 
-    @OnClick({R.id.back, R.id.search_ll})
+    @OnClick({R.id.back,R.id.tv_right,R.id.clear_iv})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back:
@@ -183,14 +234,17 @@ public class TenantListActivity extends BaseActivity {
                     db.delete(MapiOrderResult.class);
                 } catch (DbException e) {
                     e.printStackTrace();
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 finish();
                 break;
-            case R.id.search_ll:
-                Intent intent = new Intent(this,SearchCampaignActivity.class);
+            case R.id.tv_right:
+                Intent intent = new Intent(this, SearchCampaignActivity.class);
                 startActivityForResult(intent, RequestCode.search_campaign);
+                break;
+            case R.id.clear_iv:
+                searchEt.setText("");
                 break;
         }
     }
@@ -204,7 +258,7 @@ public class TenantListActivity extends BaseActivity {
                     if (null != data)
                         campaignResult = (MapiCampaignResult) data.getSerializableExtra("item");
                     companyId = campaignResult.getId();
-                    unitName.setText(campaignResult.getName());
+                    tvRight.setText(campaignResult.getName());
                     refreshData();
                     break;
             }

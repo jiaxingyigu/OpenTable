@@ -37,6 +37,9 @@
         android:paddingRight="@dimen/margin_2"
         android:text=""
         android:maxLines="1"
+        android:maxWidth="120dp"
+        android:ellipsize="end"
+        android:drawablePadding="@dimen/margin_1"
         />
 
     <LinearLayout
