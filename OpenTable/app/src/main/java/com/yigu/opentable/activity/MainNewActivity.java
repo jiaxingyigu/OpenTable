@@ -125,6 +125,13 @@ public class MainNewActivity extends BaseActivity {
 
                     mList.add(new IndexData(1, "SERVICE", new Object()));
 
+                    List<MapiResourceResult> unitimages = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("composter").toJSONString(), MapiResourceResult.class);
+                    if (null != unitimages && !unitimages.isEmpty()) {
+//                        homeSliderLayout.setSlider(true);
+//                        homeSliderLayout.load(images);
+                        mList.add(new IndexData(6, "UNIT_SLIDER_IMAGE", unitimages));
+                    }
+
                     if(null!=jsonObject.getJSONObject("data").getJSONArray("ptxx")){
                         List<MapiPlatformResult> plats = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("ptxx").toJSONString(), MapiPlatformResult.class);
                         if (null != plats && !plats.isEmpty()) {

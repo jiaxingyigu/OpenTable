@@ -35,6 +35,7 @@ public class MainNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final static int ITEM_UNIT = 3;
     private final static int ITEM_TENANT = 4;
     private final static int ITEM_FOOD = 5;
+    private final static int UNIT_SLIDER_IMAGE = 6;
 
     LayoutInflater inflater;
 
@@ -65,6 +66,8 @@ public class MainNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return new TenantViewHolder(inflater.inflate(R.layout.lay_home_tenant, parent, false));
             case ITEM_FOOD:
                 return new FoodViewHolder(inflater.inflate(R.layout.lay_home_food, parent, false));
+            case UNIT_SLIDER_IMAGE:
+                return new UnitSliderViewHolder(inflater.inflate(R.layout.lay_home_unit_slider, parent, false));
             default:
                 return new SliderViewHolder(inflater.inflate(R.layout.lay_home_slider, parent, false));
         }
@@ -83,6 +86,9 @@ public class MainNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((TenantViewHolder)holder).homeTenantLayout.load((List<MapiOrderResult>) mList.get(position).getData());
         }else if(holder instanceof FoodViewHolder){
             ((FoodViewHolder)holder).homeFoodLayout.load((List<MapiOrderResult>) mList.get(position).getData());
+        }else if (holder instanceof UnitSliderViewHolder) {
+            ((UnitSliderViewHolder)holder).homeSliderLayout.setSlider(true);
+            ((UnitSliderViewHolder)holder).homeSliderLayout.load((List<MapiResourceResult>) mList.get(position).getData());
         }
     }
 
@@ -101,6 +107,8 @@ public class MainNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return ITEM_TENANT;
             case "ITEM_FOOD":
                 return ITEM_FOOD;
+            case "UNIT_SLIDER_IMAGE":
+                return UNIT_SLIDER_IMAGE;
             default:
                 return SLIDER_IMAGE;
         }
@@ -110,6 +118,15 @@ public class MainNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @Bind(R.id.homeSliderLayout)
         HomeSliderLayout homeSliderLayout;
         public SliderViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
+
+    class UnitSliderViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.homeSliderLayout)
+        HomeSliderLayout homeSliderLayout;
+        public UnitSliderViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
