@@ -134,7 +134,8 @@ public class LiveOrderFragment extends BaseFrag {
                     @Override
                     public void success(Integer isNext, List<MapiHistoryResult> success) {
                         hideLoading();
-                        swipRefreshLayout.setRefreshing(false);
+                        if(null!=swipRefreshLayout)
+                            swipRefreshLayout.setRefreshing(false);
                         ISNEXT = isNext;
                         if (success.isEmpty())
                             return;
@@ -145,7 +146,8 @@ public class LiveOrderFragment extends BaseFrag {
                     @Override
                     public void error(String code, String message) {
                         hideLoading();
-                        swipRefreshLayout.setRefreshing(false);
+                        if(null!=swipRefreshLayout)
+                            swipRefreshLayout.setRefreshing(false);
                         MainToast.showShortToast(message);
                     }
                 });

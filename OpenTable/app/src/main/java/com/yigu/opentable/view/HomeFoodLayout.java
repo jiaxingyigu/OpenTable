@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.yigu.commom.result.MapiHomeResult;
 import com.yigu.commom.result.MapiOrderResult;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.opentable.R;
@@ -35,7 +36,7 @@ public class HomeFoodLayout extends RelativeLayout {
     private View view;
     BaseActivity activity;
 
-    List<MapiOrderResult> mList;
+    List<MapiHomeResult> mList;
     HomeTenantAdapter mAdapter;
 
     public HomeFoodLayout(Context context) {
@@ -73,7 +74,7 @@ public class HomeFoodLayout extends RelativeLayout {
         recyclerView.setAdapter(mAdapter);
     }
 
-    public void load(List<MapiOrderResult> list) {
+    public void load(List<MapiHomeResult> list) {
 
         if (null != list) {
             mList.clear();

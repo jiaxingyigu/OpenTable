@@ -19,6 +19,7 @@ import com.yigu.commom.api.CommonApi;
 import com.yigu.commom.application.AppContext;
 import com.yigu.commom.result.IndexData;
 import com.yigu.commom.result.MapiCampaignResult;
+import com.yigu.commom.result.MapiHomeResult;
 import com.yigu.commom.result.MapiOrderResult;
 import com.yigu.commom.result.MapiPlatformResult;
 import com.yigu.commom.result.MapiResourceResult;
@@ -147,14 +148,14 @@ public class MainNewActivity extends BaseActivity {
                     }
 
                     if(null!=jsonObject.getJSONObject("data").getJSONArray("sp")){
-                        List<MapiOrderResult> tenants = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("sp").toJSONString(), MapiOrderResult.class);
+                        List<MapiHomeResult> tenants = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("sp").toJSONString(), MapiHomeResult.class);
                         if (null != tenants && !tenants.isEmpty()) {
                             mList.add(new IndexData(4, "ITEM_TENANT", tenants));
                         }
                     }
 
                     if(null!=jsonObject.getJSONObject("data").getJSONArray("msf")){
-                        List<MapiOrderResult> foods = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("msf").toJSONString(), MapiOrderResult.class);
+                        List<MapiHomeResult> foods = JSON.parseArray(jsonObject.getJSONObject("data").getJSONArray("msf").toJSONString(), MapiHomeResult.class);
                         if (null != foods && !foods.isEmpty()) {
                             mList.add(new IndexData(5, "ITEM_FOOD", foods));
                         }

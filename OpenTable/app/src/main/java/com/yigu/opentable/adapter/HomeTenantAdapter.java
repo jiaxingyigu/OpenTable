@@ -19,6 +19,7 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.yigu.commom.api.BasicApi;
 import com.yigu.commom.result.MapiCampaignResult;
+import com.yigu.commom.result.MapiHomeResult;
 import com.yigu.commom.result.MapiOrderResult;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.opentable.R;
@@ -39,14 +40,14 @@ public class HomeTenantAdapter extends RecyclerView.Adapter<HomeTenantAdapter.Vi
 
     RecyOnItemClickListener recyOnItemClickListener;
 
-    List<MapiOrderResult> mList = new ArrayList<>();
+    List<MapiHomeResult> mList = new ArrayList<>();
 
 
     public void setRecyOnItemClickListener(RecyOnItemClickListener recyOnItemClickListener) {
         this.recyOnItemClickListener = recyOnItemClickListener;
     }
 
-    public HomeTenantAdapter(Context context, List<MapiOrderResult> list) {
+    public HomeTenantAdapter(Context context, List<MapiHomeResult> list) {
         inflater = LayoutInflater.from(context);
         mList = list;
     }
@@ -63,7 +64,7 @@ public class HomeTenantAdapter extends RecyclerView.Adapter<HomeTenantAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        MapiOrderResult result = mList.get(position);
+        MapiHomeResult result = mList.get(position);
 
         //创建将要下载的图片的URI
         Uri imageUri = Uri.parse(BasicApi.BASIC_IMAGE+ (TextUtils.isEmpty(result.getBpic())?"":result.getBpic()));

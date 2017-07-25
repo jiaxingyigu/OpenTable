@@ -141,6 +141,7 @@ public class FoodWaitFragment extends BaseFrag {
     public void refreshData() {
         if (null != mList) {
             mList.clear();
+            mAdapter.notifyDataSetChanged();
             pageIndex = 0;
             mAdapter.notifyDataSetChanged();
             load();

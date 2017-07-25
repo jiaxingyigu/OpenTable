@@ -148,6 +148,7 @@ public class FoodOrderDetailActivity extends BaseActivity {
                 mapiOrderResult.setNAME(itemResult.getShopname());
                 mapiOrderResult.setPIC(itemResult.getPATH());
                 mapiOrderResult.setID(itemResult.getSHOP());
+                mapiOrderResult.setCompanyId(itemResult.getCompanyId());
                 mapiOrderResult.setINTRODUCTION(itemResult.getINTRODUCTION());
                 ControllerUtil.go2FoodMenu(mapiOrderResult);
                 break;

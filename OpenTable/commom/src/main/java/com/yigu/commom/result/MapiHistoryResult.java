@@ -30,6 +30,15 @@ public class MapiHistoryResult implements Serializable{
     private String stardate2;
     private String roomservice;
     private String ctype;
+    private String companyId;
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
 
     public String getCtype() {
         return ctype;

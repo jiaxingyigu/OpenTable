@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.yigu.commom.result.IndexData;
 import com.yigu.commom.result.MapiCampaignResult;
+import com.yigu.commom.result.MapiHomeResult;
 import com.yigu.commom.result.MapiOrderResult;
 import com.yigu.commom.result.MapiPlatformResult;
 import com.yigu.commom.result.MapiResourceResult;
@@ -83,9 +84,9 @@ public class MainNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }else if(holder instanceof UnitViewHolder){
             ((UnitViewHolder)holder).homeUnitLayout.load((List<MapiCampaignResult>) mList.get(position).getData());
         }else if(holder instanceof TenantViewHolder){
-            ((TenantViewHolder)holder).homeTenantLayout.load((List<MapiOrderResult>) mList.get(position).getData());
+            ((TenantViewHolder)holder).homeTenantLayout.load((List<MapiHomeResult>) mList.get(position).getData());
         }else if(holder instanceof FoodViewHolder){
-            ((FoodViewHolder)holder).homeFoodLayout.load((List<MapiOrderResult>) mList.get(position).getData());
+            ((FoodViewHolder)holder).homeFoodLayout.load((List<MapiHomeResult>) mList.get(position).getData());
         }else if (holder instanceof UnitSliderViewHolder) {
             ((UnitSliderViewHolder)holder).homeSliderLayout.setSlider(true);
             ((UnitSliderViewHolder)holder).homeSliderLayout.load((List<MapiResourceResult>) mList.get(position).getData());

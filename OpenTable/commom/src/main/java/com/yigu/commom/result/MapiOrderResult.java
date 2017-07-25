@@ -48,7 +48,6 @@ public class MapiOrderResult implements Serializable{
 
     private String companyId;
 
-    private String name;
     private String addr;
     private String bpic;
     private String address;
@@ -75,14 +74,6 @@ public class MapiOrderResult implements Serializable{
 
     public void setAddr(String addr) {
         this.addr = addr;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getCompanyId() {
