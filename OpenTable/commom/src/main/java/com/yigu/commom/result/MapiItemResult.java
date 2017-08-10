@@ -27,6 +27,34 @@ public class MapiItemResult extends MapiBaseResult{
     private String PATH;
     String reason;
 
+    private String postname;
+    private String postremark;
+    private String num;
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
+
+    public String getPostname() {
+        return postname;
+    }
+
+    public void setPostname(String postname) {
+        this.postname = postname;
+    }
+
+    public String getPostremark() {
+        return postremark;
+    }
+
+    public void setPostremark(String postremark) {
+        this.postremark = postremark;
+    }
+
     public String getReason() {
         return reason;
     }

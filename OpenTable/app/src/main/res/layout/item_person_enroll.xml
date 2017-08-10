@@ -4,6 +4,7 @@
     android:layout_height="45dp"
     android:gravity="center_vertical"
     android:id="@+id/root_view"
+    android:background="@color/shop_white"
     >
 
     <TextView

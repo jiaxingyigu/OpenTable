@@ -129,4 +129,10 @@ public class BasicApi {
     public static String zhifubaoPaycanteen = "/appuser/zhifubaoPaycanteen";
     /**食堂微信*/
     public static String weixinPaycanteen = "/appuser/weixinPaycanteen";
+    /**活动报名-普通*/
+    public static String signup = "/appuser/signup";
+
+    /**其他活动报名列表*/
+    public static String getsignuplist = "/appuser/getsignuplist";
+
 }

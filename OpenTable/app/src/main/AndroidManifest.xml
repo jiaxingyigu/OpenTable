@@ -430,7 +430,16 @@
         <activity
             android:name=".activity.campaign.CampaignTypeActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.unit.UnitListActivity"
+        <activity
+            android:name=".activity.unit.UnitListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.campaign.PersonOneAddActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.campaign.PersonTwoActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".activity.campaign.OtherMsgActivity"
             android:screenOrientation="portrait"
             />
     </application>

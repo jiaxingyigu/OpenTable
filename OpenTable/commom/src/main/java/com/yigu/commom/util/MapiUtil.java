@@ -220,7 +220,7 @@ public class MapiUtil {
     }*/
 
     private static HttpUtils httpUtils;
-    private static int out_time = 1000*10;
+    private static int out_time = 1000*30;
     /**
      * 返回访问网络的httputils对象（xutils）
      * @return

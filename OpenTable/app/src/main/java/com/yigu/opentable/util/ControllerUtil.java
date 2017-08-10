@@ -32,6 +32,8 @@ import com.yigu.opentable.activity.campaign.CampaignTypeActivity;
 import com.yigu.opentable.activity.campaign.CompanyAddActivity;
 import com.yigu.opentable.activity.campaign.JobDetailActivity;
 import com.yigu.opentable.activity.campaign.PersonAddActivity;
+import com.yigu.opentable.activity.campaign.PersonOneAddActivity;
+import com.yigu.opentable.activity.campaign.PersonTwoActivity;
 import com.yigu.opentable.activity.campaign.SelJobActivity;
 import com.yigu.opentable.activity.cook.CookDetailActivity;
 import com.yigu.opentable.activity.cook.CookListActivity;
@@ -249,12 +251,13 @@ public class ControllerUtil {
     /**
      * 活动入口
      */
-    public static void go2CampaignMsg(String actid,String info,String title,String pic) {
+    public static void go2CampaignMsg(String actid,String info,String title,String pic,String type) {
         Intent intent = new Intent(AppContext.getInstance(), CampaignMsgActivity.class);
         intent.putExtra("actid",actid);
         intent.putExtra("info",info);
         intent.putExtra("title",title);
         intent.putExtra("pic",pic);
+        intent.putExtra("type",type);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         AppContext.getInstance().startActivity(intent);
     }
@@ -568,6 +571,28 @@ public class ControllerUtil {
     public static void go2UnitList() {
         Intent intent = new Intent(AppContext.getInstance(), UnitListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 活动一
+     */
+    public static void go2PersonOneAdd(String actid,String type) {
+        Intent intent = new Intent(AppContext.getInstance(), PersonOneAddActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("actid",actid);
+        intent.putExtra("type",type);
+        AppContext.getInstance().startActivity(intent);
+    }
+
+    /**
+     * 活动二
+     */
+    public static void go2PersonTwoAdd(String actid,String type) {
+        Intent intent = new Intent(AppContext.getInstance(), PersonTwoActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra("actid",actid);
+        intent.putExtra("type",type);
         AppContext.getInstance().startActivity(intent);
     }
 

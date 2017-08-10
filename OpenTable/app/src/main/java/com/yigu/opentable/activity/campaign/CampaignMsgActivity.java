@@ -51,6 +51,7 @@ public class CampaignMsgActivity extends BaseActivity {
     String info = "";
     String title = "";
     String pic = "";
+    String type = "";
     MapiCampaignResult campaignResult;
     ShareDialog shareDialog;
 
@@ -64,6 +65,7 @@ public class CampaignMsgActivity extends BaseActivity {
             info = getIntent().getStringExtra("info");
             title = getIntent().getStringExtra("title");
             pic = getIntent().getStringExtra("pic");
+            type = getIntent().getStringExtra("type");
         }
         if (!TextUtils.isEmpty(actid)) {
             initView();
@@ -126,13 +128,20 @@ public class CampaignMsgActivity extends BaseActivity {
             public void success(MapiCampaignResult success) {
                 campaignResult = success;
                 if (null != campaignResult) {
-                    if ("0".equals(campaignResult.getSignup()) || "2".equals(campaignResult.getSignup()))
-                        name.setText("企业报名");
-                    else if ("1".equals(campaignResult.getSignup()))
-                        name.setText("个人报名");
-                    else if ("3".equals(campaignResult.getSignup()))
-                        name.setText("活动已结束");
 
+                    if("1".equals(type)||"3".equals(type)||"7".equals(type)){
+                        if ("0".equals(campaignResult.getSignup()) || "2".equals(campaignResult.getSignup()))
+                            name.setText("企业报名");
+                        else if ("1".equals(campaignResult.getSignup()))
+                            name.setText("个人报名");
+                        else if ("3".equals(campaignResult.getSignup()))
+                            name.setText("活动已结束");
+                    }else{
+                        if ("1".equals(campaignResult.getSignup()))
+                            name.setText("报名");
+                        else if ("3".equals(campaignResult.getSignup()))
+                            name.setText("活动已结束");
+                    }
 
                     //创建将要下载的图片的URI
                     Uri imageUri = Uri.parse(BasicApi.BASIC_IMAGE + campaignResult.getBpic());
@@ -164,10 +173,18 @@ public class CampaignMsgActivity extends BaseActivity {
                 break;
             case R.id.name:
                 if (null != campaignResult) {
-                    if ("0".equals(campaignResult.getSignup()) || "2".equals(campaignResult.getSignup()))
-                        company();
-                    else if ("1".equals(campaignResult.getSignup()))
-                        persign();
+                    if("1".equals(type)||"3".equals(type)||"7".equals(type)){
+                        if ("0".equals(campaignResult.getSignup()) || "2".equals(campaignResult.getSignup()))
+                            company();
+                        else if ("1".equals(campaignResult.getSignup()))
+                            persign();
+                    }else if("2".equals(type)||"4".equals(type)||"8".equals(type)){
+                        if ("1".equals(campaignResult.getSignup()))
+                            ControllerUtil.go2PersonOneAdd(campaignResult.getId(),campaignResult.getType());
+                    }else{
+                        if ("1".equals(campaignResult.getSignup()))
+                            ControllerUtil.go2PersonTwoAdd(campaignResult.getId(),campaignResult.getType());
+                    }
 
 
                 }

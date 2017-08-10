@@ -3,6 +3,7 @@ package com.yigu.opentable.fragment.set;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
@@ -11,15 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.yigu.commom.api.CampaignApi;
-import com.yigu.commom.result.MapiCampaignResult;
 import com.yigu.commom.result.MapiItemResult;
 import com.yigu.commom.util.DPUtil;
 import com.yigu.commom.util.RequestExceptionCallback;
 import com.yigu.commom.util.RequestPageCallback;
 import com.yigu.commom.widget.MainToast;
 import com.yigu.opentable.R;
+import com.yigu.opentable.activity.campaign.OtherMsgActivity;
 import com.yigu.opentable.activity.campaign.PersonMsgActivity;
 import com.yigu.opentable.adapter.set.PersonEnrollAdapter;
+import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.base.BaseFrag;
 import com.yigu.opentable.interfaces.RecyOnItemClickListener;
 import com.yigu.opentable.widget.BestSwipeRefreshLayout;
@@ -32,10 +34,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * A simple {@link BaseFrag} subclass.
+ * A simple {@link Fragment} subclass.
  */
-public class PersonEnrollFragment extends BaseFrag {
-
+public class OtherEnrollFragment extends BaseFrag {
 
     @Bind(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -50,7 +51,8 @@ public class PersonEnrollFragment extends BaseFrag {
     private Integer pageSize = 8;
     private Integer ISNEXT = 1;
 
-    public PersonEnrollFragment() {
+    public OtherEnrollFragment() {
+        // Required empty public constructor
     }
 
 
@@ -58,7 +60,7 @@ public class PersonEnrollFragment extends BaseFrag {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_person_enroll, container, false);
+        View view = inflater.inflate(R.layout.fragment_other_enroll, container, false);
         ButterKnife.bind(this, view);
         initView();
         initListener();
@@ -78,7 +80,7 @@ public class PersonEnrollFragment extends BaseFrag {
     }
 
     public void load() {
-        CampaignApi.getPersignlist(getActivity(), userSP.getUserBean().getUSER_ID(), pageIndex+"", pageSize+"", new RequestPageCallback<List<MapiItemResult>>() {
+        CampaignApi.getsignuplist(getActivity(), userSP.getUserBean().getUSER_ID(), pageIndex+"", pageSize+"", new RequestPageCallback<List<MapiItemResult>>() {
             @Override
             public void success(Integer isNext, List<MapiItemResult> success) {
                 if(null!=swipRefreshLayout)
@@ -109,7 +111,7 @@ public class PersonEnrollFragment extends BaseFrag {
         mAdapter.setRecyOnItemClickListener(new RecyOnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), PersonMsgActivity.class);
+                Intent intent = new Intent(getActivity(), OtherMsgActivity.class);
                 intent.putExtra("item",mList.get(position));
                 startActivity(intent);
             }

@@ -92,7 +92,7 @@ public class CampaignActivity extends BaseActivity {
                 DebugLog.i(userSP.getUserBean().getUSER_ID());
                 DebugLog.i(mList.get(position).getId());
 
-                ControllerUtil.go2CampaignMsg(mList.get(position).getId(),mList.get(position).getBz(),mList.get(position).getName(),mList.get(position).getSpic());
+                ControllerUtil.go2CampaignMsg(mList.get(position).getId(),mList.get(position).getBz(),mList.get(position).getName(),mList.get(position).getSpic(),type);
 
 //                ControllerUtil.go2WebView(BasicWebViewUrl.activityUrl+mList.get(position).getId()+"&appuserid="+userSP.getUserBean().getUSER_ID(),"活动入口",false);
             }

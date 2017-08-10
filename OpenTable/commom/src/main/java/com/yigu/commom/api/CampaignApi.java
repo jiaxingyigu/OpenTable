@@ -545,4 +545,80 @@ public class CampaignApi extends BasicApi{
         });
     }
 
+    /**
+     * 普通报名
+     * @param activity
+     * @param type
+     * @param appuserid
+     * @param actid
+     * @param name
+     * @param tel
+     * @param num
+     * @param postname
+     * @param postremark
+     * @param callback
+     * @param exceptionCallback
+     */
+    public static void signup(Activity activity,String type,String appuserid,String actid,String name,String tel,String num,String postname,String postremark,
+                              final RequestCallback callback, final RequestExceptionCallback exceptionCallback){
+
+        Map<String,String> params = new HashMap<>();
+        params.put("type",type);
+        params.put("appuserid",appuserid);
+        params.put("actid",actid);
+        params.put("name",name);
+        params.put("tel",tel);
+        params.put("num",num);
+        if(!TextUtils.isEmpty(postname))
+            params.put("postname",postname);
+        if(!TextUtils.isEmpty(postremark))
+            params.put("postremark",postremark);
+        MapiUtil.getInstance().call(activity,signup,params,new MapiUtil.MapiSuccessResponse(){
+            @Override
+            public void success(JSONObject json) {
+                DebugLog.i("json="+json);
+                callback.success(json);
+            }
+        },new MapiUtil.MapiFailResponse(){
+            @Override
+            public void fail(String code, String failMessage) {
+                exceptionCallback.error(code,failMessage);
+            }
+        });
+
+    }
+
+    /**
+     * 其他活动报名列表
+     * @param activity
+     * @param appuserid
+     * @param PAGENO
+     * @param SIZE
+     * @param callback
+     * @param exceptionCallback
+     */
+    public static void getsignuplist(Activity activity,String appuserid,String PAGENO, String SIZE, final RequestPageCallback callback, final RequestExceptionCallback exceptionCallback){
+        Map<String,String> params = new HashMap<>();
+        params.put("appuserid",appuserid);
+        params.put("PAGENO",PAGENO);
+        params.put("SIZE",SIZE);
+        MapiUtil.getInstance().call(activity,getsignuplist,params,new MapiUtil.MapiSuccessResponse(){
+            @Override
+            public void success(JSONObject json) {
+                DebugLog.i("json="+json);
+                List<MapiItemResult> result = JSONArray.parseArray(json.getJSONObject("data").getJSONArray("persigns").toJSONString(),MapiItemResult.class);
+                Integer count = json.getJSONObject("data").getInteger("ISNEXT");
+                if(null!=count){
+                    callback.success(count,result);
+                }
+
+            }
+        },new MapiUtil.MapiFailResponse(){
+            @Override
+            public void fail(String code, String failMessage) {
+                exceptionCallback.error(code,failMessage);
+            }
+        });
+    }
+
 }

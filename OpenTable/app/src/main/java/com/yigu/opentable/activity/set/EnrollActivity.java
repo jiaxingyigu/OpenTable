@@ -11,6 +11,7 @@ import com.yigu.opentable.R;
 import com.yigu.opentable.adapter.TabFragmentAdapter;
 import com.yigu.opentable.base.BaseActivity;
 import com.yigu.opentable.fragment.set.CompanyEnrollFragment;
+import com.yigu.opentable.fragment.set.OtherEnrollFragment;
 import com.yigu.opentable.fragment.set.PersonEnrollFragment;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class EnrollActivity extends BaseActivity {
 
     PersonEnrollFragment personEnrollFragment;
     CompanyEnrollFragment companyEnrollFragment;
+    OtherEnrollFragment otherEnrollFragment;
     @Bind(R.id.back)
     ImageView back;
     @Bind(R.id.center)
@@ -51,14 +53,21 @@ public class EnrollActivity extends BaseActivity {
 
         personEnrollFragment = new PersonEnrollFragment();
         companyEnrollFragment = new CompanyEnrollFragment();
+        otherEnrollFragment = new OtherEnrollFragment();
+
         list.add(personEnrollFragment);
         list.add(companyEnrollFragment);
+        list.add(otherEnrollFragment);
+
         list_title.add("个人报名");
         list_title.add("企业报名");
+        list_title.add("其他报名");
+
         tablayout.setTabMode(TabLayout.MODE_FIXED);
         tablayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tablayout.addTab(tablayout.newTab().setText(list_title.get(0)));
         tablayout.addTab(tablayout.newTab().setText(list_title.get(1)));
+        tablayout.addTab(tablayout.newTab().setText(list_title.get(2)));
         mAdapter = new TabFragmentAdapter(getSupportFragmentManager(), list, list_title);
         viewpager.setAdapter(mAdapter);
         tablayout.setupWithViewPager(viewpager);
